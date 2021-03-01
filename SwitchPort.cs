@@ -100,7 +100,7 @@ namespace VLANSimulator
             {
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                Content = "Tag while sending"
+                Content = "Add tag (802.1Q)"
             };
             
             CheckBoxConfigDelegate ajustCheckBox = (x, n) =>
