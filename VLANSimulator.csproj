@@ -4,10 +4,21 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>networkswitch_Xpb_icon.ico</ApplicationIcon>
+    <Authors>Philipp Albrecht</Authors>
+    <Product>VLAN Simulator</Product>
+    <PackageProjectUrl>https://github.com/muqiuq/vlansimulator</PackageProjectUrl>
+    <PackageIcon>networkswitch.png</PackageIcon>
+    <RepositoryUrl>https://github.com/muqiuq/vlansimulator</RepositoryUrl>
+    <StartupObject>VLANSimulator.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="images\rj45.png" />
+    <None Include="images\networkswitch.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

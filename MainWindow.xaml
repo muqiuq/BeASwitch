@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VLANSimulator"
         mc:Ignorable="d"
-        Title="VLAN Switch Simulator by Philipp Albrecht &lt;philipp@uisa.ch&gt;" Height="600" Width="930">
+        Title="VLAN Switch Simulator by Philipp Albrecht &lt;philipp@uisa.ch&gt;  https://github.com/muqiuq/vlansimulator" Height="600" Width="930">
     <Grid x:Name="mainGrid">
         <Button x:Name="buttonCheck" Content="Start" HorizontalAlignment="Left" Margin="320,449,0,0" VerticalAlignment="Top" Click="buttonCheckClick" Width="270" Height="41" FontSize="16"/>
         <TextBox x:Name="textBoxMacTables" HorizontalAlignment="Left" Margin="320,10,0,0" Text="MAC Address Tables are empty" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" Height="433" FontFamily="Courier New" FontSize="14"/>
