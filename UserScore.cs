@@ -27,8 +27,8 @@ namespace VLANSimulator
         public override string ToString()
         {
             if (correctAnswers + wrongAnswers == 0) return "";
-            return String.Format("{0} points ({1}/{2}, {3}% correct)", Score.ToString("#,##0"), correctAnswers, wrongAnswers, 
-                ((correctAnswers/(correctAnswers+wrongAnswers))* 100).ToString("0.##")
+            return String.Format("{0} points ({1}/{2}, {3}% correct)", Score.ToString("#,##0"), correctAnswers, correctAnswers + wrongAnswers, 
+                (((decimal)correctAnswers/(correctAnswers+wrongAnswers))* 100).ToString("0.##")
                 );
         }
     }

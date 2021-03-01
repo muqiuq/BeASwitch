@@ -22,11 +22,11 @@ namespace VLANSimulator
 
         public override string ToString()
         {
-            var output = " MAC  |  Port\n";
+            var output = " MAC  | Port\n";
                output += "--------------\n";
             foreach(var e in macAddressToSwichPort)
             {
-                output += String.Format("{0,-5} | {1,-5}\n", e.Key, e.Value.Num.ToString());
+                output += String.Format(" {0,-5}| {1,-5}\n", e.Key, e.Value.Num.ToString());
             }
             return output;
         }

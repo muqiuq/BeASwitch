@@ -30,6 +30,11 @@ namespace VLANSimulator
             return output;
         }
 
+        public void ClearMacAddressTables()
+        {
+            macTablePerVlan.Clear();
+            }
+
         public SwitchAction ProcessEthernetFrame(EthernetFrame ethernetFrame)
         {
             if (ethernetFrame.AttachedCurrentlyToSwitchPort == null) return null;

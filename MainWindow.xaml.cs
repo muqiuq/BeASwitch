@@ -183,6 +183,10 @@ namespace VLANSimulator
             }
         }
 
-
+        private void buttonClearMacTable_Click(object sender, RoutedEventArgs e)
+        {
+            switchEngine.ClearMacAddressTables();
+            textBoxMacTables.Text = "MAC address tables are empty.";
+        }
     }
 }
