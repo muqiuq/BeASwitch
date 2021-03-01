@@ -68,17 +68,9 @@ namespace VLANSimulator
             int numOfUntaggedPorts = switchEngine.Count - 3;
             List<int> vlansNum = new List<int>();
             var rand = new Random();
-            var secureStop = 0;
-            for (var i = 0; i < numOfUntaggedPorts; i++)
+            for(int i = 1; i < (numOfUntaggedPorts * 3); i += 3)
             {
-                int r = rand.Next(1, 10);
-                while (vlansNum.Contains(r))
-                {
-                    r = rand.Next(1, 10);
-                    secureStop++;
-                    if (secureStop >= 100) break;
-                }
-                vlansNum.Add(r * 10);
+                vlansNum.Add(rand.Next(i, i+3) * 10);
             }
 
             var freePorts = new List<SwitchPort>();
