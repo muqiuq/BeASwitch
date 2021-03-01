@@ -11,6 +11,8 @@
     <PackageIcon>networkswitch.png</PackageIcon>
     <RepositoryUrl>https://github.com/muqiuq/vlansimulator</RepositoryUrl>
     <StartupObject>VLANSimulator.App</StartupObject>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
