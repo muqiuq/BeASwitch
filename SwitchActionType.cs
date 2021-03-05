@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VLANSimulator
+namespace BeASwitch
 {
     public enum SwitchActionType
     {

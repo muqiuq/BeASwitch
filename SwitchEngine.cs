@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace VLANSimulator
+namespace BeASwitch
 {
     public class SwitchEngine : ICollection<SwitchPort>
     {

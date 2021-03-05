@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace VLANSimulator
+namespace BeASwitch
 {
     public class GameEngine
     {

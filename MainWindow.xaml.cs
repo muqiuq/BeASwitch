@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace VLANSimulator
+namespace BeASwitch
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
