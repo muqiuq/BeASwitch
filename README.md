@@ -9,7 +9,6 @@ This current available version focuses on VLANs and is shipped as a Windows WPF 
 Feel free to use this application for your class or self-studying.
 Feedback is welcome!  
 
-
 # About me
 
 I'm a young teacher and I like to develop learning tools in my free time for my students. Any support is highly appreciated. 
