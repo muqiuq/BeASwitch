@@ -12,14 +12,16 @@ namespace BeASwitch
 
         public static string[] ContentsToUse = { "Hey", "Ping", "The cake is a lie", "Ups", "Please work faster"};
 
-        public GameEngine(SwitchEngine switchEngine)
+        public GameEngine(SwitchEngine switchEngine/*, InstanceSettings instanceSettings*/)
         {
             SwitchEngine = switchEngine;
+            //InstanceSettings = instanceSettings;
             this.PopuplateEthernetHosts();
         }
 
         public List<EthernetHost> EthernetHosts = new List<EthernetHost>();
         private readonly SwitchEngine SwitchEngine;
+        //private readonly InstanceSettings InstanceSettings;
 
         private void PopuplateEthernetHosts()
         {

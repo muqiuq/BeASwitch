@@ -42,7 +42,7 @@ namespace BeASwitch
         public CheckBox CheckBoxSend { get; private set; }
         public CheckBox CheckBoxTag { get; private set; }
 
-        public Grid AttachToGrid(Grid mainGrid, double left, double top)
+        public Grid AttachToGrid(Grid mainGrid, double left, double top, bool showVLANTagCheckbox)
         {
             BaseGrid = new Grid()
             {
@@ -87,7 +87,8 @@ namespace BeASwitch
             {
                 Text = $"{VlanToString()}",
                 TextAlignment = TextAlignment.Center,
-                FontSize = 14
+                FontSize = 14,
+                Visibility = showVLANTagCheckbox ? Visibility.Visible : Visibility.Hidden
             };
             Grid.SetRow(textBlockVLAN, 2);
             CheckBoxSend = new CheckBox()
@@ -100,6 +101,7 @@ namespace BeASwitch
             {
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
+                Visibility = showVLANTagCheckbox ? Visibility.Visible : Visibility.Hidden,
                 Content = "Add tag (802.1Q)"
             };
             

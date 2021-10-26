@@ -27,20 +27,23 @@ namespace BeASwitch
 
         bool currentFrameChecked = false;
 
-        public MainWindow()
+        public MainWindow(InstanceSettings settings)
         {
             InitializeComponent();
 
             switchEngine = new SwitchEngine(6);
-            GameEngine.RandomizeSwitchPortsVlan(switchEngine);
+            if(settings.UseVLAN)
+            {
+                GameEngine.RandomizeSwitchPortsVlan(switchEngine);
+            }
             gameEngine = new GameEngine(switchEngine);
 
-            switchEngine[0].AttachToGrid(mainGrid, 10, 10);
-            switchEngine[1].AttachToGrid(mainGrid, 10, 180);
-            switchEngine[2].AttachToGrid(mainGrid, 10, 350);
-            switchEngine[3].AttachToGrid(mainGrid, 600, 10);
-            switchEngine[4].AttachToGrid(mainGrid, 600, 180);
-            switchEngine[5].AttachToGrid(mainGrid, 600, 350);
+            switchEngine[0].AttachToGrid(mainGrid, 10, 10, settings.UseVLAN);
+            switchEngine[1].AttachToGrid(mainGrid, 10, 180, settings.UseVLAN);
+            switchEngine[2].AttachToGrid(mainGrid, 10, 350, settings.UseVLAN);
+            switchEngine[3].AttachToGrid(mainGrid, 600, 10, settings.UseVLAN);
+            switchEngine[4].AttachToGrid(mainGrid, 600, 180, settings.UseVLAN);
+            switchEngine[5].AttachToGrid(mainGrid, 600, 350, settings.UseVLAN);
 
             this.Title += $" {Assembly.GetEntryAssembly().GetName().Version}";
         }
