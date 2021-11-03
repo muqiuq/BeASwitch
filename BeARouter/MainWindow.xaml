@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeARouter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="548" Width="870" ResizeMode="NoResize">
+    <Grid x:Name="mainGrid">
         <Label x:Name="label" Content="ip address" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
-        <Label x:Name="label1" Content="ip route" HorizontalAlignment="Left" Margin="410,136,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
-        <TextBox x:Name="textBoxIpAddress" HorizontalAlignment="Left" Margin="10,165,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="380" Height="166" FontFamily="Courier New"/>
-        <TextBox x:Name="textBoxIpRoute" HorizontalAlignment="Left" Margin="410,165,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="380" Height="166" FontFamily="Courier New"/>
+        <Label x:Name="label1" Content="ip route" HorizontalAlignment="Left" Margin="443,136,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
+        <TextBox x:Name="textBoxIpAddress" HorizontalAlignment="Left" Margin="10,165,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="410" Height="166" FontFamily="Courier New"/>
+        <TextBox x:Name="textBoxIpRoute" HorizontalAlignment="Left" Margin="443,165,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="410" Height="166" FontFamily="Courier New"/>
 
     </Grid>
 </Window>

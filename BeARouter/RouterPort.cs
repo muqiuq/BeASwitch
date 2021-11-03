@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace BeASwitch
+namespace BeARouter
 {
     public class RouterPort
     {
@@ -15,21 +15,32 @@ namespace BeASwitch
 
         public Grid BaseGrid;
 
+        public List<Subnet> ipv4Addresses = new List<Subnet>();
+
         public RouterPort(int number)
         {
             this.Num = number;
         }
 
+        public string Name
+        {
+            get
+            {
+                return $"eth{Num}";
+            }
+        }
+
+
 
         public int Num { get; }
         public CheckBox CheckBoxSend { get; private set; }
 
-        public Grid AttachToGrid(Grid mainGrid, double left, double top, bool showVLANTagCheckbox)
+        public Grid AttachToGrid(Grid mainGrid, double left, double top)
         {
             BaseGrid = new Grid()
             {
                 Height = 150,
-                Width = 300,
+                Width = 150,
                 Margin = new Thickness(left, top, 0, 0),
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left
@@ -39,7 +50,7 @@ namespace BeASwitch
                 Stroke = Brushes.Gray,
                 StrokeThickness = 2,
                 Height = 156,
-                Width = 306,
+                Width = 156,
                 Margin = new Thickness(left - 3, top - 3, 0, 0),
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left
@@ -47,8 +58,7 @@ namespace BeASwitch
             BaseGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(100) });
             BaseGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(25) });
             BaseGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(25) });
-            BaseGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(100) });
-            BaseGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(200) });
+            BaseGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(150) });
             var image1 = new Image()
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -65,19 +75,12 @@ namespace BeASwitch
                 FontSize = 14,
             };
             Grid.SetRow(textBlockPort, 1);
-            var textBlockVLAN = new TextBlock()
-            {
-                Text = $"IP",
-                TextAlignment = TextAlignment.Center,
-                FontSize = 14,
-                Visibility = showVLANTagCheckbox ? Visibility.Visible : Visibility.Hidden
-            };
-            Grid.SetRow(textBlockVLAN, 2);
             CheckBoxSend = new CheckBox()
             {
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                Content = "Send to this port"
+                Content = "Send to this port",
+                FontSize = 10,
             };
             
             CheckBoxConfigDelegate ajustCheckBox = (x, n) =>
@@ -86,13 +89,12 @@ namespace BeASwitch
                 x.RenderTransformOrigin = new Point(0.5, 0.5);
                 x.RenderTransform = scale;
                 Grid.SetRow(x, n);
-                Grid.SetColumn(x, 1);
+                //Grid.SetColumn(x, 1);
                 BaseGrid.Children.Add(x);
             };
-            ajustCheckBox(CheckBoxSend, 1);
+            ajustCheckBox(CheckBoxSend, 2);
             
             BaseGrid.Children.Add(textBlockPort);
-            BaseGrid.Children.Add(textBlockVLAN);
             mainGrid.Children.Add(BaseGrid);
             mainGrid.Children.Add(backgroundRecktangle);
             return BaseGrid;
