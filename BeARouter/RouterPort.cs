@@ -30,7 +30,10 @@ namespace BeARouter
             }
         }
 
-
+        public override string ToString()
+        {
+            return $"{Name}\tUP\t{string.Join(',', ipv4Addresses)}";
+        }
 
         public int Num { get; }
         public CheckBox CheckBoxSend { get; private set; }
@@ -39,7 +42,7 @@ namespace BeARouter
         {
             BaseGrid = new Grid()
             {
-                Height = 150,
+                Height = 75,
                 Width = 150,
                 Margin = new Thickness(left, top, 0, 0),
                 VerticalAlignment = VerticalAlignment.Top,
@@ -49,16 +52,17 @@ namespace BeARouter
             {
                 Stroke = Brushes.Gray,
                 StrokeThickness = 2,
-                Height = 156,
+                Height = 80,
                 Width = 156,
                 Margin = new Thickness(left - 3, top - 3, 0, 0),
                 VerticalAlignment = VerticalAlignment.Top,
-                HorizontalAlignment = HorizontalAlignment.Left
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Fill = Brushes.White
             };
-            BaseGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(100) });
+            BaseGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(50) });
             BaseGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(25) });
-            BaseGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(25) });
-            BaseGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(150) });
+            BaseGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(100) });
+            BaseGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(50) });
             var image1 = new Image()
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -69,12 +73,15 @@ namespace BeARouter
             BaseGrid.Children.Add(image1);
             var textBlockPort = new TextBlock()
             {
-                Text = $"Port {Num}",
+                Text = $"eth{Num}",
                 TextAlignment = TextAlignment.Center,
                 FontWeight = FontWeights.Bold,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
                 FontSize = 14,
             };
-            Grid.SetRow(textBlockPort, 1);
+            Grid.SetRow(textBlockPort, 0);
+            Grid.SetColumn(textBlockPort, 1);
             CheckBoxSend = new CheckBox()
             {
                 VerticalAlignment = VerticalAlignment.Center,
@@ -89,14 +96,15 @@ namespace BeARouter
                 x.RenderTransformOrigin = new Point(0.5, 0.5);
                 x.RenderTransform = scale;
                 Grid.SetRow(x, n);
+                Grid.SetColumnSpan(x, 2);
                 //Grid.SetColumn(x, 1);
                 BaseGrid.Children.Add(x);
             };
             ajustCheckBox(CheckBoxSend, 2);
-            
+            mainGrid.Children.Add(backgroundRecktangle);
             BaseGrid.Children.Add(textBlockPort);
             mainGrid.Children.Add(BaseGrid);
-            mainGrid.Children.Add(backgroundRecktangle);
+            
             return BaseGrid;
         }
 

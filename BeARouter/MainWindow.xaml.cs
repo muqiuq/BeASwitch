@@ -24,14 +24,15 @@ namespace BeARouter
         {
             InitializeComponent();
 
-            var eths = new Dictionary<int, RouterPort>();
-            for(int a = 0; a < 5; a ++)
+            var eths = new RouterPorts();
+            var numOfPorts = 5;
+            for(int a = 0; a < numOfPorts; a ++)
             {
                 eths.Add(a, new RouterPort(a));   
             }
-            for(int a = 0; a < 5;a++)
+            for(int a = 0; a < numOfPorts; a++)
             {
-                eths[a].AttachToGrid(mainGrid, 10 + a * 170, 340);
+                eths[a].AttachToGrid(mainGrid, 10, 20 + a * 105);
             }
 
             var routingTable = new RoutingTable();
@@ -44,7 +45,14 @@ namespace BeARouter
             routingTable.Add(new Route(remote1, eths[0], gateway: ipv4Address_eth0.IpAddress));
             routingTable.Add(new Route(ipv4Address_eth0.ToNetaddr(), eths[0], src: ipv4Address_eth0.IpAddress));
 
+
             textBoxIpRoute.Text = routingTable.ToString();
+
+            textBoxIpAddress.Text = eths.ToString();
+
+            var ipv4Packet = new IPv4Packet("A","B", new IPv4Address("192.168.1.3"), new IPv4Address("192.168.2.10"));
+
+            ipv4Packet.AttachToGrid(mainGrid, 460, 215);
         }
     }
 }

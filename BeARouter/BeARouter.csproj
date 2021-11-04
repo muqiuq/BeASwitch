@@ -7,10 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="images\Funnel.svg" />
     <None Remove="images\rj45.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="SharpVectors" Version="1.7.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\Funnel.svg" />
     <Resource Include="images\rj45.png" />
   </ItemGroup>
 

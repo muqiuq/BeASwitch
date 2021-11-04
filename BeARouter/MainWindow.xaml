@@ -3,14 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BeARouter"
+        xmlns:local="clr-namespace:BeARouter" xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
-        Title="MainWindow" Height="548" Width="870" ResizeMode="NoResize">
+        Title="MainWindow" Height="565" Width="890" ResizeMode="NoResize">
     <Grid x:Name="mainGrid">
-        <Label x:Name="label" Content="ip address" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
-        <Label x:Name="label1" Content="ip route" HorizontalAlignment="Left" Margin="443,136,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
-        <TextBox x:Name="textBoxIpAddress" HorizontalAlignment="Left" Margin="10,165,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="410" Height="166" FontFamily="Courier New"/>
-        <TextBox x:Name="textBoxIpRoute" HorizontalAlignment="Left" Margin="443,165,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="410" Height="166" FontFamily="Courier New"/>
+        <Label x:Name="label" Content="ip address" HorizontalAlignment="Left" Margin="450,343,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
+        <Label x:Name="label1" Content="ip route" HorizontalAlignment="Left" Margin="449,2,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
+        <TextBox x:Name="textBoxIpAddress" HorizontalAlignment="Left" Margin="450,372,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="410" Height="150" FontFamily="Courier New" IsReadOnly="True" FontSize="13"/>
+        <TextBox x:Name="textBoxIpRoute" HorizontalAlignment="Left" Margin="450,31,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="410" Height="150" FontFamily="Courier New" IsReadOnly="True" FontSize="13"/>
+        <svgc:SvgViewbox Source="/images/Funnel.svg" Width="400" HorizontalAlignment="Left" Stretch="Fill"/>
+        <Button x:Name="button" Content="&lt;&#xD;&#xA;&lt;&#xD;&#xA;Send&#xD;&#xA;&lt;&#xD;&#xA;&lt;" HorizontalAlignment="Left" Height="86" VerticalAlignment="Center" Width="48" FontWeight="Bold" Margin="405,0,0,0"/>
 
     </Grid>
 </Window>
