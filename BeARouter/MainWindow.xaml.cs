@@ -20,9 +20,13 @@ namespace BeARouter
     /// </summary>
     public partial class MainWindow : Window
     {
+        GameEngine gameEngine = new GameEngine();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            pointsGrid.Visibility = Visibility.Hidden;
 
             var eths = new RouterPorts();
             var numOfPorts = 5;
@@ -53,6 +57,24 @@ namespace BeARouter
             var ipv4Packet = new IPv4Packet("A","B", new IPv4Address("192.168.1.3"), new IPv4Address("192.168.2.10"));
 
             ipv4Packet.AttachToGrid(mainGrid, 460, 215);
+
+            updateMainButton();
+        }
+
+        private void updateMainButton()
+        {
+            if(gameEngine.State == GameState.NEW)
+            {
+                masterButton.Content = "Start";
+            }
+            else if(gameEngine.State == GameState.USERINPUT)
+            {
+                masterButton.Content = "&lt;&#xD;&#xA;&lt;&#xD;&#xA;Send&#xD;&#xA;&lt;&#xD;&#xA;&lt;";
+            }
+            else if (gameEngine.State == GameState.SOLUTIONSHOW)
+            {
+                masterButton.Content = "&gt;&#xD;&#xA;&gt;&#xD;&#xA;Next&#xD;&#xA;&gt;&#xD;&#xA;&gt;";
+            }
         }
     }
 }
