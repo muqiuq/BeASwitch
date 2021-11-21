@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeARouter" xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
-        Title="MainWindow" Height="565" Width="890" ResizeMode="NoResize">
+        Title="MainWindow" Height="580" Width="890" ResizeMode="NoResize">
     <Grid x:Name="mainGrid">
-        <Label x:Name="label" Content="ip address" HorizontalAlignment="Left" Margin="450,325,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
-        <Label x:Name="label1" Content="ip route" HorizontalAlignment="Left" Margin="449,2,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
-        <TextBox x:Name="textBoxIpAddress" HorizontalAlignment="Left" Margin="450,354,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="410" Height="150" FontFamily="Courier New" IsReadOnly="True" FontSize="13"/>
-        <TextBox x:Name="textBoxIpRoute" HorizontalAlignment="Left" Margin="450,31,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="410" Height="150" FontFamily="Courier New" IsReadOnly="True" FontSize="13"/>
+        <Label x:Name="label" Content="ip address" HorizontalAlignment="Left" Margin="419,331,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
+        <Label x:Name="label1" Content="ip route" HorizontalAlignment="Left" Margin="358,7,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
+        <TextBox x:Name="textBoxIpAddress" HorizontalAlignment="Left" Margin="405,355,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="455" Height="150" FontFamily="Courier New" IsReadOnly="True" FontSize="13"/>
+        <TextBox x:Name="textBoxIpRoute" HorizontalAlignment="Left" Margin="358,31,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" Height="150" FontFamily="Courier New" IsReadOnly="True" FontSize="13"/>
         <svgc:SvgViewbox Source="/images/Funnel.svg" Width="400" HorizontalAlignment="Left" Stretch="Fill"/>
         <Button x:Name="masterButton" Content="N/A" HorizontalAlignment="Left" Height="86" VerticalAlignment="Center" Width="48" FontWeight="Bold" Margin="405,0,0,0"/>
-        <TextBlock HorizontalAlignment="Left" Margin="450,509,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="410" Background="#FFF3FF00" FontFamily="Courier New"/>
-        <Grid x:Name="pointsGrid" HorizontalAlignment="Left" Height="68" Margin="320,389,0,0" VerticalAlignment="Top" Width="97">
+        <TextBlock HorizontalAlignment="Left" Margin="405,510,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="455" Background="#FFF3FF00" FontFamily="Courier New"/>
+        <Grid x:Name="pointsGrid" HorizontalAlignment="Left" Height="68" Margin="261,396,0,0" VerticalAlignment="Top" Width="97">
             <Rectangle x:Name="pointsRectangle" HorizontalAlignment="Stretch" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Stretch" Fill="#FF3AFF00"/>
             <TextBlock x:Name="pointsText" HorizontalAlignment="Center" Margin="10,10,10,10" Text="0/0" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" FontSize="30"/>
         </Grid>

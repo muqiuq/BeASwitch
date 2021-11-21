@@ -26,5 +26,16 @@ namespace BeARouter
             return false;
         }
 
+        public static long ByteArrayToLong(byte[] by)
+        {
+            long value = 0;
+            for (int i = 0; i < by.Length; i++)
+            {
+                value = (value << 8) + (by[i] & 0xff);
+            }
+
+            return value;
+        }
+
     }
 }

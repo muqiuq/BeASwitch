@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BeARouter
 {
-    public class Route
+    public class Route : IComparable
     {
         private IPv4Address gateway;
         private IPv4Address src;
@@ -13,8 +13,8 @@ namespace BeARouter
 
         private RouterPort routerPort;
         
-        private static readonly string notonlink = "{0} via {1} dev {2}";
-        private static readonly string onlink = "{0} dev {1} scope link src {2}";
+        private static readonly string notonlink = "{0,-19} via {1,-16} dev {2}";
+        private static readonly string onlink = "{0,-19} dev {1} scope link src {2}";
 
         public Route(Subnet subnet, RouterPort routerPort, IPv4Address gateway = null, IPv4Address src = null)
         {
@@ -40,6 +40,13 @@ namespace BeARouter
             {
                 return string.Format(notonlink, subnet, gateway, routerPort.Name);
             }
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj.GetType() != typeof(Route)) return -1;
+            var otherRoute = (Route)obj;
+            return otherRoute.subnet.GetAddress().CompareTo(this.subnet.GetAddress());
         }
     }
 }

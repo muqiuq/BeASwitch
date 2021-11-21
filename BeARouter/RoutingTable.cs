@@ -27,13 +27,14 @@ namespace BeARouter
 
         public Route this[int index] { get => routes[index]; set => routes[index] = value; }
 
-        public int Count => throw new NotImplementedException();
+        public int Count => routes.Count;
 
-        public bool IsReadOnly => throw new NotImplementedException();
+        public bool IsReadOnly => false;
 
         public void Add(Route item)
         {
             routes.Add(item);
+            routes.Sort();
         }
 
         public void Clear()

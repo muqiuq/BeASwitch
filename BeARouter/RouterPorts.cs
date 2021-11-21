@@ -43,7 +43,7 @@ namespace BeARouter
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return Ports.GetEnumerator();
+            return Ports.Values.GetEnumerator();
         }
     }
 }

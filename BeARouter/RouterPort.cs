@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,6 +38,11 @@ namespace BeARouter
 
         public int Num { get; }
         public CheckBox CheckBoxSend { get; private set; }
+
+        internal void AddIPv4Address(Subnet subnet)
+        {
+            ipv4Addresses.Add(subnet);
+        }
 
         public Grid AttachToGrid(Grid mainGrid, double left, double top)
         {
@@ -123,6 +129,10 @@ namespace BeARouter
             CheckBoxSend.Background = CheckBoxSend.IsChecked.Value ? Brushes.LimeGreen : Brushes.Red;
         }
 
+        internal Subnet GetFirstAddress()
+        {
+            return ipv4Addresses.FirstOrDefault();
+        }
 
     }
 }

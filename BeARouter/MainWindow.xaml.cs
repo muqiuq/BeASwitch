@@ -28,36 +28,29 @@ namespace BeARouter
 
             pointsGrid.Visibility = Visibility.Hidden;
 
-            var eths = new RouterPorts();
-            var numOfPorts = 5;
-            for(int a = 0; a < numOfPorts; a ++)
+            for (int a = 0; a < gameEngine.Ports.Count; a++)
             {
-                eths.Add(a, new RouterPort(a));   
-            }
-            for(int a = 0; a < numOfPorts; a++)
-            {
-                eths[a].AttachToGrid(mainGrid, 10, 20 + a * 105);
+                gameEngine.Ports[a].AttachToGrid(mainGrid, 10, 20 + a * 105);
             }
 
-            var routingTable = new RoutingTable();
+            textBoxIpRoute.Text = gameEngine.RoutingTable.ToString();
 
-            var ipv4Address_eth0 = new Subnet("192.168.1.1", 24);
-            eths[0].ipv4Addresses.Add(ipv4Address_eth0);
+            textBoxIpAddress.Text = gameEngine.Ports.ToString();
 
-            var remote1 = new Subnet("10.0.0.0", 8);
+            /*var ipv4Packet = new IPv4Packet("A","B", new IPv4Address("192.168.1.3"), new IPv4Address("192.168.2.10"));
 
-            routingTable.Add(new Route(remote1, eths[0], gateway: ipv4Address_eth0.IpAddress));
-            routingTable.Add(new Route(ipv4Address_eth0.ToNetaddr(), eths[0], src: ipv4Address_eth0.IpAddress));
+            ipv4Packet.AttachToGrid(mainGrid, 460, 215);*/
 
+            updateMainButton();
+        }
 
-            textBoxIpRoute.Text = routingTable.ToString();
-
-            textBoxIpAddress.Text = eths.ToString();
-
-            var ipv4Packet = new IPv4Packet("A","B", new IPv4Address("192.168.1.3"), new IPv4Address("192.168.2.10"));
-
-            ipv4Packet.AttachToGrid(mainGrid, 460, 215);
-
+        public void UpdateAll()
+        {
+            if(!CheckAccess())
+            {
+                Dispatcher.Invoke(() => UpdateAll());
+                return;
+            }
             updateMainButton();
         }
 

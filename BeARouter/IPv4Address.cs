@@ -4,9 +4,8 @@ using System.Text;
 
 namespace BeARouter
 {
-    public class IPv4Address
+    public class IPv4Address : IComparable
     {
-
         private readonly System.Net.IPAddress ipAddress;
 
         public byte[] GetBytes()
@@ -58,5 +57,32 @@ namespace BeARouter
             this.ipAddress = ipAddress;
         }
 
+        public IPv4Address IncrementOne()
+        {
+            var ipAddressBytes = ipAddress.GetAddressBytes();
+            ipAddressBytes[3] += 1;
+            var overflowed = ipAddressBytes[3] == 0;
+            for(int x = 2; x >= 0; x--)
+            {
+                if(overflowed)
+                {
+                    ipAddressBytes[x] += 1;
+                    overflowed = ipAddressBytes[x] == 0;
+                }
+
+            }
+            return new IPv4Address(new System.Net.IPAddress(ipAddressBytes));
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj.GetType() != typeof(IPv4Address)) return -1;
+            var otherIpV4addr = (IPv4Address)obj;
+            var otherVal = Helper.ByteArrayToLong(otherIpV4addr.GetBytes());
+            var thisVal = Helper.ByteArrayToLong(this.GetBytes());
+            if (otherVal > thisVal) return 1;
+            if (otherVal == thisVal) return 0;
+            return -1;
+        }
     }
 }

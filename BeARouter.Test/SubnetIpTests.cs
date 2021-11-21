@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using NUnit.Framework;
 
@@ -114,6 +115,51 @@ namespace BeARouter.Test
         public void SubnetMapTest12()
         {
             Assert.IsFalse(Match("192.168.10.0", 24, "192.168.11.255").IsMatch);
+        }
+
+        [Test]
+        public void SubnetGenerateTest()
+        {
+            GameEngine ge = new GameEngine();
+
+            var subents = ge.GenerateRandomInterfaceAddresses();
+
+            Assert.AreEqual(5, subents.Count);
+        }
+
+        [Test]
+        public void IncrementOverflow1()
+        {
+            var ipaddress = new IPv4Address("192.168.1.255");
+            ipaddress = ipaddress.IncrementOne();
+            Assert.AreEqual(new IPv4Address("192.168.2.0"), ipaddress);
+        }
+
+        [Test]
+        public void IncrementOverflow2()
+        {
+            var ipaddress = new IPv4Address("192.255.255.255");
+            ipaddress = ipaddress.IncrementOne();
+            Assert.AreEqual(new IPv4Address("193.0.0.0"), ipaddress);
+        }
+
+        [Test]
+        public void IncrementOverflow3()
+        {
+            var ipaddress = new IPv4Address("255.255.255.255");
+            ipaddress = ipaddress.IncrementOne();
+            Assert.AreEqual(new IPv4Address("0.0.0.0"), ipaddress);
+        }
+
+        [Test]
+        public void IncrementOverflow4()
+        {
+            var ipaddress = new IPv4Address("0.0.0.0");
+            for(int a = 0; a < 256; a++)
+            {
+                ipaddress = ipaddress.IncrementOne();
+            }
+            Assert.AreEqual(new IPv4Address("0.0.1.0"), ipaddress);
         }
     }
 }

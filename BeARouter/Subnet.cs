@@ -49,7 +49,7 @@ namespace BeARouter
             return maskBytes;
         }
 
-        public IPv4Address GetNetmask()
+        public IPv4Address GetNetAddress()
         {
             byte[] addr = IpAddress.GetBytes();
             byte[] maskBytes = MaskToBytes(Mask);
@@ -63,12 +63,12 @@ namespace BeARouter
 
         public Subnet ToNetaddr()
         {
-            return new Subnet(GetNetmask(), Mask);
+            return new Subnet(GetNetAddress(), Mask);
         }
 
         public IPv4Address GetBroadcast()
         {
-            byte[] broadcastAddr = GetNetmask().GetBytes();
+            byte[] broadcastAddr = GetNetAddress().GetBytes();
             byte[] invertedMask = InvertedMask(Mask);
             for(int a = 0; a < 4; a++) {
                 broadcastAddr[a] = (byte)(broadcastAddr[a] | invertedMask[a]);
@@ -76,9 +76,14 @@ namespace BeARouter
             return new IPv4Address(new System.Net.IPAddress(broadcastAddr));
         }
 
+        internal Subnet GetNetSubnet()
+        {
+            return new Subnet(GetNetAddress(), Mask);
+        }
+
         public bool IsNetmask()
         {
-            return Helper.Equals(GetNetmask().GetBytes(), IpAddress.GetBytes());
+            return Helper.Equals(GetNetAddress().GetBytes(), IpAddress.GetBytes());
         }
 
         public bool IsBroadcast()
@@ -94,7 +99,7 @@ namespace BeARouter
         public SubnetMatchResult Match(IPv4Address otherIpv4Address)
         {
             byte[] srcIp = otherIpv4Address.GetBytes();
-            byte[] netaddr = GetNetmask().GetBytes();
+            byte[] netaddr = GetNetAddress().GetBytes();
             byte[] maskBytes = MaskToBytes(Mask);
             byte[] result = new byte[4];
             for(int a = 0; a < srcIp.Length; a++)
@@ -102,6 +107,18 @@ namespace BeARouter
                 result[a] = (byte)(srcIp[a] & maskBytes[a]);
             }
             return new SubnetMatchResult(Helper.Equals(netaddr, result), this, otherIpv4Address);
+        }
+
+        internal Subnet GetHostMin()
+        {
+            var newIpAddress = GetNetAddress();
+            var hostMin = newIpAddress.IncrementOne();
+            return new Subnet(hostMin, Mask);
+        }
+
+        internal IPv4Address GetAddress()
+        {
+            return IpAddress;
         }
 
         public override string ToString()
