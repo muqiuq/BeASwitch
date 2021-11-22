@@ -41,24 +41,30 @@ namespace BeARouter
 
         public static byte[] InvertedMask(int mask)
         {
-            byte[] maskBytes = new byte[4];
-            for(int a = 0; a < 4; a++)
+            byte[] maskBytes = MaskToBytes(mask);
+            for (int a = 0; a < 4; a++)
             {
                 maskBytes[a] = (byte)~maskBytes[a];
             }
             return maskBytes;
         }
 
+        private IPv4Address netAddress;
+
         public IPv4Address GetNetAddress()
         {
-            byte[] addr = IpAddress.GetBytes();
-            byte[] maskBytes = MaskToBytes(Mask);
-            byte[] result = new byte[4];
-            for (int a = 0; a < addr.Length; a++)
+            if(netAddress == null)
             {
-                result[a] = (byte)(addr[a] & maskBytes[a]);
+                byte[] addr = IpAddress.GetBytes();
+                byte[] maskBytes = MaskToBytes(Mask);
+                byte[] result = new byte[4];
+                for (int a = 0; a < addr.Length; a++)
+                {
+                    result[a] = (byte)(addr[a] & maskBytes[a]);
+                }
+                netAddress = new IPv4Address(new System.Net.IPAddress(result));
             }
-            return new IPv4Address(new System.Net.IPAddress(result));
+            return netAddress;
         }
 
         public Subnet ToNetaddr()
@@ -66,14 +72,45 @@ namespace BeARouter
             return new Subnet(GetNetAddress(), Mask);
         }
 
+        public Subnet GenerateNewWithLowestBitWithinMaskIncreased()
+        {
+            byte[] maskBytes = new byte[4];
+            int maskRest = Mask;
+            int count = 0;
+            while (maskRest > 0)
+            {
+                if(maskRest == 1)
+                {
+                    maskBytes[count / 8] += (byte)(0x80 >> ((byte)count % 8));
+                }
+                maskRest--;
+                count++;
+            }
+            byte[] addr = IpAddress.GetBytes();
+            byte[] result = new byte[4];
+            for (int a = 0; a < addr.Length; a++)
+            {
+                result[a] = (byte)(addr[a] | maskBytes[a]);
+            }
+            netAddress = new IPv4Address(new System.Net.IPAddress(result));
+            return new Subnet(netAddress, Mask);
+        }
+
+        private IPv4Address broadcastAddr;
+
         public IPv4Address GetBroadcast()
         {
-            byte[] broadcastAddr = GetNetAddress().GetBytes();
-            byte[] invertedMask = InvertedMask(Mask);
-            for(int a = 0; a < 4; a++) {
-                broadcastAddr[a] = (byte)(broadcastAddr[a] | invertedMask[a]);
+            if (broadcastAddr == null)
+            {
+                byte[] broadcastAddrBytes = GetNetAddress().GetBytes();
+                byte[] invertedMask = InvertedMask(Mask);
+                for (int a = 0; a < 4; a++)
+                {
+                    broadcastAddrBytes[a] = (byte)(broadcastAddrBytes[a] | invertedMask[a]);
+                }
+                broadcastAddr = new IPv4Address(new System.Net.IPAddress(broadcastAddrBytes));
             }
-            return new IPv4Address(new System.Net.IPAddress(broadcastAddr));
+            return broadcastAddr;
         }
 
         internal Subnet GetNetSubnet()
@@ -124,6 +161,13 @@ namespace BeARouter
         public override string ToString()
         {
             return $"{IpAddress}/{Mask}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() != typeof(Subnet)) return false;
+            var other = (Subnet)obj;
+            return other.GetAddress() == this.GetAddress() && other.Mask == this.Mask;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BeARouter
@@ -30,6 +31,20 @@ namespace BeARouter
         public int Count => routes.Count;
 
         public bool IsReadOnly => false;
+
+        public Route GetRouteFor(IPv4Address address)
+        {
+            List<Route> matchedRoutes = new List<Route>();
+            foreach(var route in routes)
+            {
+                var subnetForAddress = new Subnet(address, route.Subnet.Mask);
+                if (route.Subnet.GetNetAddress() == subnetForAddress.GetAddress()) continue;
+                if (route.Subnet.GetBroadcast() == subnetForAddress.GetAddress()) continue;
+                if (route.Subnet.GetNetAddress() == subnetForAddress.GetNetAddress()) matchedRoutes.Add(route);
+            }
+            if (matchedRoutes.Count == 0) return null;
+            return matchedRoutes.OrderByDescending(i => i.Subnet.Mask).First();
+        }
 
         public void Add(Route item)
         {

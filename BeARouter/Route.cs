@@ -9,18 +9,18 @@ namespace BeARouter
         private IPv4Address gateway;
         private IPv4Address src;
 
-        private Subnet subnet;
+        public Subnet Subnet { get; private set; }
 
-        private RouterPort routerPort;
-        
-        private static readonly string notonlink = "{0,-19} via {1,-16} dev {2}";
+        public RouterPort RouterPort { get; private set; }
+
+        private static readonly string notonlink = "{0,-19} via {1,-16}";
         private static readonly string onlink = "{0,-19} dev {1} scope link src {2}";
 
         public Route(Subnet subnet, RouterPort routerPort, IPv4Address gateway = null, IPv4Address src = null)
         {
             this.gateway = gateway;
-            this.subnet = subnet;
-            this.routerPort = routerPort;
+            this.Subnet = subnet;
+            this.RouterPort = routerPort;
             this.src = src;
             if (src != null && gateway != null) throw new ArgumentException("Can't have source and gateway simultaneously");
         }
@@ -30,15 +30,20 @@ namespace BeARouter
             return gateway == null;
         }
 
+        public bool IsDefaultRoute()
+        {
+            return Subnet.Equals(new Subnet("0.0.0.0", 0));
+        }
+
         public override string ToString()
         {
             if(OnLink())
             {
-                return string.Format(onlink, subnet, routerPort.Name, src);
+                return string.Format(onlink, Subnet, RouterPort.Name, src);
             }
             else
             {
-                return string.Format(notonlink, subnet, gateway, routerPort.Name);
+                return string.Format(notonlink, Subnet, gateway);
             }
         }
 
@@ -46,7 +51,7 @@ namespace BeARouter
         {
             if (obj.GetType() != typeof(Route)) return -1;
             var otherRoute = (Route)obj;
-            return otherRoute.subnet.GetAddress().CompareTo(this.subnet.GetAddress());
+            return otherRoute.Subnet.GetAddress().CompareTo(this.Subnet.GetAddress());
         }
     }
 }

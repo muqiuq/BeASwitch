@@ -19,6 +19,18 @@ namespace BeARouter
                    EqualityComparer<System.Net.IPAddress>.Default.Equals(ipAddress, address.ipAddress);
         }
 
+        public static bool operator ==(IPv4Address left, IPv4Address right)
+        {
+            if (left is null && right is null) return true;
+            if (left is null || right is null) return false;
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(IPv4Address left, IPv4Address right)
+        {
+            return !(left == right);
+        }
+
         public override int GetHashCode()
         {
             return HashCode.Combine(ipAddress);
@@ -70,6 +82,22 @@ namespace BeARouter
                     overflowed = ipAddressBytes[x] == 0;
                 }
 
+            }
+            return new IPv4Address(new System.Net.IPAddress(ipAddressBytes));
+        }
+
+        public IPv4Address IncrementBy(int skip)
+        {
+            
+            var ipAddressBytes = ipAddress.GetAddressBytes();
+            int rest = ipAddressBytes[3] + skip;
+            ipAddressBytes[3] = (byte)(rest % 255);
+            rest = (rest / 255);
+            for (int x = 2; x >= 0; x--)
+            {
+                rest = ipAddressBytes[x] + rest;
+                ipAddressBytes[x] = (byte)(rest % 255);
+                rest = (rest / 255);
             }
             return new IPv4Address(new System.Net.IPAddress(ipAddressBytes));
         }

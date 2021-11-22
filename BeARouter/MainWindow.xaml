@@ -12,9 +12,9 @@
         <TextBox x:Name="textBoxIpAddress" HorizontalAlignment="Left" Margin="405,355,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="455" Height="150" FontFamily="Courier New" IsReadOnly="True" FontSize="13"/>
         <TextBox x:Name="textBoxIpRoute" HorizontalAlignment="Left" Margin="358,31,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" Height="150" FontFamily="Courier New" IsReadOnly="True" FontSize="13"/>
         <svgc:SvgViewbox Source="/images/Funnel.svg" Width="400" HorizontalAlignment="Left" Stretch="Fill"/>
-        <Button x:Name="masterButton" Content="N/A" HorizontalAlignment="Left" Height="86" VerticalAlignment="Center" Width="48" FontWeight="Bold" Margin="405,0,0,0"/>
+        <Button x:Name="masterButton" Content="N/A" HorizontalAlignment="Left" Height="86" VerticalAlignment="Center" Width="48" FontWeight="Bold" Margin="405,0,0,0" Click="masterButton_Click"/>
         <TextBlock HorizontalAlignment="Left" Margin="405,510,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="455" Background="#FFF3FF00" FontFamily="Courier New"/>
-        <Grid x:Name="pointsGrid" HorizontalAlignment="Left" Height="68" Margin="261,396,0,0" VerticalAlignment="Top" Width="97">
+        <Grid x:Name="pointsGrid" HorizontalAlignment="Left" Height="68" Margin="271,396,0,0" VerticalAlignment="Top" Width="97">
             <Rectangle x:Name="pointsRectangle" HorizontalAlignment="Stretch" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Stretch" Fill="#FF3AFF00"/>
             <TextBlock x:Name="pointsText" HorizontalAlignment="Center" Margin="10,10,10,10" Text="0/0" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" FontSize="30"/>
         </Grid>

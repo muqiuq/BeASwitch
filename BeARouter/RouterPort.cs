@@ -38,6 +38,13 @@ namespace BeARouter
 
         public int Num { get; }
         public CheckBox CheckBoxSend { get; private set; }
+        public bool IsMarked { get; private set; }
+        public bool IsChecked { get
+            {
+                if (CheckBoxSend == null) return false;
+                return CheckBoxSend.IsChecked.Value;
+            }
+        }
 
         internal void AddIPv4Address(Subnet subnet)
         {
@@ -117,16 +124,19 @@ namespace BeARouter
         internal void ClearMarks()
         {
             CheckBoxSend.Background = Brushes.White;
+            IsMarked = false;
         }
 
         internal void ClearCheckBoxes()
         {
             CheckBoxSend.IsChecked = false;
+            IsMarked = false;
         }
 
         internal void MarkForSend()
         {
             CheckBoxSend.Background = CheckBoxSend.IsChecked.Value ? Brushes.LimeGreen : Brushes.Red;
+            IsMarked = true;
         }
 
         internal Subnet GetFirstAddress()

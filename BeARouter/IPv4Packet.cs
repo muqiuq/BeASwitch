@@ -21,6 +21,7 @@ namespace BeARouter
         public readonly IPv4Address DestIP;
 
         public readonly string Content;
+        private Grid BaseGrid;
 
         public IPv4Packet(string sourceMAC, string destMAC, IPv4Address sourceIP, IPv4Address destIP, string content = "")
         {
@@ -31,6 +32,10 @@ namespace BeARouter
             Content = content;
         }
 
+        public void RemoveFromGrid(Grid mainGrid)
+        {
+            if(BaseGrid != null && mainGrid.Children.Contains(BaseGrid)) mainGrid.Children.Remove(BaseGrid);
+        }
 
         public void AttachToGrid(Grid mainGrid, double left, double top)
         {
@@ -69,7 +74,7 @@ namespace BeARouter
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Margin = new Thickness(15, 15, 11, 0),
-                FontSize = 14,
+                FontSize = 10,
                 FontFamily = new FontFamily("Courier New"),
                 TextAlignment = TextAlignment.Left,
             };
@@ -79,7 +84,7 @@ namespace BeARouter
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Margin = new Thickness(width / 2 + 5, 15, 0, 0),
-                FontSize = 14,
+                FontSize = 10,
                 FontFamily = new FontFamily("Courier New"),
                 TextAlignment = TextAlignment.Left,
             };
@@ -98,7 +103,7 @@ namespace BeARouter
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Margin = new Thickness(15, 35, 0, 0),
-                FontSize = 13,
+                FontSize = 12,
                 FontFamily = new FontFamily("Courier New"),
                 TextAlignment = TextAlignment.Left,
             };
@@ -108,14 +113,14 @@ namespace BeARouter
                 VerticalAlignment = VerticalAlignment.Top,
                 Margin = new Thickness(width/2 + 5, 35, 0, 0),
                 HorizontalAlignment = HorizontalAlignment.Left,
-                FontSize = 13,
+                FontSize = 12,
                 FontFamily = new FontFamily("Courier New"),
                 TextAlignment = TextAlignment.Left,
             };
 
             var startingPosition = new Thickness(left - width, top, 0, 0);
 
-            var BaseGrid = new Grid()
+            BaseGrid = new Grid()
             {
                 Height = height,
                 Width = 0,
@@ -174,7 +179,6 @@ namespace BeARouter
 
             var t = new Thread(() =>
             {
-                Thread.Sleep(2000);
                 ((Window)(mainGrid.Parent)).Dispatcher.Invoke(() =>
                 {
                     storyBoard.Begin(BaseGrid);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +21,13 @@ namespace BeARouter
     /// </summary>
     public partial class MainWindow : Window
     {
-        GameEngine gameEngine = new GameEngine();
+        GameEngine gameEngine;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            gameEngine = new GameEngine(Dispatcher);
 
             pointsGrid.Visibility = Visibility.Hidden;
 
@@ -52,6 +55,7 @@ namespace BeARouter
                 return;
             }
             updateMainButton();
+            updatePoints();
         }
 
         private void updateMainButton()
@@ -62,12 +66,55 @@ namespace BeARouter
             }
             else if(gameEngine.State == GameState.USERINPUT)
             {
-                masterButton.Content = "&lt;&#xD;&#xA;&lt;&#xD;&#xA;Send&#xD;&#xA;&lt;&#xD;&#xA;&lt;";
+                masterButton.Content = "<\r\n<\r\nSend\r\n<\r\n<";
             }
             else if (gameEngine.State == GameState.SOLUTIONSHOW)
             {
-                masterButton.Content = "&gt;&#xD;&#xA;&gt;&#xD;&#xA;Next&#xD;&#xA;&gt;&#xD;&#xA;&gt;";
+                masterButton.Content = ">\r\n>\r\nNext\r\n>\r\n>";
             }
+        }
+
+        private void updatePoints()
+        {
+            pointsText.Text = string.Format("{0}/{1}", gameEngine.NumberOfCorrectAttempts, gameEngine.NumberOfAttempts);
+            if(gameEngine.AreAllAttemptsCorrect)
+            {
+                pointsRectangle.Fill = new SolidColorBrush(Colors.LightGreen);
+            }
+            else
+            {
+                pointsRectangle.Fill = new SolidColorBrush(Colors.LightYellow);
+            }
+        }
+
+
+
+        private void masterButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(gameEngine.State == GameState.NEW)
+            {
+                pointsGrid.Visibility = Visibility.Visible;
+            }
+
+            if(gameEngine.State == GameState.USERINPUT)
+            {
+                gameEngine.CheckSolution();
+            }
+            else if(gameEngine.State == GameState.SOLUTIONSHOW || gameEngine.State == GameState.NEW)
+            {
+                gameEngine.ClearBoard();
+                if (gameEngine.CurrentPacket != null) gameEngine.CurrentPacket.RemoveFromGrid(mainGrid);
+
+                var ipv4Package = gameEngine.NextPacket();
+
+                ipv4Package.AttachToGrid(mainGrid, 460, 215);
+
+                var route = gameEngine.RoutingTable.GetRouteFor(ipv4Package.DestIP);
+
+                Debug.WriteLine(route);
+            }
+            UpdateAll();
+
         }
     }
 }

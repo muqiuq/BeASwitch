@@ -120,11 +120,9 @@ namespace BeARouter.Test
         [Test]
         public void SubnetGenerateTest()
         {
-            GameEngine ge = new GameEngine();
+            var subents = GameEngine.GenerateRandomInterfaceAddresses(10);
 
-            var subents = ge.GenerateRandomInterfaceAddresses();
-
-            Assert.AreEqual(5, subents.Count);
+            Assert.AreEqual(10, subents.Count);
         }
 
         [Test]
@@ -160,6 +158,38 @@ namespace BeARouter.Test
                 ipaddress = ipaddress.IncrementOne();
             }
             Assert.AreEqual(new IPv4Address("0.0.1.0"), ipaddress);
+        }
+
+        [Test]
+        public void IncrementBy()
+        {
+            var ipaddress = new IPv4Address("192.168.1.100");
+            ipaddress = ipaddress.IncrementBy(100);
+            Assert.AreEqual(new IPv4Address("192.168.1.200"), ipaddress);
+        }
+
+        [Test]
+        public void IncrementByOverflow1()
+        {
+            var ipaddress = new IPv4Address("192.168.1.100");
+            ipaddress = ipaddress.IncrementBy(200);
+            Assert.AreEqual(new IPv4Address("192.168.2.45"), ipaddress);
+        }
+
+        [Test]
+        public void IncrementByOverflow2()
+        {
+            var ipaddress = new IPv4Address("192.168.1.100");
+            ipaddress = ipaddress.IncrementBy(455);
+            Assert.AreEqual(new IPv4Address("192.168.3.45"), ipaddress);
+        }
+
+        [Test]
+        public void IncrementByOverflow3()
+        {
+            var ipaddress = new IPv4Address("192.168.1.100");
+            ipaddress = ipaddress.IncrementBy(65025);
+            Assert.AreEqual(new IPv4Address("192.169.1.100"), ipaddress);
         }
     }
 }

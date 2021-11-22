@@ -37,5 +37,14 @@ namespace BeARouter
             return value;
         }
 
+        public static string GenerateRandomMAC()
+        {
+            byte[] mac = new byte[6];
+            Random r = new Random();
+            r.NextBytes(mac);
+            mac[0] = (byte)0x02;
+            return string.Join(":", Array.ConvertAll(mac, b => b.ToString("X2")));
+        }
+
     }
 }
