@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeARouter"
         mc:Ignorable="d"
-        Title="ExplainWindow" Height="450" Width="1000">
+        Title="ExplainWindow" Height="450" Width="1050">
     <Grid>
         <TextBox x:Name="InfoBox" HorizontalAlignment="Stretch" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Stretch" Padding="10,10,10,10" FontFamily="Courier New"/>
     </Grid>
