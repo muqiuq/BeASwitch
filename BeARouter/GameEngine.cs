@@ -249,15 +249,24 @@ namespace BeARouter
             });
 
             LastAttemptCorrect = false;
+            var AllCorrect = true;
+            var theOneIsCorrect = false;
 
             foreach (var routerPort in Ports)
             {
                 if (routerPort.IsChecked && routerPort.IsMarked)
                 {
-                    NumberOfCorrectAttempts++;
-                    LastAttemptCorrect = true;
+                    theOneIsCorrect = true;
+                }
+                if (routerPort.IsChecked && !routerPort.IsMarked)
+                {
+                    AllCorrect = false;
                 }
             }
+            if(AllCorrect && theOneIsCorrect)
+            {
+                NumberOfCorrectAttempts++;
+            } 
             NumberOfAttempts++;
         }
 

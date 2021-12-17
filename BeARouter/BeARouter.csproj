@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>c_router_blue_BoB_icon.ico</ApplicationIcon>
     <Authors>Philipp Albrecht</Authors>
-    <Version>1.0</Version>
+    <Version>1.1</Version>
     <PackageProjectUrl>https://github.com/muqiuq/BeASwitch</PackageProjectUrl>
     <PackageIcon>c_router_blue.png</PackageIcon>
     <PackageIconUrl />
