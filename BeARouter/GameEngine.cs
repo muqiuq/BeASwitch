@@ -23,6 +23,8 @@ namespace BeARouter
         private readonly Dispatcher dispatcher;
         private readonly int numberOfInterfaces;
 
+        internal Route LastUsedRoute { get; set; }
+
         private readonly string ownMAC;
 
         private List<IPv4Address> listOfAddrInNearbySubnetsAndAFewRandomPublicIPs = new List<IPv4Address>();
@@ -219,6 +221,8 @@ namespace BeARouter
             }
         }
 
+        public bool LastAttemptCorrect { get; private set; }
+
         public IPv4Packet NextPacket()
         {
             State = GameState.USERINPUT;
@@ -238,17 +242,20 @@ namespace BeARouter
         public void CheckSolution()
         {
             State = GameState.SOLUTIONSHOW;
-            var route = RoutingTable.GetRouteFor(CurrentPacket.DestIP);
+            LastUsedRoute = RoutingTable.GetRouteFor(CurrentPacket.DestIP);
             dispatcher.Invoke(() =>
             {
-                route.RouterPort.MarkForSend();
+                LastUsedRoute.RouterPort.MarkForSend();
             });
+
+            LastAttemptCorrect = false;
 
             foreach (var routerPort in Ports)
             {
                 if (routerPort.IsChecked && routerPort.IsMarked)
                 {
                     NumberOfCorrectAttempts++;
+                    LastAttemptCorrect = true;
                 }
             }
             NumberOfAttempts++;

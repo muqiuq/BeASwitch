@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,18 +35,40 @@ namespace BeARouter
 
             for (int a = 0; a < gameEngine.Ports.Count; a++)
             {
-                gameEngine.Ports[a].AttachToGrid(mainGrid, 10, 20 + a * 105);
+                gameEngine.Ports[a].AttachToGrid(mainGrid, 10, 80 + a * 105);
             }
 
             textBoxIpRoute.Text = gameEngine.RoutingTable.ToString();
 
             textBoxIpAddress.Text = gameEngine.Ports.ToString();
 
-            /*var ipv4Packet = new IPv4Packet("A","B", new IPv4Address("192.168.1.3"), new IPv4Address("192.168.2.10"));
+            UpdateAll();
+        }
 
-            ipv4Packet.AttachToGrid(mainGrid, 460, 215);*/
+        private void ListProcesses()
+        {
+            Process[] processCollection = Process.GetProcesses();
+            foreach (Process p in processCollection)
+            {
+                var filepath = "N/A";
+                try
+                {
+                    filepath = p.MainModule.FileName;
+                }catch(Exception e) { }
+                Debug.WriteLine($"{p.ProcessName} {filepath}");
+            }
+        }
 
-            updateMainButton();
+        private void Screenshot()
+        {
+            var screenresolution = Helper.GetScreenResolution();
+            using var bitmap = new Bitmap(screenresolution.Item1, screenresolution.Item2);
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                g.CopyFromScreen(0, 0, 0, 0,
+                bitmap.Size, CopyPixelOperation.SourceCopy);
+            }
+            bitmap.Save("filename.jpg", ImageFormat.Jpeg);
         }
 
         public void UpdateAll()
@@ -56,6 +80,9 @@ namespace BeARouter
             }
             updateMainButton();
             updatePoints();
+            updateInfoText();
+
+            explainWindow?.Update();
         }
 
         private void updateMainButton()
@@ -71,6 +98,24 @@ namespace BeARouter
             else if (gameEngine.State == GameState.SOLUTIONSHOW)
             {
                 masterButton.Content = ">\r\n>\r\nNext\r\n>\r\n>";
+            }
+        }
+
+        private void updateInfoText()
+        {
+            if (gameEngine.State == GameState.NEW)
+            {
+                InfoText.Text = DefaultTexts.PRESS_START_TO_RECEIVE_FIRST_IPV4;
+            }
+            else if (gameEngine.State == GameState.USERINPUT)
+            {
+                InfoText.Text = string.Format(DefaultTexts.IPv4PACKET_DESCRIPTION, gameEngine.CurrentPacket.SourceIP, gameEngine.CurrentPacket.DestIP);
+            }
+            else if (gameEngine.State == GameState.SOLUTIONSHOW)
+            {
+                InfoText.Text = string.Format(DefaultTexts.IPv4PACKET_RESULT, 
+                    gameEngine.LastAttemptCorrect ? DefaultTexts.CORRECT : DefaultTexts.WRONG, 
+                    gameEngine.LastUsedRoute.Subnet);
             }
         }
 
@@ -107,7 +152,7 @@ namespace BeARouter
 
                 var ipv4Package = gameEngine.NextPacket();
 
-                ipv4Package.AttachToGrid(mainGrid, 460, 215);
+                ipv4Package.AttachToGrid(mainGrid, 460, 275);
 
                 var route = gameEngine.RoutingTable.GetRouteFor(ipv4Package.DestIP);
 
@@ -115,6 +160,18 @@ namespace BeARouter
             }
             UpdateAll();
 
+        }
+
+        private ExplainWindow explainWindow = null;
+
+        private void buttonExplainWindow_Click(object sender, RoutedEventArgs e)
+        {
+            if(explainWindow == null || explainWindow.IsVisible == false)
+            {
+                explainWindow = new ExplainWindow(gameEngine);
+
+                explainWindow.Show();
+            }
         }
     }
 }

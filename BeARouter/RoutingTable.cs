@@ -46,6 +46,21 @@ namespace BeARouter
             return matchedRoutes.OrderByDescending(i => i.Subnet.Mask).First();
         }
 
+        public List<RouteMatch> MatchAllRoutesForIPv4(IPv4Address address)
+        {
+            var resultList = new List<RouteMatch>();
+            foreach (var route in routes)
+            {
+                var match = false;
+                var subnetForAddress = new Subnet(address, route.Subnet.Mask);
+                if (route.Subnet.GetNetAddress() == subnetForAddress.GetNetAddress()) match = true;
+                if (route.Subnet.GetNetAddress() == subnetForAddress.GetAddress()) match = false;
+                if (route.Subnet.GetBroadcast() == subnetForAddress.GetAddress()) match = false;
+                resultList.Add(new RouteMatch(route, match, subnetForAddress));
+            }
+            return resultList;
+        }
+
         public void Add(Route item)
         {
             routes.Add(item);
