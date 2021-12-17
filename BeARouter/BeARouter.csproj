@@ -4,11 +4,22 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>c_router_blue_BoB_icon.ico</ApplicationIcon>
+    <Authors>Philipp Albrecht</Authors>
+    <Version>1.0</Version>
+    <PackageProjectUrl>https://github.com/muqiuq/BeASwitch</PackageProjectUrl>
+    <PackageIcon>c_router_blue.png</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/muqiuq/BeASwitch</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="images\Funnel.svg" />
     <None Remove="images\rj45.png" />
+    <None Include="images\c_router_blue.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

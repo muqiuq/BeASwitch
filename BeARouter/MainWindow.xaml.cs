@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -43,6 +44,8 @@ namespace BeARouter
             textBoxIpAddress.Text = gameEngine.Ports.ToString();
 
             UpdateAll();
+
+            this.Title += $" {Assembly.GetEntryAssembly().GetName().Version}";
         }
 
         private void ListProcesses()
