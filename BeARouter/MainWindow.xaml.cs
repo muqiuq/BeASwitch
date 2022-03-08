@@ -188,23 +188,12 @@ namespace BeARouter
 
         private void buttonQuiz_Click(object sender, RoutedEventArgs e)
         {
-            if(doAQuizWindow == null || doAQuizWindow.Visibility == Visibility.Hidden)
+            if(doAQuizWindow == null || doAQuizWindow.IsVisible == false)
             {
                 doAQuizWindow = new DoAQuizWindow();
 
                 doAQuizWindow.Show();
-            }
-            else if(doAQuizWindow != null && doAQuizWindow.Visibility != Visibility.Collapsed)
-            {
-                doAQuizWindow.Visibility = Visibility.Visible;
-                doAQuizWindow.BringIntoView();
-            }
-            else if(doAQuizWindow != null && doAQuizWindow.Visibility!= Visibility.Visible)
-            {
-                doAQuizWindow.BringIntoView();
-            }
-
-            
+            }          
         }
     }
 }
