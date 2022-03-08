@@ -47,6 +47,43 @@ namespace BeARouter
             return string.Join(":", Array.ConvertAll(mac, b => b.ToString("X2")));
         }
 
+        public static Subnet GetRandomIPv4Subnet(int minCidr = 8, int maxCidr = 28)
+        {
+            Random rand = new Random();
+
+            
+            int randomType = rand.Next(0, 3);
+            if(randomType == 0)
+            {
+                return new Subnet(
+                    new IPv4Address($"192.168.{rand.Next(0, 255)}.{rand.Next(2, 254)}"),
+                    rand.Next(Math.Max(16, minCidr),Math.Min(28, maxCidr)));
+            }
+            if (randomType == 1)
+            {
+                return new Subnet(
+                    new IPv4Address($"10.{rand.Next(0, 255)}.{rand.Next(0, 255)}.{rand.Next(2, 254)}"),
+                    rand.Next(Math.Max(8, minCidr), Math.Min(28, maxCidr)));
+            }
+            return GetRandomPublicIPv4Subnet(minCidr, maxCidr);
+        }
+
+        public static Subnet GetRandomPublicIPv4Subnet(int minCidr = 16, int maxCidr = 28)
+        {
+            var rand = new Random();
+            var firstPart = rand.Next(0, 197);
+            if (firstPart == 10 || firstPart == 100 || firstPart == 127 ||
+                firstPart == 192 || firstPart == 172 || firstPart == 169)
+            {
+                firstPart += 1;
+            }
+
+            return new Subnet(
+                new IPv4Address($"{firstPart}.{rand.Next(0, 254)}.{rand.Next(0, 254)}.{rand.Next(0, 254)}"),
+                rand.Next(Math.Max(16, minCidr), Math.Min(28, maxCidr)));
+
+        }
+
         [StructLayout(LayoutKind.Sequential)]
         struct DEVMODE
         {

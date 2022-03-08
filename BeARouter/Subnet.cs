@@ -98,6 +98,14 @@ namespace BeARouter
 
         private IPv4Address broadcastAddr;
 
+        public long NumOfHostAddress
+        {
+            get
+            {
+                return (long)Math.Pow(2, (32 - Mask)) - 2;
+            }
+        }
+
         public IPv4Address GetBroadcast()
         {
             if (broadcastAddr == null)
@@ -116,6 +124,23 @@ namespace BeARouter
         internal Subnet GetNetSubnet()
         {
             return new Subnet(GetNetAddress(), Mask);
+        }
+
+        internal Subnet ApplyOr(uint mask)
+        {
+            uint bigEndian = (uint)System.Net.IPAddress.HostToNetworkOrder((int)mask);
+            byte[] b = BitConverter.GetBytes(bigEndian);
+            byte[] ipAddrBytes = IpAddress.GetBytes();
+            for (int a = 0; a < 4; a++)
+            {
+                ipAddrBytes[a] = (byte)(ipAddrBytes[a] | b[a]);
+            }
+            return new Subnet(new IPv4Address(new System.Net.IPAddress(ipAddrBytes)), Mask);
+        }
+
+        internal Subnet GetBroadcastSubnet()
+        {
+            return new Subnet(GetBroadcast(), Mask);
         }
 
         public bool IsNetmask()

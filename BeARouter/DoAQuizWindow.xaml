@@ -1,0 +1,19 @@
+﻿<Window x:Class="BeARouter.DoAQuizWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BeARouter"
+        mc:Ignorable="d"
+        Title="DoAIPv4Quiz" Height="320" Width="656" MinWidth="660" MinHeight="320">
+    <Grid Margin="0,0,0,0">
+        <TextBox x:Name="textBoxAnswerInput" Margin="21,86,50,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="18" FontFamily="Courier New" KeyDown="textBoxAnswerInput_KeyDown" Height="59"/>
+        <TextBlock x:Name="textBlockQuestion" Margin="21,10,50,0" TextWrapping="Wrap" Text="..." VerticalAlignment="Top" Height="71" FontSize="18"/>
+        <TextBlock x:Name="textBlockAnswer" Margin="24,183,160,38" TextWrapping="Wrap" Text="" FontSize="18"/>
+        <Button x:Name="buttonNext" Content="Check" Margin="21,153,50,0" VerticalAlignment="Top" Click="buttonNext_Click"/>
+        <Grid x:Name="pointsGrid" Margin="0,0,50,38" HorizontalAlignment="Right" Width="96" Height="68" VerticalAlignment="Bottom">
+            <Rectangle x:Name="pointsRectangle" HorizontalAlignment="Stretch" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Stretch" Fill="#FF3AFF00"/>
+            <TextBlock x:Name="pointsText" HorizontalAlignment="Center" Margin="10,10,10,10" Text="0/0" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" FontSize="30"/>
+        </Grid>
+    </Grid>
+</Window>

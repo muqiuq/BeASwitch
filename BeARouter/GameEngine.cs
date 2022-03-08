@@ -131,18 +131,7 @@ namespace BeARouter
 
         private static Subnet GetRandomPublicIPv4Subnet()
         {
-            var rand = new Random();
-            var firstPart = rand.Next(0, 197);
-            if (firstPart == 10 || firstPart == 100 || firstPart == 127 ||
-                firstPart == 192 || firstPart == 172 || firstPart == 169)
-            {
-                firstPart += 1;
-            }
-
-            return new Subnet(
-                new IPv4Address($"{firstPart}.{rand.Next(0, 254)}.{rand.Next(0, 254)}.{rand.Next(0, 254)}"),
-                rand.Next(16, 28));
-
+            return Helper.GetRandomPublicIPv4Subnet();
         }
 
         public static List<Subnet> GenerateRandomInterfaceAddresses(int numberOfAddresses)

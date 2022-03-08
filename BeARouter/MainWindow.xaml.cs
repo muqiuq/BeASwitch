@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,6 +45,10 @@ namespace BeARouter
             textBoxIpAddress.Text = gameEngine.Ports.ToString();
 
             UpdateAll();
+
+            UniqueID = new UniqueID();
+
+            textBlockUniqueID.Text = UniqueID.ToString();
 
             this.Title += $" {Assembly.GetEntryAssembly().GetName().Version}";
         }
@@ -142,6 +147,7 @@ namespace BeARouter
             if(gameEngine.State == GameState.NEW)
             {
                 pointsGrid.Visibility = Visibility.Visible;
+                buttonQuiz.Visibility = Visibility.Hidden;
             }
 
             if(gameEngine.State == GameState.USERINPUT)
@@ -166,6 +172,9 @@ namespace BeARouter
         }
 
         private ExplainWindow explainWindow = null;
+        private DoAQuizWindow doAQuizWindow;
+
+        internal UniqueID UniqueID { get; }
 
         private void buttonExplainWindow_Click(object sender, RoutedEventArgs e)
         {
@@ -175,6 +184,27 @@ namespace BeARouter
 
                 explainWindow.Show();
             }
+        }
+
+        private void buttonQuiz_Click(object sender, RoutedEventArgs e)
+        {
+            if(doAQuizWindow == null || doAQuizWindow.Visibility == Visibility.Hidden)
+            {
+                doAQuizWindow = new DoAQuizWindow();
+
+                doAQuizWindow.Show();
+            }
+            else if(doAQuizWindow != null && doAQuizWindow.Visibility != Visibility.Collapsed)
+            {
+                doAQuizWindow.Visibility = Visibility.Visible;
+                doAQuizWindow.BringIntoView();
+            }
+            else if(doAQuizWindow != null && doAQuizWindow.Visibility!= Visibility.Visible)
+            {
+                doAQuizWindow.BringIntoView();
+            }
+
+            
         }
     }
 }
