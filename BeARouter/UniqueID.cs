@@ -25,7 +25,7 @@ namespace BeARouter
                 select nic.GetPhysicalAddress()
             ).FirstOrDefault();
             
-            if(macAddr == null)
+            if(macAddr == null || macAddr.GetAddressBytes().Length == 0)
             {
                 Id = calcId(macAddrAny);
             }
