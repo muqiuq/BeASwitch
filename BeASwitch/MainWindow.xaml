@@ -8,12 +8,11 @@
         Title="Be a Switch - https://github.com/muqiuq/BeASwitch" Height="630" Width="930" ResizeMode="NoResize">
     <Grid x:Name="mainGrid">
         <Button x:Name="buttonCheck" Content="Start" HorizontalAlignment="Left" Margin="320,449,0,0" VerticalAlignment="Top" Click="buttonCheckClick" Width="270" Height="41" FontSize="16"/>
-        <TextBox x:Name="textBoxMacTables" HorizontalAlignment="Left" Margin="320,10,0,0" Text="MAC address tables are empty" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" Height="433" FontFamily="Courier New" FontSize="14"/>
+        <TextBox x:Name="textBoxMacTables" HorizontalAlignment="Left" Margin="320,10,0,0" Text="MAC address tables are empty" TextWrapping="Wrap" VerticalAlignment="Top" Width="270" Height="433" FontFamily="Courier New" FontSize="14" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
         <Rectangle Margin="10,0,475,10" VerticalAlignment="Bottom" Height="44" Fill="LightGreen" Stroke="LightGray"/>
         <TextBlock x:Name="textBlockAction" Margin="15,0,480,15" Text="" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="35" FontFamily="Courier New" FontSize="14"/>
         <Rectangle Margin="460,0,10,10" VerticalAlignment="Bottom" Height="44" Fill="LightYellow" Stroke="LightGray"/>
         <TextBlock x:Name="textBlockPoints" Margin="460,0,15,15" Text="" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="35" FontFamily="Courier New" FontSize="14"/>
         <Button x:Name="buttonClearMacTable" Content="Clear MAC address tables" Margin="374,505,394,0" VerticalAlignment="Top" Click="buttonClearMacTable_Click"/>
-
     </Grid>
 </Window>

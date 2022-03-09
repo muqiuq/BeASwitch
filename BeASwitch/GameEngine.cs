@@ -25,17 +25,41 @@ namespace BeASwitch
 
         private void PopuplateEthernetHosts()
         {
+            
+            Random random = new Random();
+
+            var switchPorts = new List<SwitchPort>();
+
+            SwitchEngine.ToList().ForEach(se => switchPorts.Add(se));
+
+            int maxNumberOfHosts = 20;
             int hostCounter = 0;
-            foreach(var switchPort in SwitchEngine)
+
+            while (hostCounter < maxNumberOfHosts)
             {
+                var nextSwitchPort = random.Next(0, Math.Max(switchPorts.Count, 1));
+                var switchPort = switchPorts[nextSwitchPort];
+                switchPorts.RemoveAt(nextSwitchPort);
                 var vlans = switchPort.GetAvaiableVlans();
-                foreach(var vlan in vlans)
+                var numberOfHosts = maxNumberOfHosts / SwitchEngine.Count();
+                var numberOfHostUsed = 0;
+                foreach (var vlan in vlans)
                 {
-                    var host = Convert.ToChar(65 + hostCounter);
-                    EthernetHosts.Add(new EthernetHost(host.ToString(), vlan, switchPort));
-                    UsedMacAddresses.Add(host.ToString());
-                    hostCounter++;
+                    var numberOfHostsForVlan = numberOfHosts - numberOfHostUsed;
+                    if (vlan != vlans.Last())
+                    {
+                        numberOfHostsForVlan = random.Next(1, numberOfHostsForVlan-1);
+                    }
+                    numberOfHostUsed += numberOfHostsForVlan;
+                    for(int a = 0; a < numberOfHostsForVlan; a++)
+                    {
+                        var host = Convert.ToChar(65 + hostCounter);
+                        EthernetHosts.Add(new EthernetHost(host.ToString(), vlan, switchPort));
+                        UsedMacAddresses.Add(host.ToString());
+                        hostCounter++;
+                    }
                 }
+                if (switchPorts.Count == 0) break;
             }
         } 
 
