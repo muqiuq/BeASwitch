@@ -23,6 +23,8 @@ namespace BeARouter.DoAQuiz
 
         public string Response => numOfAddresses.ToString();
 
+        public string ResponseHint => "X";
+
         public bool Evaluate(string response)
         {
             return response == Response;

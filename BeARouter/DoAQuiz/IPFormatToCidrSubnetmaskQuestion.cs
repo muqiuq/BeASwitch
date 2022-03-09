@@ -26,6 +26,8 @@ namespace BeARouter.DoAQuiz
 
         public string Response => CidrStr;
 
+        public string ResponseHint => "X";
+
         public bool Evaluate(string response)
         {
             return response == CidrStr;

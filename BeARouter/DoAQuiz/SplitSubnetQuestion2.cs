@@ -5,7 +5,7 @@ using System.Text;
 namespace BeARouter.DoAQuiz
 {
     [Frequency(2)]
-    internal class SplitSubnetQuestion : IQuestion
+    public class SplitSubnetQuestion2 : IQuestion
     {
         Subnet subnet;
         private int newmask;
@@ -13,26 +13,26 @@ namespace BeARouter.DoAQuiz
         private string newsubnetstr;
         private int splits;
 
-        public SplitSubnetQuestion()
+        public SplitSubnetQuestion2()
         {
             subnet = Helper.GetRandomIPv4Subnet(maxCidr: 26).GetNetSubnet();
             Random r = new Random();
-            splits = r.Next(2, 9);
+            splits = r.Next(3, 9);
             var add = Math.Log2(splits);
             var rounded = (int)add;
             if (add > rounded) rounded += 1;
             newmask = subnet.Mask + rounded;
 
-            uint secondSubnet = (uint)(0x01 << (32 - newmask));
-            
+            uint secondSubnet = (uint)(0x01 << (32 - (newmask-1)));
+
             newsubnet = new Subnet(subnet.IpAddress, newmask).GetNetSubnet().ApplyOr(secondSubnet);
             newsubnetstr = newsubnet.ToString();
 
         }
 
-        public string Name => "Split Subnet";
+        public string Name => "Divide Subnet";
 
-        public string Question => $"Divide {subnet} by {splits}. Second resulting subnet?";
+        public string Question => $"Divide {subnet} by {splits}. Third resulting subnet?";
 
         public string Response => newsubnetstr;
 

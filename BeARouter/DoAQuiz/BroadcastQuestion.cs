@@ -21,6 +21,8 @@ namespace BeARouter.DoAQuiz
 
         public string Response => broadcast.ToString();
 
+        public string ResponseHint => "X.X.X.X";
+
         public bool Evaluate(string response)
         {
             return response == broadcast.ToString();

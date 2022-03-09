@@ -22,8 +22,18 @@ namespace BeARouter.DoAQuiz
 
             foreach(var questionType in QuestionTypes)
             {
-                var question = (IQuestion)Activator.CreateInstance(questionType);
-                questionQueue.Add(question);
+                var attributes = questionType.GetCustomAttributes(false);
+                int numberOfAdds = 1;
+                if(attributes.Length > 0 && attributes.Any(i => i is FrequencyAttribute))
+                {
+                    var frequencyAttribute = (FrequencyAttribute)attributes.Where(i => i is FrequencyAttribute).First();
+                    numberOfAdds = frequencyAttribute.Frequency;
+                }
+                for(int a = 0; a < numberOfAdds; a++)
+                {
+                    var question = (IQuestion)Activator.CreateInstance(questionType);
+                    questionQueue.Add(question);
+                }
             }
         }
 

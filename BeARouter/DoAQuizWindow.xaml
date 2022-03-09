@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="DoAIPv4Quiz" Height="320" Width="656" MinWidth="660" MinHeight="320">
     <Grid Margin="0,0,0,0">
-        <TextBox x:Name="textBoxAnswerInput" Margin="21,86,50,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="18" FontFamily="Courier New" KeyDown="textBoxAnswerInput_KeyDown" Height="59"/>
+        <TextBox x:Name="textBoxAnswerInput" Margin="21,86,50,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="18" FontFamily="Courier New" KeyDown="textBoxAnswerInput_KeyDown" Height="59">
+        </TextBox>
         <TextBlock x:Name="textBlockQuestion" Margin="21,10,50,0" TextWrapping="Wrap" Text="..." VerticalAlignment="Top" Height="71" FontSize="18"/>
         <TextBlock x:Name="textBlockAnswer" Margin="24,183,172,38" TextWrapping="Wrap" Text="" FontSize="18"/>
         <Button x:Name="buttonNext" Content="Check" Margin="21,153,50,0" VerticalAlignment="Top" Click="buttonNext_Click"/>

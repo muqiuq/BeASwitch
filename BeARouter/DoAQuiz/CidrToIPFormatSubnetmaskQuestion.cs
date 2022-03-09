@@ -27,6 +27,8 @@ namespace BeARouter.DoAQuiz
 
         public string Response => netMaskStr;
 
+        public string ResponseHint => "X.X.X.X";
+
         public bool Evaluate(string response)
         {
             return response == netMaskStr;

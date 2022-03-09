@@ -31,7 +31,11 @@ namespace BeARouter
             InitializeComponent();
 
             buttonNext_Click(null, null);
+
+            this.DataContext = this;
         }
+
+        public string TextBoxAnswerInputHint { get; set; } = "Input";
 
         private void buttonNext_Click(object sender, RoutedEventArgs e)
         {
@@ -40,6 +44,7 @@ namespace BeARouter
                 activeQuestion = questionRandomizer.Next();
 
                 textBoxAnswerInput.Text = "";
+                TextBoxAnswerInputHint = activeQuestion.ResponseHint;
 
                 textBlockQuestion.Text = activeQuestion.Question;
                 textBlockAnswer.Text = "";
