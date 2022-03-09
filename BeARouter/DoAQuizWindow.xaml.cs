@@ -44,7 +44,7 @@ namespace BeARouter
                 activeQuestion = questionRandomizer.Next();
 
                 textBoxAnswerInput.Text = "";
-                TextBoxAnswerInputHint = activeQuestion.ResponseHint;
+                textBlockResponseHint.Text = activeQuestion.ResponseHint;
 
                 textBlockQuestion.Text = activeQuestion.Question;
                 textBlockAnswer.Text = "";
