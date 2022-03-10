@@ -27,6 +27,11 @@ namespace BeARouter
             
             if(macAddr == null || macAddr.GetAddressBytes().Length == 0)
             {
+                if(macAddrAny == null || macAddrAny.GetAddressBytes().Length == 0)
+                {
+                    Id = "N/A";
+                    return;
+                }
                 Id = calcId(macAddrAny);
             }
             else
