@@ -216,6 +216,7 @@ namespace BeARouter
         {
             State = GameState.USERINPUT;
             Random r = new Random();
+            //TODO: Fix source and dest IP could correspond to the same subnet
             var randomIndexSource = currentPosRandomIPv4;
             currentPosRandomIPv4++;
             var randomIndexDest = currentPosRandomIPv4;
