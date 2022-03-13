@@ -67,18 +67,6 @@ namespace BeARouter
             }
         }
 
-        private void Screenshot()
-        {
-            var screenresolution = Helper.GetScreenResolution();
-            using var bitmap = new Bitmap(screenresolution.Item1, screenresolution.Item2);
-            using (var g = Graphics.FromImage(bitmap))
-            {
-                g.CopyFromScreen(0, 0, 0, 0,
-                bitmap.Size, CopyPixelOperation.SourceCopy);
-            }
-            bitmap.Save("filename.jpg", ImageFormat.Jpeg);
-        }
-
         public void UpdateAll()
         {
             if(!CheckAccess())
