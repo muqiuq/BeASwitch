@@ -250,12 +250,12 @@ namespace BeARouter
                 }
                 if (routerPort.IsChecked && !routerPort.IsMarked)
                 {
-                    LastAttemptCorrect = true;
                     AllCorrect = false;
                 }
             }
             if(AllCorrect && theOneIsCorrect)
             {
+                LastAttemptCorrect = true;
                 NumberOfCorrectAttempts++;
             } 
             NumberOfAttempts++;
