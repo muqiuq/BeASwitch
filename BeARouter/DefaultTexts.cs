@@ -11,7 +11,7 @@ namespace BeARouter
 
         public const string IPv4PACKET_DESCRIPTION = "{0} is sending an IPv4 packet to {1}.\nSelect the interfaces to which the router should forward the IPv4 packet.";
 
-        public const string IPv4PACKET_RESULT = "{0}! Route {1} would have been selected. See explanation for more details.";
+        public const string IPv4PACKET_RESULT = "{0}! Route {1} would have been selected. See explanation (click here) for more details.";
 
         public const string CORRECT = "correct";
 

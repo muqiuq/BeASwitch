@@ -183,5 +183,33 @@ namespace BeARouter
                 doAQuizWindow.Show();
             }          
         }
+
+
+
+        private int EnableWriteOnFormMouseClickCounter = 0;
+       
+        private void textBoxIpRoute_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (gameEngine.State == GameState.NEW && EnableWriteOnFormMouseClickCounter < 11)
+            {
+                EnableWriteOnFormMouseClickCounter++;
+                if (EnableWriteOnFormMouseClickCounter == 7)
+                {
+                    MessageBox.Show("Disable ReadOnly in Form (Changes does not affect GameEngine).");
+                    textBoxIpAddress.IsReadOnly = false;
+                    textBoxIpRoute.IsReadOnly = false;
+                    textBoxIpAddress.AcceptsReturn = true;
+                    textBoxIpRoute.AcceptsReturn = true;
+                }
+            }
+        }
+
+        private void InfoText_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(InfoText.Text.ToLower().Contains("explanation"))
+            {
+                buttonExplainWindow_Click(sender, null);
+            }
+        }
     }
 }

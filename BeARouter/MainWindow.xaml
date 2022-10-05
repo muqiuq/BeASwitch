@@ -10,7 +10,7 @@
         <Label x:Name="label" Content="ip address" HorizontalAlignment="Left" Margin="406,390,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
         <Label x:Name="label1" Content="ip route" HorizontalAlignment="Left" Margin="358,67,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
         <TextBox x:Name="textBoxIpAddress" HorizontalAlignment="Left" Margin="405,415,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="455" Height="150" FontFamily="Courier New" IsReadOnly="True" FontSize="13"/>
-        <TextBox x:Name="textBoxIpRoute" HorizontalAlignment="Left" Margin="358,90,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" Height="175" FontFamily="Courier New" IsReadOnly="True" FontSize="13"/>
+        <TextBox x:Name="textBoxIpRoute" HorizontalAlignment="Left" Margin="358,90,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" Height="175" FontFamily="Courier New" IsReadOnly="True" FontSize="13" KeyDown="textBoxIpRoute_KeyDown"/>
         <svgc:SvgViewbox Source="/images/Funnel.svg" Width="400" HorizontalAlignment="Left" Stretch="Fill" Margin="0,60,0,0"/>
         <Button x:Name="masterButton" Content="N/A" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="48" FontWeight="Bold" Margin="405,285,0,0" Click="masterButton_Click"/>
         <TextBlock HorizontalAlignment="Left" Margin="405,570,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="455" Background="#FFF3FF00" FontFamily="Courier New" Visibility="Hidden"/>
@@ -18,7 +18,7 @@
             <Rectangle x:Name="pointsRectangle" HorizontalAlignment="Stretch" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Stretch" Fill="#FF3AFF00"/>
             <TextBlock x:Name="pointsText" HorizontalAlignment="Center" Margin="10,10,10,10" Text="0/0" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" FontSize="30"/>
         </Grid>
-        <TextBlock Name="InfoText" HorizontalAlignment="Stretch" Margin="20,10,20,0" Padding="5,5,5,5" Text="Press start to receive first IPv4 packet." TextWrapping="Wrap" VerticalAlignment="Top" Height="40" Width="870" Background="#FFF3FF00" FontFamily="Courier New" FontSize="14"/>
+        <TextBlock Name="InfoText" HorizontalAlignment="Stretch" Margin="20,10,20,0" Padding="5,5,5,5" Text="Press start to receive first IPv4 packet." TextWrapping="Wrap" VerticalAlignment="Top" Height="40" Width="870" Background="#FFF3FF00" FontFamily="Courier New" FontSize="14" MouseDown="InfoText_MouseDown"/>
         <Button x:Name="buttonExplainWindow" Content="Explanation" HorizontalAlignment="Left" Margin="271,567,0,0" VerticalAlignment="Top" Width="97" Height="32" Click="buttonExplainWindow_Click"/>
         <TextBlock x:Name="textBlockUniqueID" HorizontalAlignment="Right" Margin="0,577,30,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top"/>
         <Button x:Name="buttonQuiz" Content="Quiz" HorizontalAlignment="Left" Height="25" Margin="271,529,0,0" VerticalAlignment="Top" Width="97" Click="buttonQuiz_Click"/>
