@@ -67,7 +67,15 @@ namespace BeASwitch
             // Search Dest MAC 
             if(macTablePerVlan[vlanToUse].IsMacAddressKnown(ethernetFrame.DestMac))
             {
-                return new SwitchAction(SwitchActionType.UNICAST, ethernetFrame, vlanToUse, macTablePerVlan[vlanToUse][ethernetFrame.DestMac]);
+                // Edge case: source and dest port are equal
+                if(ethernetFrame.SourceHost.AttachedToPort == macTablePerVlan[vlanToUse][ethernetFrame.DestMac])
+                {
+                    return new SwitchAction(SwitchActionType.DISCARD, ethernetFrame, vlanToUse);
+                }
+                else
+                {
+                    return new SwitchAction(SwitchActionType.UNICAST, ethernetFrame, vlanToUse, macTablePerVlan[vlanToUse][ethernetFrame.DestMac]);
+                }
             }
             else
             {
