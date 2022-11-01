@@ -13,7 +13,7 @@
     <StartupObject>BeASwitch.App</StartupObject>
     <AssemblyVersion></AssemblyVersion>
     <FileVersion></FileVersion>
-    <Version>1.5</Version>
+    <Version>1.6</Version>
     <PackageId>BeASwitch</PackageId>
     <SignAssembly>False</SignAssembly>
     <DelaySign>False</DelaySign>
