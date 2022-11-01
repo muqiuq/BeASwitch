@@ -32,7 +32,7 @@ namespace BeASwitch
 
             SwitchEngine.ToList().ForEach(se => switchPorts.Add(se));
 
-            int maxNumberOfHosts = 20;
+            int maxNumberOfHosts = 12;
             int hostCounter = 0;
 
             while (hostCounter < maxNumberOfHosts)
