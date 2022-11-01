@@ -46,9 +46,14 @@ namespace BeASwitch
                 foreach (var vlan in vlans)
                 {
                     var numberOfHostsForVlan = numberOfHosts - numberOfHostUsed;
-                    if (vlan != vlans.Last())
+                    if (numberOfHostsForVlan != 1 && vlan != vlans.Last())
                     {
                         numberOfHostsForVlan = random.Next(1, numberOfHostsForVlan-1);
+                    }
+                    if (numberOfHostsForVlan <= 0)
+                    {
+                        numberOfHostsForVlan = 1;
+                        numberOfHosts += 1;
                     }
                     numberOfHostUsed += numberOfHostsForVlan;
                     for(int a = 0; a < numberOfHostsForVlan; a++)
