@@ -22,6 +22,6 @@
         <Button x:Name="buttonExplainWindow" Content="Explanation" HorizontalAlignment="Left" Margin="271,538,0,0" VerticalAlignment="Top" Width="97" Height="32" Click="buttonExplainWindow_Click"/>
         <Button x:Name="buttonRestart" Content="Restart" HorizontalAlignment="Left" Margin="271,582,0,0" VerticalAlignment="Top" Width="97" Height="32" Click="buttonRestart_Click"/>
         <TextBlock x:Name="textBlockUniqueID" HorizontalAlignment="Right" Margin="0,577,30,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top"/>
-        <Button x:Name="buttonQuiz" Content="Quiz" HorizontalAlignment="Left" Height="25" Margin="406,585,0,0" VerticalAlignment="Top" Width="98" Click="buttonQuiz_Click"/>
+        <Button x:Name="buttonQuiz" Content="Open IP Quiz" HorizontalAlignment="Left" Height="32" Margin="406,582,0,0" VerticalAlignment="Top" Width="98" Click="buttonQuiz_Click"/>
     </Grid>
 </Window>
