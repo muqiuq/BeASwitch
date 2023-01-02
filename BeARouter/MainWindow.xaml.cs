@@ -217,10 +217,14 @@ namespace BeARouter
 
         private void buttonRestart_Click(object sender, RoutedEventArgs e)
         {
-            if (gameEngine.CurrentPacket != null) gameEngine.CurrentPacket.RemoveFromGrid(mainGrid);
-            gameEngine.RestartGame();
-            updateRoutesAndAddresses();
-            UpdateAll();
+            var messageBox = MessageBox.Show("Are you sure you want to restart the game and delete your progress?", "Restart game", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+            if(messageBox == MessageBoxResult.Yes)
+            {
+                if (gameEngine.CurrentPacket != null) gameEngine.CurrentPacket.RemoveFromGrid(mainGrid);
+                gameEngine.RestartGame();
+                updateRoutesAndAddresses();
+                UpdateAll();
+            }
         }
     }
 }
