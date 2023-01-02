@@ -40,9 +40,7 @@ namespace BeARouter
                 gameEngine.Ports[a].AttachToGrid(mainGrid, 10, 80 + a * 105);
             }
 
-            textBoxIpRoute.Text = gameEngine.RoutingTable.ToString();
-
-            textBoxIpAddress.Text = gameEngine.Ports.ToString();
+            updateRoutesAndAddresses();
 
             UpdateAll();
 
@@ -128,6 +126,12 @@ namespace BeARouter
             }
         }
 
+        private void updateRoutesAndAddresses()
+        {
+            textBoxIpRoute.Text = gameEngine.RoutingTable.ToString();
+
+            textBoxIpAddress.Text = gameEngine.Ports.ToString();
+        }
 
 
         private void masterButton_Click(object sender, RoutedEventArgs e)
@@ -135,7 +139,6 @@ namespace BeARouter
             if(gameEngine.State == GameState.NEW)
             {
                 pointsGrid.Visibility = Visibility.Visible;
-                buttonQuiz.Visibility = Visibility.Hidden;
             }
 
             if(gameEngine.State == GameState.USERINPUT)
@@ -210,6 +213,14 @@ namespace BeARouter
             {
                 buttonExplainWindow_Click(sender, null);
             }
+        }
+
+        private void buttonRestart_Click(object sender, RoutedEventArgs e)
+        {
+            if (gameEngine.CurrentPacket != null) gameEngine.CurrentPacket.RemoveFromGrid(mainGrid);
+            gameEngine.RestartGame();
+            updateRoutesAndAddresses();
+            UpdateAll();
         }
     }
 }

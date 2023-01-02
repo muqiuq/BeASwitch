@@ -25,25 +25,47 @@ namespace BeARouter
 
         internal Route LastUsedRoute { get; set; }
 
-        private readonly string ownMAC;
+        private string ownMAC;
 
         private List<IPv4Address> listOfAddrInNearbySubnetsAndAFewRandomPublicIPs = new List<IPv4Address>();
 
         public GameEngine(Dispatcher dispatcher, int numberOfInterfaces = NUMBER_OF_INTERFACES)
         {
+            this.dispatcher = dispatcher;
+            this.numberOfInterfaces = numberOfInterfaces;
+            init();
+        }
+
+        private void init()
+        {
             var randomAddresses = GenerateRandomInterfaceAddresses(numberOfInterfaces);
 
-            for (int a = 0; a < numberOfInterfaces; a++)
+            // If game is restarted Ports are already initialized. We only change the IP addresses
+            if(Ports.Count == 0)
             {
-                var rp = new RouterPort(a);
-                rp.AddIPv4Address(randomAddresses[a]);
-                Ports.Add(a, rp);
+                for (int a = 0; a < numberOfInterfaces; a++)
+                {
+                    var rp = new RouterPort(a);
+                    rp.AddIPv4Address(randomAddresses[a]);
+                    Ports.Add(a, rp);
+                }
+            }
+            else
+            {
+                int a = 0;
+                foreach(var port in Ports)
+                {
+                    port.clearIPv4Addresses();
+                    port.AddIPv4Address(randomAddresses[a]);
+                    a++;
+                }
             }
 
             RoutingTable = GenerateRandomRoutingTableAndAddConnectedRoutes(NUMBER_OF_ROUTES, Ports);
-            this.dispatcher = dispatcher;
-            this.numberOfInterfaces = numberOfInterfaces;
+            
             this.ownMAC = Helper.GenerateRandomMAC();
+
+            listOfAddrInNearbySubnetsAndAFewRandomPublicIPs.Clear();
 
             foreach (var route in RoutingTable)
             {
@@ -84,7 +106,6 @@ namespace BeARouter
                 listOfAddrInNearbySubnetsAndAFewRandomPublicIPs.RemoveAt(index);
                 listOfAddrInNearbySubnetsAndAFewRandomPublicIPs.Add(value);
             }
-
         }
 
         private delegate Subnet GenerateIPv4AddressDelegate();
@@ -270,5 +291,14 @@ namespace BeARouter
             });
         }
 
+        internal void RestartGame()
+        {
+            ClearBoard();
+            State = GameState.NEW;
+            NumberOfAttempts = 0;
+            NumberOfCorrectAttempts = 0;
+            CurrentPacket = null;
+            init();
+        }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeARouter" xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
-        Title="BeARouter - https://github.com/muqiuq/BeASwitch" Height="640" Width="890" ResizeMode="NoResize">
+        Title="BeARouter - https://github.com/muqiuq/BeASwitch" Height="680" Width="890" ResizeMode="NoResize">
     <Grid x:Name="mainGrid">
         <Label x:Name="label" Content="ip address" HorizontalAlignment="Left" Margin="406,390,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
         <Label x:Name="label1" Content="ip route" HorizontalAlignment="Left" Margin="358,67,0,0" VerticalAlignment="Top" FontFamily="Courier New"/>
@@ -19,8 +19,9 @@
             <TextBlock x:Name="pointsText" HorizontalAlignment="Center" Margin="10,10,10,10" Text="0/0" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" FontSize="30"/>
         </Grid>
         <TextBlock Name="InfoText" HorizontalAlignment="Stretch" Margin="20,10,20,0" Padding="5,5,5,5" Text="Press start to receive first IPv4 packet." TextWrapping="Wrap" VerticalAlignment="Top" Height="40" Width="870" Background="#FFF3FF00" FontFamily="Courier New" FontSize="14" MouseDown="InfoText_MouseDown"/>
-        <Button x:Name="buttonExplainWindow" Content="Explanation" HorizontalAlignment="Left" Margin="271,567,0,0" VerticalAlignment="Top" Width="97" Height="32" Click="buttonExplainWindow_Click"/>
+        <Button x:Name="buttonExplainWindow" Content="Explanation" HorizontalAlignment="Left" Margin="271,538,0,0" VerticalAlignment="Top" Width="97" Height="32" Click="buttonExplainWindow_Click"/>
+        <Button x:Name="buttonRestart" Content="Restart" HorizontalAlignment="Left" Margin="271,582,0,0" VerticalAlignment="Top" Width="97" Height="32" Click="buttonRestart_Click"/>
         <TextBlock x:Name="textBlockUniqueID" HorizontalAlignment="Right" Margin="0,577,30,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top"/>
-        <Button x:Name="buttonQuiz" Content="Quiz" HorizontalAlignment="Left" Height="25" Margin="271,529,0,0" VerticalAlignment="Top" Width="97" Click="buttonQuiz_Click"/>
+        <Button x:Name="buttonQuiz" Content="Quiz" HorizontalAlignment="Left" Height="25" Margin="406,585,0,0" VerticalAlignment="Top" Width="98" Click="buttonQuiz_Click"/>
     </Grid>
 </Window>

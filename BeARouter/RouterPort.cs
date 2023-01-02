@@ -144,5 +144,9 @@ namespace BeARouter
             return ipv4Addresses.FirstOrDefault();
         }
 
+        internal void clearIPv4Addresses()
+        {
+            ipv4Addresses.Clear();
+        }
     }
 }
