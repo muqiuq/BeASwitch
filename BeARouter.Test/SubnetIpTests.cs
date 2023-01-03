@@ -38,7 +38,7 @@ namespace BeARouter.Test
             Assert.IsTrue(mask5.SequenceEqual(mask5Res));
         }
 
-        private SubnetMatchResult Match(string netmaskStr, int mask, string addressStr)
+        private SubnetMatchResult<Subnet, IPv4Address> Match(string netmaskStr, int mask, string addressStr)
         {
             var subnet = new Subnet(new IPv4Address(netmaskStr), mask);
             var address = new IPv4Address(addressStr);
@@ -173,14 +173,14 @@ namespace BeARouter.Test
         {
             var ipaddress = new IPv4Address("192.168.1.100");
             ipaddress = ipaddress.IncrementBy(200);
-            Assert.AreEqual(new IPv4Address("192.168.2.45"), ipaddress);
+            Assert.AreEqual(new IPv4Address("192.168.2.44"), ipaddress);
         }
 
         [Test]
         public void IncrementByOverflow2()
         {
             var ipaddress = new IPv4Address("192.168.1.100");
-            ipaddress = ipaddress.IncrementBy(455);
+            ipaddress = ipaddress.IncrementBy(457);
             Assert.AreEqual(new IPv4Address("192.168.3.45"), ipaddress);
         }
 
@@ -188,7 +188,7 @@ namespace BeARouter.Test
         public void IncrementByOverflow3()
         {
             var ipaddress = new IPv4Address("192.168.1.100");
-            ipaddress = ipaddress.IncrementBy(65025);
+            ipaddress = ipaddress.IncrementBy(65536);
             Assert.AreEqual(new IPv4Address("192.169.1.100"), ipaddress);
         }
     }

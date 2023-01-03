@@ -91,13 +91,13 @@ namespace BeARouter
             
             var ipAddressBytes = ipAddress.GetAddressBytes();
             int rest = ipAddressBytes[3] + skip;
-            ipAddressBytes[3] = (byte)(rest % 255);
-            rest = (rest / 255);
+            ipAddressBytes[3] = (byte)(rest % 256);
+            rest = (rest / 256);
             for (int x = 2; x >= 0; x--)
             {
                 rest = ipAddressBytes[x] + rest;
-                ipAddressBytes[x] = (byte)(rest % 255);
-                rest = (rest / 255);
+                ipAddressBytes[x] = (byte)(rest % 256);
+                rest = (rest / 256);
             }
             return new IPv4Address(new System.Net.IPAddress(ipAddressBytes));
         }
@@ -112,5 +112,7 @@ namespace BeARouter
             if (otherVal == thisVal) return 0;
             return -1;
         }
+
+        public System.Net.IPAddress GetNativeIPAddress() { return ipAddress; }
     }
 }
