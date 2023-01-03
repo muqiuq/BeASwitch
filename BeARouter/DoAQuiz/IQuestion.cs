@@ -14,6 +14,8 @@ namespace BeARouter.DoAQuiz
 
         public string ResponseHint { get; }
 
+        public QuestionCategory QuestionCategory { get; }
+
         public bool Evaluate(String response);
 
     }

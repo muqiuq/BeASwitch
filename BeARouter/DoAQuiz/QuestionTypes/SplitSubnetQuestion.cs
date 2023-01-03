@@ -38,6 +38,8 @@ namespace BeARouter.DoAQuiz.QuestionTypes
 
         public string ResponseHint => "X.X.X.X/X";
 
+        public QuestionCategory QuestionCategory => QuestionCategory.IPv4;
+
         public bool Evaluate(string response)
         {
             return response == Response;

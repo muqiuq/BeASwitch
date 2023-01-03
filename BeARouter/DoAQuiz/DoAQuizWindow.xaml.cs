@@ -54,7 +54,15 @@ namespace BeARouter
                 Dispatcher.Invoke(() => UpdateAll());
                 return;
             }
+            if(quizOptions.ChangedOption)
+            {
+                totalCorrect = 0;
+                totalQuestions = 0;
+                quizOptions.ResetChangeTracker();
+                
+            }
             updateGoal();
+            updatePointText();
         }
 
         private void updateGoal()
@@ -96,9 +104,9 @@ namespace BeARouter
                     textBlockAnswer.Text = $"Incorrect! Correct: {activeQuestion.Response}";
                     textBoxAnswerInput.Background = Brushes.LightPink;
                 }
-
-                pointsText.Text = $"{totalCorrect}/{totalQuestions}";
-                if(totalCorrect != totalQuestions)
+                updatePointText();
+                
+                if (totalCorrect != totalQuestions)
                 {
                     pointsRectangle.Fill = Brushes.LightYellow;
                 }
@@ -111,6 +119,11 @@ namespace BeARouter
 
                 updateState(QuizState.NEXT);
             }
+        }
+
+        private void updatePointText()
+        {
+            pointsText.Text = $"{totalCorrect}/{totalQuestions}";
         }
 
         private void updateState(QuizState newState)

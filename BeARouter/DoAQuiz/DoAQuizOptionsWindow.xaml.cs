@@ -32,9 +32,14 @@ namespace BeARouter.DoAQuiz
             checkBoxIPv6.IsChecked = quizOptions.IPv6Questions;
         }
 
-        private void checkBoxIP_Changed(object sender, RoutedEventArgs e)
+        private void checkBoxIPv4_Changed(object sender, RoutedEventArgs e)
         {
             quizOptions.IPv4Questions = checkBoxIPv4.IsChecked.Value;
+            updateWindow();
+        }
+
+        private void checkBoxIPv6_Changed(object sender, RoutedEventArgs e)
+        {
             quizOptions.IPv6Questions = checkBoxIPv6.IsChecked.Value;
             updateWindow();
         }
