@@ -18,7 +18,7 @@ namespace BeARouter.DoAQuiz
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p));
 
-            QuestionTypes = types.Where(t => t.IsClass && t.Namespace == "BeARouter.DoAQuiz").ToList();
+            QuestionTypes = types.Where(t => t.IsClass && t.Namespace == "BeARouter.DoAQuiz" && t.GetInterfaces().Contains(typeof(IQuestion))).ToList();
 
             foreach(var questionType in QuestionTypes)
             {

@@ -26,6 +26,8 @@ namespace BeARouter
         private readonly Dispatcher dispatcher;
         private readonly int numberOfInterfaces;
 
+        private bool alreadyShowedCertificate = false;
+
         internal Route LastUsedRoute { get; set; }
 
         private string ownMAC;
@@ -43,8 +45,10 @@ namespace BeARouter
         {
             var randomAddresses = GenerateRandomInterfaceAddresses(numberOfInterfaces);
 
+            alreadyShowedCertificate = false;
+
             // If game is restarted Ports are already initialized. We only change the IP addresses
-            if(Ports.Count == 0)
+            if (Ports.Count == 0)
             {
                 for (int a = 0; a < numberOfInterfaces; a++)
                 {
@@ -214,6 +218,8 @@ namespace BeARouter
         }
 
         private int _currentPosRandomIPv4 = 0;
+
+
         private int currentPosRandomIPv4
         {
             get
@@ -307,6 +313,16 @@ namespace BeARouter
         internal bool IsGoalReached()
         {
             return Goal.IsGoalReached(NumberOfCorrectAttempts, NumberOfAttempts);
+        }
+
+        internal bool CheckIfCertificateAlreadyShowedAndMark()
+        {
+            if(alreadyShowedCertificate == false)
+            {
+                alreadyShowedCertificate = true;
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -21,6 +21,14 @@ namespace BeARouter
         IQuestion activeQuestion;
         QuizState currentState = QuizState.NEXT;
 
+        DoAQuizOptionsWindow optionsWindow;
+
+        QuizOptions quizOptions = new QuizOptions();
+
+        public delegate void UpdateWindowDelegate();
+
+        UpdateWindowDelegate UpdateWindow;
+
         QuestionRandomizer questionRandomizer = new QuestionRandomizer();
 
         int totalCorrect = 0;
@@ -30,9 +38,28 @@ namespace BeARouter
         {
             InitializeComponent();
 
+            UpdateWindow = new UpdateWindowDelegate(UpdateAll);
+
             buttonNext_Click(null, null);
 
+            updateGoal();
+
             this.DataContext = this;
+        }
+
+        public void UpdateAll()
+        {
+            if (!CheckAccess())
+            {
+                Dispatcher.Invoke(() => UpdateAll());
+                return;
+            }
+            updateGoal();
+        }
+
+        private void updateGoal()
+        {
+            labelGoal.Content = $"Goal: {quizOptions.Goal}";
         }
 
         public string TextBoxAnswerInputHint { get; set; } = "Input";
@@ -76,6 +103,12 @@ namespace BeARouter
                     pointsRectangle.Fill = Brushes.LightYellow;
                 }
 
+                if(quizOptions.Goal.IsGoalReached(totalCorrect, totalQuestions))
+                {
+                    var successWindow = new SuccessCertificateWindow(quizOptions.Goal, $"BeAQuiz,IPv4:{quizOptions.IPv4Questions},IPv6:{quizOptions.IPv6Questions}");
+                    successWindow.Show();
+                }
+
                 updateState(QuizState.NEXT);
             }
         }
@@ -98,6 +131,15 @@ namespace BeARouter
             if(e.Key == Key.Enter)
             {
                 buttonNext_Click(sender, null);
+            }
+        }
+
+        private void buttonOptions_Click(object sender, RoutedEventArgs e)
+        {
+            if(optionsWindow == null || !optionsWindow.IsVisible)
+            {
+                optionsWindow = new DoAQuizOptionsWindow(quizOptions, UpdateWindow);
+                optionsWindow.Show();
             }
         }
     }

@@ -149,8 +149,11 @@ namespace BeARouter
                 gameEngine.CheckSolution();
                 if(gameEngine.IsGoalReached())
                 {
-                    var successCertWin = new SuccessCertificateWindow(gameEngine.Goal, "BeARouterV1");
-                    successCertWin.Show();
+                    if(!gameEngine.CheckIfCertificateAlreadyShowedAndMark())
+                    {
+                        var successCertWin = new SuccessCertificateWindow(gameEngine.Goal, "BeARouterV1");
+                        successCertWin.Show();
+                    }
                 }
             }
             else if(gameEngine.State == GameState.SOLUTIONSHOW || gameEngine.State == GameState.NEW)
