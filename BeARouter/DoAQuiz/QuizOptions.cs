@@ -7,7 +7,7 @@ namespace BeARouter.DoAQuiz
 {
     public class QuizOptions
     {
-        private Goal goal = new Goal(30, 30);
+        private Goal goal = new Goal(30, 29);
         public Goal Goal
         {
             get => goal; set
@@ -16,7 +16,7 @@ namespace BeARouter.DoAQuiz
                 goal = value;
             }
         }
-        private bool _iPv4Questions = false;
+        private bool _iPv4Questions = true;
         public bool IPv4Questions
         {
             get

@@ -16,7 +16,7 @@ namespace BeARouter
 
         internal IPv4Packet CurrentPacket;
 
-        public Goal Goal = new Goal(50, 50);
+        public Goal Goal = new Goal(40, 39);
 
         public int NumberOfCorrectAttempts = 0;
         public int NumberOfAttempts = 0;

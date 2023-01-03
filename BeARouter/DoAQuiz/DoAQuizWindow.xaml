@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeARouter"
         mc:Ignorable="d"
-        Title="DoAIPv4Quiz" Height="442" Width="660" MinWidth="660" MinHeight="442">
+        Title="DoAIPv4Quiz" Height="480" Width="660" MinWidth="660" MinHeight="480">
     <Grid Margin="0,0,0,0">
 
         <TextBlock x:Name="textBlockQuestion" Margin="21,10,50,0" TextWrapping="Wrap" Text="..." VerticalAlignment="Top" Height="71" FontSize="18"/>
@@ -17,6 +17,7 @@
             <TextBlock x:Name="pointsText" HorizontalAlignment="Center" Margin="10,10,10,10" Text="0/0" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" FontSize="30"/>
         </Grid>
         <Button x:Name="buttonOptions" Content="Options" HorizontalAlignment="Left" Margin="24,0,0,38" VerticalAlignment="Bottom" Width="110" Height="29" Click="buttonOptions_Click"/>
+        <Button x:Name="buttonRestart" Content="Restart" HorizontalAlignment="Left" Margin="150,0,0,38" VerticalAlignment="Bottom" Width="110" Height="29" Click="buttonRestart_Click"/>
         <Label x:Name="labelGoal" Content="Goal: 0/0" HorizontalAlignment="Right" Margin="0,0,172,38" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Width="91"/>
     </Grid>
 </Window>

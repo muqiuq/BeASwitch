@@ -8,9 +8,9 @@
         Title="DoAQuizOptionsWindow" Height="206" Width="316" ResizeMode="NoResize">
     <Grid>
         <Label x:Name="labelGoal" Content="Goal:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBoxGoal" HorizontalAlignment="Left" Margin="87,14,0,0" TextWrapping="Wrap" Text="0/0" VerticalAlignment="Top" Width="187" TextChanged="textBoxGoal_TextChanged"/>
-        <CheckBox x:Name="checkBoxIPv4" Content="IPv4" HorizontalAlignment="Left" Margin="87,67,0,0" VerticalAlignment="Top" Checked="checkBoxIPv4_Changed" Unchecked="checkBoxIPv4_Changed"/>
-        <CheckBox x:Name="checkBoxIPv6" Content="IPv6" HorizontalAlignment="Left" Margin="87,91,0,0" VerticalAlignment="Top" Checked="checkBoxIPv6_Changed" Unchecked="checkBoxIPv6_Changed"/>
+        <TextBox x:Name="textBoxGoal" HorizontalAlignment="Left" Margin="87,14,0,0" TextWrapping="Wrap" Text="0/0" VerticalAlignment="Top" Width="187"/>
+        <CheckBox x:Name="checkBoxIPv4" Content="IPv4" HorizontalAlignment="Left" Margin="87,67,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBoxIPv6" Content="IPv6" HorizontalAlignment="Left" Margin="87,91,0,0" VerticalAlignment="Top"/>
         <Label x:Name="label" Content="Enabled question types:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Changing options resets progress!" Margin="10,118,8,25" Foreground="Red" TextAlignment="Center"/>
 

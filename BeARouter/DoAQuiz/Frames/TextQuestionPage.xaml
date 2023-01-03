@@ -10,6 +10,6 @@
 
     <Grid>
         <TextBox x:Name="textBoxAnswerInput" TextWrapping="Wrap" Text="" VerticalAlignment="Center" FontSize="18" FontFamily="Courier New" KeyDown="textBoxAnswerInput_KeyDown" Height="38" />
-        <TextBlock x:Name="textBlockResponseHint" Margin="0,90,0,0" TextWrapping="Wrap" Text="..." VerticalAlignment="Top" Height="16" FontSize="12" Foreground="#FFA0A0A0"/>
+        <TextBlock x:Name="textBlockResponseHint" Margin="0,102,0,0" TextWrapping="Wrap" Text="..." VerticalAlignment="Top" Height="16" FontSize="12" Foreground="#FFA0A0A0"/>
     </Grid>
 </Page>

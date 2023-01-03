@@ -66,14 +66,19 @@ namespace BeARouter
             }
             if(quizOptions.ChangedOption)
             {
-                totalCorrect = 0;
-                totalQuestions = 0;
-                quizOptions.ResetChangeTracker();
-                currentState = QuizState.NEXT;
-                Next();
+                RestartGame();
             }
             updateGoal();
             updatePointText();
+        }
+
+        private void RestartGame()
+        {
+            totalCorrect = 0;
+            totalQuestions = 0;
+            quizOptions.ResetChangeTracker();
+            currentState = QuizState.NEXT;
+            Next();
         }
 
         private void updateGoal()
@@ -182,6 +187,16 @@ namespace BeARouter
         private void frameQuestionInput_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
             frameQuestionInput.NavigationService.RemoveBackEntry();
+        }
+
+        private void buttonRestart_Click(object sender, RoutedEventArgs e)
+        {
+            var messageBox = MessageBox.Show("Are you sure you want to restart the game and loose your progress?", "Restart game", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+            if (messageBox == MessageBoxResult.Yes)
+            {
+                RestartGame();
+                UpdateAll();
+            }
         }
     }
 }
