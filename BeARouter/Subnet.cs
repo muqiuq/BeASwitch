@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace BeARouter
 {
-    public class Subnet
+    public class Subnet : ISubnet
     {
 
         public readonly IPv4Address IpAddress;
@@ -106,6 +107,10 @@ namespace BeARouter
             }
         }
 
+        int ISubnet.Mask => Mask;
+
+        public IPAddress IPAddress => IpAddress.GetNativeIPAddress();
+
         public IPv4Address GetBroadcast()
         {
             if (broadcastAddr == null)
@@ -158,7 +163,7 @@ namespace BeARouter
             return !IsNetmask() && !IsBroadcast();
         }
 
-        public SubnetMatchResult Match(IPv4Address otherIpv4Address)
+        public SubnetMatchResult<Subnet, IPv4Address> Match(IPv4Address otherIpv4Address)
         {
             byte[] srcIp = otherIpv4Address.GetBytes();
             byte[] netaddr = GetNetAddress().GetBytes();
@@ -168,7 +173,7 @@ namespace BeARouter
             {
                 result[a] = (byte)(srcIp[a] & maskBytes[a]);
             }
-            return new SubnetMatchResult(Helper.Equals(netaddr, result), this, otherIpv4Address);
+            return new SubnetMatchResult<Subnet, IPv4Address>(Helper.Equals(netaddr, result), this, otherIpv4Address);
         }
 
         internal Subnet GetHostMin()

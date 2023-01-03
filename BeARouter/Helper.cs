@@ -84,5 +84,30 @@ namespace BeARouter
 
         }
 
+        public static SubnetV6 GetRandomIPv6Subnet(int minCidr = 32, int maxCidr = 64) 
+        {
+            var rand = new Random();
+
+            var ipv6Address = new IPv6Address("2001:DB8:1::");
+            var ipv6AddressBytes = ipv6Address.GetNativeIPAddress().GetAddressBytes();
+
+            var numberOfRandomBytesRequired = 16 - (minCidr / 8);
+            if (minCidr % 8 != 0) numberOfRandomBytesRequired += 1;
+
+            var minByteToSet = minCidr / 8;
+            if (minCidr % 8 != 0) minByteToSet += 1;
+
+            var randomBytes = new byte[numberOfRandomBytesRequired];
+
+            rand.NextBytes(randomBytes);
+            for(int a = minByteToSet; a < 16; a++)
+            {
+                ipv6AddressBytes[a] = randomBytes[a - minByteToSet];
+            }
+
+            return new SubnetV6(new IPv6Address(new System.Net.IPAddress(ipv6AddressBytes)), rand.Next(minCidr, maxCidr));
+        }
+
+
     }
 }

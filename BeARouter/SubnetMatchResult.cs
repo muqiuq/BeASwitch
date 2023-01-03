@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BeARouter
 {
-    public class SubnetMatchResult
+    public class SubnetMatchResult<S, T> where S : ISubnet
     {
 
         public readonly bool IsMatch;
@@ -17,11 +17,11 @@ namespace BeARouter
             }
         }
 
-        public readonly Subnet Subnet;
+        public readonly S Subnet;
 
-        public readonly IPv4Address IpAddress;
+        public readonly T IpAddress;
 
-        public SubnetMatchResult(bool isMatch, Subnet subnet, IPv4Address ipAddress)
+        public SubnetMatchResult(bool isMatch, S subnet, T ipAddress)
         {
             IsMatch = isMatch;
             Subnet = subnet;
