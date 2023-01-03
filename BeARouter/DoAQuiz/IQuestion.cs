@@ -12,9 +12,15 @@ namespace BeARouter.DoAQuiz
         public string Question { get; }
         public string Response { get; }
 
+        public string ResponseTemplate { get; }
+
         public string ResponseHint { get; }
 
         public QuestionCategory QuestionCategory { get; }
+
+        public QuestionInputType InputType { get; }
+
+        public string[] AnswerOptions { get; }
 
         public bool Evaluate(String response);
 

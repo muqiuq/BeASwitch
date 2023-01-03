@@ -75,9 +75,16 @@ namespace BeARouter
         {
             get
             {
-                return (long)Math.Pow(2, (32 - Mask));
+                return (long)Math.Pow(2, (128 - Mask));
             }
         }
+
+        public int NumberOfSubnets(int maxCidrSize = 64)
+        {
+            if (Mask > maxCidrSize) return 0;
+            return (int)Math.Pow(2, (maxCidrSize - Mask));
+        }
+
 
         int ISubnet.Mask => Mask;
 

@@ -1,0 +1,15 @@
+﻿<Page x:Class="BeARouter.DoAQuiz.Frames.TextQuestionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BeARouter.DoAQuiz.Frames"
+      mc:Ignorable="d" 
+      d:DesignHeight="161" d:DesignWidth="589"
+      Title="TextQuestionPage">
+
+    <Grid>
+        <TextBox x:Name="textBoxAnswerInput" TextWrapping="Wrap" Text="" VerticalAlignment="Center" FontSize="18" FontFamily="Courier New" KeyDown="textBoxAnswerInput_KeyDown" Height="38" />
+        <TextBlock x:Name="textBlockResponseHint" Margin="0,90,0,0" TextWrapping="Wrap" Text="..." VerticalAlignment="Top" Height="16" FontSize="12" Foreground="#FFA0A0A0"/>
+    </Grid>
+</Page>

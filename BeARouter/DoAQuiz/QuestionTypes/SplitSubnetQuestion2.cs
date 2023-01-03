@@ -38,7 +38,13 @@ namespace BeARouter.DoAQuiz.QuestionTypes
 
         public string ResponseHint => "X.X.X.X/X";
 
+        public QuestionInputType InputType => QuestionInputType.Text;
+
         public QuestionCategory QuestionCategory => QuestionCategory.IPv4;
+
+        public string[] AnswerOptions => throw new NotImplementedException();
+
+        public string ResponseTemplate => "";
 
         public bool Evaluate(string response)
         {

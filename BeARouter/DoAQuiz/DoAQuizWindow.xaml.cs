@@ -1,4 +1,5 @@
 ﻿using BeARouter.DoAQuiz;
+using BeARouter.DoAQuiz.Frames;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,6 +20,7 @@ namespace BeARouter
     public partial class DoAQuizWindow : Window
     {
         IQuestion activeQuestion;
+        private IQuestionPage activeQuestionPage;
         QuizState currentState = QuizState.NEXT;
 
         DoAQuizOptionsWindow optionsWindow;
@@ -29,7 +31,11 @@ namespace BeARouter
 
         UpdateWindowDelegate UpdateWindow;
 
-        QuestionRandomizer questionRandomizer = new QuestionRandomizer();
+        public delegate void ActionNextDelegate();
+
+        ActionNextDelegate ActionNext;
+
+        QuestionRandomizer questionRandomizer;
 
         int totalCorrect = 0;
         int totalQuestions = 0;
@@ -38,7 +44,11 @@ namespace BeARouter
         {
             InitializeComponent();
 
+            questionRandomizer = new QuestionRandomizer(quizOptions);
+
             UpdateWindow = new UpdateWindowDelegate(UpdateAll);
+            ActionNext = new ActionNextDelegate(Next);
+
 
             buttonNext_Click(null, null);
 
@@ -59,7 +69,8 @@ namespace BeARouter
                 totalCorrect = 0;
                 totalQuestions = 0;
                 quizOptions.ResetChangeTracker();
-                
+                currentState = QuizState.NEXT;
+                Next();
             }
             updateGoal();
             updatePointText();
@@ -72,46 +83,59 @@ namespace BeARouter
 
         public string TextBoxAnswerInputHint { get; set; } = "Input";
 
-        private void buttonNext_Click(object sender, RoutedEventArgs e)
+        public void Next()
         {
-            if(currentState == QuizState.NEXT)
+            if (!CheckAccess())
+            {
+                Dispatcher.Invoke(() => Next());
+                return;
+            }
+            if (currentState == QuizState.NEXT)
             {
                 activeQuestion = questionRandomizer.Next();
 
-                textBoxAnswerInput.Text = "";
-                textBlockResponseHint.Text = activeQuestion.ResponseHint;
+                activeQuestionPage = QuestionPageHelper.GetQuestionPageForQuestion(ActionNext, activeQuestion);
+
+                frameQuestionInput.Content = activeQuestionPage;
 
                 textBlockQuestion.Text = activeQuestion.Question;
                 textBlockAnswer.Text = "";
-                textBoxAnswerInput.Background = Brushes.White;
+
+                if(optionsWindow == null || !optionsWindow.IsVisible)
+                    activeQuestionPage.InputFocus();
 
                 updateState(currentState = QuizState.CHECK);
             }
             else if (currentState == QuizState.CHECK)
             {
-                string response = textBoxAnswerInput.Text.Trim();
+                string response = activeQuestionPage.GetAnswerInput();
+
+                if(response != null)
+                {
+                    response = response.Trim();
+                }
 
                 totalQuestions++;
 
                 if (activeQuestion.Evaluate(response))
                 {
                     textBlockAnswer.Text = $"Correct!";
-                    textBoxAnswerInput.Background = Brushes.LightGreen;
+                    activeQuestionPage.ApplyVisualHintForAnswerCorrectness(true);
                     totalCorrect++;
                 }
                 else
                 {
                     textBlockAnswer.Text = $"Incorrect! Correct: {activeQuestion.Response}";
-                    textBoxAnswerInput.Background = Brushes.LightPink;
+                    activeQuestionPage.ApplyVisualHintForAnswerCorrectness(false);
                 }
                 updatePointText();
-                
+
                 if (totalCorrect != totalQuestions)
                 {
                     pointsRectangle.Fill = Brushes.LightYellow;
                 }
 
-                if(quizOptions.Goal.IsGoalReached(totalCorrect, totalQuestions))
+                if (quizOptions.Goal.IsGoalReached(totalCorrect, totalQuestions))
                 {
                     var successWindow = new SuccessCertificateWindow(quizOptions.Goal, $"BeAQuiz,IPv4:{quizOptions.IPv4Questions},IPv6:{quizOptions.IPv6Questions}");
                     successWindow.Show();
@@ -119,6 +143,11 @@ namespace BeARouter
 
                 updateState(QuizState.NEXT);
             }
+        }
+
+        private void buttonNext_Click(object sender, RoutedEventArgs e)
+        {
+            Next();
         }
 
         private void updatePointText()
@@ -139,13 +168,7 @@ namespace BeARouter
             currentState = newState;
         }
 
-        private void textBoxAnswerInput_KeyDown(object sender, KeyEventArgs e)
-        {
-            if(e.Key == Key.Enter)
-            {
-                buttonNext_Click(sender, null);
-            }
-        }
+
 
         private void buttonOptions_Click(object sender, RoutedEventArgs e)
         {
@@ -154,6 +177,11 @@ namespace BeARouter
                 optionsWindow = new DoAQuizOptionsWindow(quizOptions, UpdateWindow);
                 optionsWindow.Show();
             }
+        }
+
+        private void frameQuestionInput_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+            frameQuestionInput.NavigationService.RemoveBackEntry();
         }
     }
 }

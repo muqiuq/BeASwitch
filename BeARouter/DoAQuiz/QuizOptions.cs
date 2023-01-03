@@ -16,7 +16,7 @@ namespace BeARouter.DoAQuiz
                 goal = value;
             }
         }
-        private bool _iPv4Questions = true;
+        private bool _iPv4Questions = false;
         public bool IPv4Questions
         {
             get
@@ -30,7 +30,7 @@ namespace BeARouter.DoAQuiz
             }
         }
 
-        private bool _iPv6Questions = false;
+        private bool _iPv6Questions = true;
         public bool IPv6Questions
         {
             get
@@ -51,5 +51,11 @@ namespace BeARouter.DoAQuiz
             ChangedOption = false;
         }
 
+        public bool IsQuestionCategoryActive(QuestionCategory questionCategory)
+        {
+            if (QuestionCategory.IPv4 == questionCategory && IPv4Questions) return true;
+            if (QuestionCategory.IPv6 == questionCategory && IPv6Questions) return true;
+            return false;
+        }
     }
 }

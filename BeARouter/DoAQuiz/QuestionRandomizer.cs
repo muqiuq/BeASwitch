@@ -7,12 +7,15 @@ namespace BeARouter.DoAQuiz
 {
     internal class QuestionRandomizer
     {
+        private readonly QuizOptions quizOptions;
         List<Type> QuestionTypes;
 
         List<IQuestion> questionQueue = new List<IQuestion>();
 
-        public QuestionRandomizer()
+        public QuestionRandomizer(QuizOptions quizOptions)
         {
+            this.quizOptions = quizOptions;
+
             var type = typeof(IQuestion);
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
@@ -40,9 +43,14 @@ namespace BeARouter.DoAQuiz
         public IQuestion Next()
         {
             Random random = new Random();
-            var nextQuestionPos = random.Next(0, questionQueue.Count / 2);
-            var nextQuestion = questionQueue[nextQuestionPos];
-            questionQueue.RemoveAt(nextQuestionPos);
+            var relevantQuestions = questionQueue.Where(q => quizOptions.IsQuestionCategoryActive(q.QuestionCategory)).ToList();
+            if(relevantQuestions.Count == 0)
+            {
+                relevantQuestions = questionQueue.ToList();
+            }
+            var nextQuestionPos = random.Next(0, relevantQuestions.Count / 2);
+            var nextQuestion = relevantQuestions[nextQuestionPos];
+            questionQueue.Remove(nextQuestion);
             questionQueue.Add((IQuestion)Activator.CreateInstance(nextQuestion.GetType()));
             return nextQuestion;
         }

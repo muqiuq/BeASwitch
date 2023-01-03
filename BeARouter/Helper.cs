@@ -43,7 +43,7 @@ namespace BeARouter
             byte[] mac = new byte[6];
             Random r = new Random();
             r.NextBytes(mac);
-            mac[0] = (byte)0x02;
+            //mac[0] = (byte)0x02;
             return string.Join(":", Array.ConvertAll(mac, b => b.ToString("X2")));
         }
 
@@ -84,7 +84,7 @@ namespace BeARouter
 
         }
 
-        public static SubnetV6 GetRandomIPv6Subnet(int minCidr = 32, int maxCidr = 64) 
+        public static SubnetV6 GetRandomIPv6Subnet(int minCidr = 32, int maxCidr = 64, int numberOfZeroBytes = 0) 
         {
             var rand = new Random();
 
@@ -103,6 +103,12 @@ namespace BeARouter
             for(int a = minByteToSet; a < 16; a++)
             {
                 ipv6AddressBytes[a] = randomBytes[a - minByteToSet];
+            }
+
+            for(int a = 0; a < numberOfZeroBytes; a++)
+            {
+                var randomByte = rand.Next(minByteToSet, 16);
+                ipv6AddressBytes[randomByte] = 0;
             }
 
             return new SubnetV6(new IPv6Address(new System.Net.IPAddress(ipv6AddressBytes)), rand.Next(minCidr, maxCidr));
