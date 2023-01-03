@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace BeAToolsLibrary.Certificates
+{
+    public static class SuccessCertificatesDefaults
+    {
+        public const string DefaultSecret = "";
+
+        public const string DefaultPublicKey = "";
+
+        public const int DefaultKeySize = 1024;
+
+        public const string CERTIFICATE_FIRST_LINE = "---------BEGIN SUCCESS CERTIFICATE---------";
+        public const string CERTIFICATE_LAST_LINE =  "----------END SUCCESS CERTIFICATE----------";
+
+    }
+}

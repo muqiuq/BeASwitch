@@ -1,0 +1,46 @@
+﻿<Window x:Class="SuccessCertificateVerficiationTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SuccessCertificateVerficiationTool"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Button x:Name="buttonGenNewKey" Content="Generate new Key" HorizontalAlignment="Left" Margin="118,143,0,0" VerticalAlignment="Top" Click="buttonGenNewKey_Click"/>
+        <TextBox x:Name="textBoxPublicKey" HorizontalAlignment="Left" Margin="118,35,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="623" IsReadOnly="True" Height="46" VerticalScrollBarVisibility="Auto"/>
+        <TextBox x:Name="textBoxPrivateKey" HorizontalAlignment="Left" Margin="118,86,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="623" Height="46" TextChanged="textBoxPrivateKey_TextChanged" VerticalScrollBarVisibility="Auto"/>
+        <Label x:Name="labelPublicKey" Content="Public key:" HorizontalAlignment="Left" Margin="44,34,0,0" VerticalAlignment="Top" Height="19" Padding="0,0,0,0"/>
+        <Label x:Name="labelPrivateKey" Content="Private key:" HorizontalAlignment="Left" Margin="44,85,0,0" VerticalAlignment="Top" Height="19" Padding="0,0,0,0"/>
+        <Label x:Name="labelSecret" Content="Secret:" HorizontalAlignment="Left" Margin="44,10,0,0" VerticalAlignment="Top" Height="19" Padding="0,0,0,0"/>
+        <TextBox x:Name="textBoxSecret" HorizontalAlignment="Left" Margin="118,12,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="623"/>
+
+
+        <Label x:Name="labelComputerName" Content="ComputerName:" HorizontalAlignment="Left" Margin="43,233,0,0" VerticalAlignment="Top" Height="19" Padding="0,0,0,0" Width="141"/>
+        <TextBox x:Name="textBoxCertComputerName" HorizontalAlignment="Left" Margin="189,233,0,0"  Text="" VerticalAlignment="Top" Width="552" MaxLines="1"/>
+
+        <Label x:Name="labelUserName" Content="UserName:" HorizontalAlignment="Left" Margin="43,258,0,0" VerticalAlignment="Top" Height="19" Padding="0,0,0,0" Width="141"/>
+        <TextBox x:Name="textBoxCertUserName" HorizontalAlignment="Left" Margin="189,258,0,0"  Text="" VerticalAlignment="Top" Width="552" MaxLines="1"/>
+
+        <Label x:Name="labelTimestamp" Content="Timestamp:" HorizontalAlignment="Left" Margin="43,283,0,0" VerticalAlignment="Top" Height="19" Padding="0,0,0,0" Width="141"/>
+        <TextBox x:Name="textBoxCertTimestamp" HorizontalAlignment="Left" Margin="189,283,0,0" Text="" VerticalAlignment="Top" Width="552" MaxLines="1"/>
+
+        <Label x:Name="labelNetworkInterfaceHash" Content="NetworkInterfaceHash:" HorizontalAlignment="Left" Margin="43,308,0,0" VerticalAlignment="Top" Height="19" Padding="0,0,0,0" Width="141"/>
+        <TextBox x:Name="textBoxCertNetworkInterfaceHash" HorizontalAlignment="Left" Margin="189,308,0,0"  Text="" VerticalAlignment="Top" Width="552" MaxLines="1"/>
+
+        <Label x:Name="labelGoal" Content="Goal:" HorizontalAlignment="Left" Margin="43,333,0,0" VerticalAlignment="Top" Height="19" Padding="0,0,0,0" Width="141"/>
+        <TextBox x:Name="textBoxCertGoal" HorizontalAlignment="Left" Margin="189,333,0,0"  Text="" VerticalAlignment="Top" Width="159" MaxLines="1"/>
+
+        <Label x:Name="labelCert" Content="Certificate:" HorizontalAlignment="Left" Margin="43,175,0,0" VerticalAlignment="Top" Height="19" Padding="0,0,0,0" Width="141"/>
+        <TextBox x:Name="textBoxCert" HorizontalAlignment="Left" Margin="189,175,0,0" Text="" VerticalAlignment="Top" Width="552" Height="53" TextChanged="textBoxCert_TextChanged" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
+
+
+        <Button x:Name="buttonCreateCert" Content="Create Certificate" HorizontalAlignment="Left" Margin="189,356,0,0" VerticalAlignment="Top" Width="116" Click="buttonCreateCert_Click"/>
+        <CheckBox x:Name="checkBoxValidSecret" Content="Valid Secret" HorizontalAlignment="Left" Margin="659,356,0,0" VerticalAlignment="Top" IsHitTestVisible="False"/>
+        <Button x:Name="buttonDecrypt" Content="Decrypt" HorizontalAlignment="Left" Margin="400,371,0,0" VerticalAlignment="Top" Click="buttonDecrypt_Click"/>
+        <Label x:Name="labelType" Content="Type:" HorizontalAlignment="Left" Margin="353,333,0,0" VerticalAlignment="Top" Height="19" Padding="0,0,0,0" Width="107"/>
+        <TextBox x:Name="textBoxCertType" HorizontalAlignment="Left" Margin="465,331,0,0"  Text="" VerticalAlignment="Top" Width="276" MaxLines="1"/>
+
+
+    </Grid>
+</Window>
