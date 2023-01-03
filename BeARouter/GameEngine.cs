@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BeAToolsLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,8 @@ namespace BeARouter
         public RouterPorts Ports { get; private set; } = new RouterPorts();
 
         internal IPv4Packet CurrentPacket;
+
+        public Goal Goal = new Goal(50, 50);
 
         public int NumberOfCorrectAttempts = 0;
         public int NumberOfAttempts = 0;
@@ -299,6 +302,11 @@ namespace BeARouter
             NumberOfCorrectAttempts = 0;
             CurrentPacket = null;
             init();
+        }
+
+        internal bool IsGoalReached()
+        {
+            return Goal.IsGoalReached(NumberOfCorrectAttempts, NumberOfAttempts);
         }
     }
 }

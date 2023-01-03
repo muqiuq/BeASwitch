@@ -12,6 +12,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeARouter.Test", "BeARouter
 		{566B65A0-D11D-4740-8797-37EED0CD1D29} = {566B65A0-D11D-4740-8797-37EED0CD1D29}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuccessCertificateVerficiationTool", "SuccessCertificateVerficiationTool\SuccessCertificateVerficiationTool.csproj", "{BE1C8DFB-DC96-4059-BD18-9D31AE0B2E1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeAToolsLibrary", "BeAToolsLibrary\BeAToolsLibrary.csproj", "{16BAE5D8-D82E-4AD1-9FB3-DB1776F863C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +34,14 @@ Global
 		{5778A0F7-DA4B-45AC-8813-2BC5E114962B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5778A0F7-DA4B-45AC-8813-2BC5E114962B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5778A0F7-DA4B-45AC-8813-2BC5E114962B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE1C8DFB-DC96-4059-BD18-9D31AE0B2E1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE1C8DFB-DC96-4059-BD18-9D31AE0B2E1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE1C8DFB-DC96-4059-BD18-9D31AE0B2E1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE1C8DFB-DC96-4059-BD18-9D31AE0B2E1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16BAE5D8-D82E-4AD1-9FB3-DB1776F863C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16BAE5D8-D82E-4AD1-9FB3-DB1776F863C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16BAE5D8-D82E-4AD1-9FB3-DB1776F863C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16BAE5D8-D82E-4AD1-9FB3-DB1776F863C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

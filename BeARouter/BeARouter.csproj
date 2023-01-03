@@ -28,6 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BeAToolsLibrary\BeAToolsLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="images\Funnel.svg" />
     <Resource Include="images\rj45.png" />
   </ItemGroup>

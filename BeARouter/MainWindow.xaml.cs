@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BeAToolsLibrary;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -34,6 +35,8 @@ namespace BeARouter
             gameEngine = new GameEngine(Dispatcher);
 
             pointsGrid.Visibility = Visibility.Hidden;
+
+            textBoxGoal.Text = gameEngine.Goal.ToString();
 
             for (int a = 0; a < gameEngine.Ports.Count; a++)
             {
@@ -144,6 +147,11 @@ namespace BeARouter
             if(gameEngine.State == GameState.USERINPUT)
             {
                 gameEngine.CheckSolution();
+                if(gameEngine.IsGoalReached())
+                {
+                    var successCertWin = new SuccessCertificateWindow(gameEngine.Goal, "BeARouterV1");
+                    successCertWin.Show();
+                }
             }
             else if(gameEngine.State == GameState.SOLUTIONSHOW || gameEngine.State == GameState.NEW)
             {
@@ -224,6 +232,21 @@ namespace BeARouter
                 gameEngine.RestartGame();
                 updateRoutesAndAddresses();
                 UpdateAll();
+            }
+        }
+
+        private void textBoxGoal_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                var goal = Goal.Parse(textBoxGoal.Text);
+                if (gameEngine == null) return;
+                gameEngine.Goal = goal;
+                textBoxGoal.Background = new SolidColorBrush(Colors.White);
+            }
+            catch(ArgumentException ex)
+            {
+                textBoxGoal.Background = new SolidColorBrush(Colors.Yellow);
             }
         }
     }

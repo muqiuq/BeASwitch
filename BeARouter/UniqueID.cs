@@ -15,7 +15,10 @@ namespace BeARouter
             var macAddr =
             (
                 from nic in NetworkInterface.GetAllNetworkInterfaces()
-                where nic.OperationalStatus == OperationalStatus.Up
+                where nic.OperationalStatus == OperationalStatus.Up 
+                && (nic.NetworkInterfaceType == NetworkInterfaceType.Ethernet || nic.NetworkInterfaceType == NetworkInterfaceType.Wireless80211) 
+                && nic.GetPhysicalAddress() != null 
+                && nic.GetPhysicalAddress().GetAddressBytes().Length > 0
                 select nic.GetPhysicalAddress()
             ).FirstOrDefault();
 
