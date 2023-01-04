@@ -1,23 +1,11 @@
 ﻿using BeAToolsLibrary;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Net.NetworkInformation;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BeARouter
 {
@@ -52,6 +40,7 @@ namespace BeARouter
             textBlockUniqueID.Text = UniqueID.ToString();
 
             this.Title += $" {Assembly.GetEntryAssembly().GetName().Version}";
+
         }
 
         private void ListProcesses()
@@ -251,6 +240,12 @@ namespace BeARouter
             {
                 textBoxGoal.Background = new SolidColorBrush(Colors.Yellow);
             }
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            var successCertWin = new SuccessCertificateWindow(gameEngine.Goal, "Test");
+            successCertWin.Show();
         }
     }
 }
