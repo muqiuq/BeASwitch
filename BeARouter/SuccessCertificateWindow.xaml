@@ -5,10 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeARouter"
         mc:Ignorable="d"
-        Title="SuccessCertificateWindow" Height="450" Width="363" ResizeMode="NoResize">
+        Title="SuccessCertificateWindow" Height="567" Width="363" ResizeMode="NoResize">
     <Grid>
         <TextBlock x:Name="textBlockMessage" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" Text="Congratulations! You have reached your goal of GOAL Below you will find your SuccessCertificate, which you can send to your instructor. " VerticalAlignment="Top" FontSize="18" TextAlignment="Center" Width="343"/>
-        <TextBox x:Name="textBoxCert" HorizontalAlignment="Center" Margin="0,127,0,0" TextWrapping="WrapWithOverflow" Text="---------BEGIN SUCCESS CERTIFICATE---------" VerticalAlignment="Top" Width="343" Height="297" FontFamily="Courier New" IsReadOnly="True"/>
+        <TextBox x:Name="textBoxCert" HorizontalAlignment="Center" Margin="0,127,0,0" TextWrapping="WrapWithOverflow" Text="---------BEGIN SUCCESS CERTIFICATE---------" VerticalAlignment="Top" Width="343" Height="165" FontFamily="Courier New" IsReadOnly="True"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Margin="0,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="343" Height="145"><Run Text="Privacy information: This certificate contains a timestamp, your computer name, your username, a hash calculated using your network interfaces, the goal and the type of the certificate. In case of privacy concerns please contact the developer (https://github.com/muqiuq). "/><LineBreak/><Run/><LineBreak/><Run Text="If you are TBZ student you can submit your results automatically. Just enter your TBZ E-Mail and click submit."/></TextBlock>
+        <Label x:Name="labelEMail" Content="E-Mail:" HorizontalAlignment="Left" Margin="10,467,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBoxEMail" HorizontalAlignment="Left" Margin="61,471,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="281" TextChanged="textBoxEMail_TextChanged" />
+        <Button x:Name="buttonSubmit" Content="Submit" HorizontalAlignment="Left" Margin="270,494,0,0" VerticalAlignment="Top" Width="72" Click="buttonSubmit_Click"/>
+        <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="20" Margin="10,494,0,0" VerticalAlignment="Top" Width="255" IsIndeterminate="True"/>
+        <Label x:Name="labelPath" Content="Label" HorizontalAlignment="Center" Margin="0,297,0,0" VerticalAlignment="Top" Width="343" MouseLeftButtonUp="labelPath_MouseLeftButtonUp" Height="19" Padding="0,0,0,0" Foreground="Black"/>
 
 
     </Grid>
