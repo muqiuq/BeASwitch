@@ -24,6 +24,6 @@
         <TextBlock x:Name="textBlockUniqueID" HorizontalAlignment="Right" Margin="0,591,30,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top"/>
         <Button x:Name="buttonQuiz" Content="Open IP Quiz" HorizontalAlignment="Left" Height="32" Margin="406,582,0,0" VerticalAlignment="Top" Width="98" Click="buttonQuiz_Click"/>
         <Label x:Name="labelGoal" Content="Goal:" HorizontalAlignment="Left" Margin="609,585,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBoxGoal" HorizontalAlignment="Left" Margin="651,589,0,0" TextWrapping="Wrap" Text="30/30" VerticalAlignment="Top" Width="49" TextChanged="textBoxGoal_TextChanged"/>
+        <TextBox x:Name="textBoxGoal" HorizontalAlignment="Left" Margin="651,589,0,0" TextWrapping="Wrap" Text="30/30" VerticalAlignment="Top" Width="49" TextChanged="textBoxGoal_TextChanged" GotKeyboardFocus="textBoxGoal_GotKeyboardFocus"/>
     </Grid>
 </Window>

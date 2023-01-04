@@ -131,6 +131,7 @@ namespace BeARouter
             if(gameEngine.State == GameState.NEW)
             {
                 pointsGrid.Visibility = Visibility.Visible;
+                textBoxGoal.IsReadOnly = true;
             }
 
             if(gameEngine.State == GameState.USERINPUT)
@@ -224,6 +225,7 @@ namespace BeARouter
                 gameEngine.RestartGame();
                 updateRoutesAndAddresses();
                 UpdateAll();
+                textBoxGoal.IsReadOnly = false;
             }
         }
 
@@ -235,10 +237,12 @@ namespace BeARouter
                 if (gameEngine == null) return;
                 gameEngine.Goal = goal;
                 textBoxGoal.Background = new SolidColorBrush(Colors.White);
+                masterButton.IsEnabled = true;
             }
             catch(ArgumentException ex)
             {
                 textBoxGoal.Background = new SolidColorBrush(Colors.Yellow);
+                masterButton.IsEnabled = false;
             }
         }
 
@@ -246,6 +250,16 @@ namespace BeARouter
         {
             var successCertWin = new SuccessCertificateWindow(gameEngine.Goal, "Test");
             successCertWin.Show();
+        }
+
+        bool messageBoxShown = false;
+        private void textBoxGoal_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (textBoxGoal.IsReadOnly && !messageBoxShown)
+            {
+                messageBoxShown = true;
+                MessageBox.Show("To change the goal, you have to restart the game.", "Change goal", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }
