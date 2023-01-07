@@ -19,5 +19,4 @@ With the **BeASwitch** learning program, the student takes on the role of the mi
  - Through observation, the student recognizes the logic of the basic functionality of a switch: forwarding frames using the *Destination MAC*, *Source MAC*, and *MAC* table. 
  - The student tests his/her understanding of the switching logic by making decisions for frames arriving at the switch and then using the program to verify that the result of his/her reasoning is correct. 
 
-# Quellen
  - [1]: https://de.wikipedia.org/wiki/Switch_(Netzwerktechnik) "Wikipedia DE"
