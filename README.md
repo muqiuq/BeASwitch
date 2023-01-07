@@ -3,7 +3,7 @@
 Understanding the basic concepts of an Ethernet switch can be challenging in the beginning. All the new technical terms, IEEE industry standards names and CLI configuration can easily overwhelm a young networker. 
 
 This application is a draft for a concept where the user learns how a switch works by making the switching decisions himself. 
-The user is prompted one Ethernet frame after another. For each of those he decides on which ports the frames should be sent. He learns by try-and-error. When he reaches a 100% success rate, he�s able to �think like a switch�. 
+The user is prompted one Ethernet frame after another. For each of those he decides on which ports the frames should be sent. He learns by try-and-error. When he reaches a 100% success rate, he's able to "think like a switch". 
 
 This currently available version focuses on VLANs and is shipped as a Windows WPF application. Long term goal is to develop a lightweight WebApp. 
 
