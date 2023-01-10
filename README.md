@@ -23,9 +23,9 @@ The original concept aimed to map all processing steps in a home router into a 2
 
 See [manual](manual).
 
-## Certificate of achievement (SucessCertificate) feature
+## Certificate of achievement (SuccessCertificate) feature
 
-If you have successfully mastered an exercise and achieved the set goal, you will receive a certificate of achievement (SucessCertificate) that you can send or present to your teacher. Please note that you can only use this feature if you're a student at the Technische Berufsschule Zürich https://tbz.ch/. 
+If you have successfully mastered an exercise and achieved the set goal, you will receive a certificate of achievement (SuccessCertificate) that you can send or present to your teacher. Please note that you can only use this feature if you're a student at the Technische Berufsschule Zürich https://tbz.ch/. 
 
 Information for teachers at other schools who wish to use automatic submission:
 - Contact me at info@uisa.ch to use my existing infrastructure.
