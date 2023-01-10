@@ -1,5 +1,6 @@
 ﻿using BeARouter.DoAQuiz;
 using BeARouter.DoAQuiz.Frames;
+using BeAToolsLibrary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -39,22 +40,30 @@ namespace BeARouter
 
         int totalCorrect = 0;
         int totalQuestions = 0;
+        private readonly bool examMode;
 
-        public DoAQuizWindow()
+        public DoAQuizWindow(bool examMode, int numOfCorrectAttempts, int totalNumberOfAttempts)
         {
             InitializeComponent();
+
+            quizOptions.Goal = new Goal(totalNumberOfAttempts, numOfCorrectAttempts);
 
             questionRandomizer = new QuestionRandomizer(quizOptions);
 
             UpdateWindow = new UpdateWindowDelegate(UpdateAll);
             ActionNext = new ActionNextDelegate(Next);
 
+            if(!examMode)
+            {
+                labelGoal.Visibility = Visibility.Hidden;
+            }
 
             buttonNext_Click(null, null);
-
+            
             updateGoal();
 
             this.DataContext = this;
+            this.examMode = examMode;
         }
 
         public void UpdateAll()
@@ -78,6 +87,7 @@ namespace BeARouter
             totalQuestions = 0;
             quizOptions.ResetChangeTracker();
             currentState = QuizState.NEXT;
+            updatePointText();
             Next();
         }
 
@@ -140,10 +150,18 @@ namespace BeARouter
                     pointsRectangle.Fill = Brushes.LightYellow;
                 }
 
-                if (quizOptions.Goal.IsGoalReached(totalCorrect, totalQuestions))
+                if (quizOptions.Goal.IsGoalReached(totalCorrect, totalQuestions) && examMode)
                 {
-                    var successWindow = new SuccessCertificateWindow(quizOptions.Goal, $"BeAQuiz,IPv4:{quizOptions.IPv4Questions},IPv6:{quizOptions.IPv6Questions}");
-                    successWindow.Show();
+                    var successWindow = new SuccessCertificateWindow(new Goal(totalQuestions, totalCorrect), $"BeAQuiz,IPv4:{quizOptions.IPv4Questions},IPv6:{quizOptions.IPv6Questions}");
+                    successWindow.ShowDialog();
+                    RestartGame();
+                    return;
+                }
+                else if(!quizOptions.Goal.CanGoalBeReached(totalCorrect, totalQuestions) && examMode)
+                {
+                    MessageBox.Show("You have made too many mistakes and can no longer achieve your set goal. The game will now restart. ", "Goal can't be reached", MessageBoxButton.OK, MessageBoxImage.Error);
+                    RestartGame();
+                    return;
                 }
 
                 updateState(QuizState.NEXT);

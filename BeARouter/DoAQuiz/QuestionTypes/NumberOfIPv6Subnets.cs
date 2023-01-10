@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,11 +19,19 @@ namespace BeARouter.DoAQuiz.QuestionTypes
             response = randomSubnet.NumberOfSubnets();
             answerOptions.Add(Response);
             var rand = new Random();
+            int b = 0;
             for(int a = 0; a < 3; a++)
             {
                 var randomNumber = rand.Next(48, 64);
                 if (randomNumber == response) randomNumber += 1;
-                answerOptions.Add(((int)Math.Pow(2, 64 - randomNumber)).ToString());
+                var numberOfSubets = (int)Math.Pow(2, 64 - randomNumber);
+                if (answerOptions.Contains(numberOfSubets.ToString()) && b < 20)
+                {
+                    a = a - 1;
+                    b++;
+                    continue;
+                }
+                answerOptions.Add(numberOfSubets.ToString());
             }
         }
 

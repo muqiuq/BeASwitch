@@ -34,7 +34,6 @@ namespace BeARouter.DoAQuiz
             checkBoxIPv4.Unchecked += checkBoxIPv4_Changed;
             checkBoxIPv6.Checked += checkBoxIPv6_Changed;
             checkBoxIPv6.Unchecked += checkBoxIPv6_Changed;
-            textBoxGoal.TextChanged += textBoxGoal_TextChanged;
         }
 
         private void checkBoxIPv4_Changed(object sender, RoutedEventArgs e)

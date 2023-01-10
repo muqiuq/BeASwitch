@@ -12,12 +12,12 @@
         <Frame x:Name="frameQuestionInput"  Margin="21,86,50,0" NavigationUIVisibility="Hidden" Navigated="frameQuestionInput_Navigated" VerticalAlignment="Top" Height="161"/>
         <TextBlock x:Name="textBlockAnswer" Margin="24,284,172,72" TextWrapping="Wrap" Text="" FontSize="18" />
         <Button x:Name="buttonNext" Content="Check" Margin="21,254,50,0" VerticalAlignment="Top" Click="buttonNext_Click" Height="25"/>
-        <Grid x:Name="pointsGrid" Margin="0,0,50,38" HorizontalAlignment="Right" Width="110" Height="68" VerticalAlignment="Bottom">
+        <Grid x:Name="pointsGrid" Margin="0,0,50,38" HorizontalAlignment="Right" Width="141" Height="68" VerticalAlignment="Bottom">
             <Rectangle x:Name="pointsRectangle" HorizontalAlignment="Stretch" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Stretch" Fill="#FF3AFF00"/>
             <TextBlock x:Name="pointsText" HorizontalAlignment="Center" Margin="10,10,10,10" Text="0/0" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" FontSize="30"/>
         </Grid>
         <Button x:Name="buttonOptions" Content="Options" HorizontalAlignment="Left" Margin="24,0,0,38" VerticalAlignment="Bottom" Width="110" Height="29" Click="buttonOptions_Click"/>
         <Button x:Name="buttonRestart" Content="Restart" HorizontalAlignment="Left" Margin="150,0,0,38" VerticalAlignment="Bottom" Width="110" Height="29" Click="buttonRestart_Click"/>
-        <Label x:Name="labelGoal" Content="Goal: 0/0" HorizontalAlignment="Right" Margin="0,0,172,38" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Width="91"/>
+        <Label x:Name="labelGoal" Content="Goal: 0/0" HorizontalAlignment="Right" Margin="0,0,204,38" VerticalAlignment="Bottom" HorizontalContentAlignment="Right" Width="91"/>
     </Grid>
 </Window>

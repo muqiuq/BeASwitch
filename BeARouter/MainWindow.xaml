@@ -12,7 +12,7 @@
         <TextBox x:Name="textBoxIpAddress" HorizontalAlignment="Left" Margin="405,415,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="455" Height="150" FontFamily="Courier New" IsReadOnly="True" FontSize="13"/>
         <TextBox x:Name="textBoxIpRoute" HorizontalAlignment="Left" Margin="358,90,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="502" Height="175" FontFamily="Courier New" IsReadOnly="True" FontSize="13" KeyDown="textBoxIpRoute_KeyDown"/>
         <svgc:SvgViewbox Source="/images/Funnel.svg" Width="400" HorizontalAlignment="Left" Stretch="Fill" Margin="0,60,0,0"/>
-        <Button x:Name="masterButton" Content="N/A" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="48" FontWeight="Bold" Margin="405,285,0,0" Click="masterButton_Click"/>
+        <Button x:Name="masterButton" Content="N/A" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="48" FontWeight="Bold" Margin="405,297,0,0" Click="masterButton_Click"/>
         <TextBlock HorizontalAlignment="Left" Margin="405,570,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="455" Background="#FFF3FF00" FontFamily="Courier New" Visibility="Hidden"/>
         <Grid x:Name="pointsGrid" HorizontalAlignment="Left" Height="68" Margin="271,456,0,0" VerticalAlignment="Top" Width="97">
             <Rectangle x:Name="pointsRectangle" HorizontalAlignment="Stretch" Margin="0,0,0,0" Stroke="Black" VerticalAlignment="Stretch" Fill="#FF3AFF00"/>
@@ -22,8 +22,10 @@
         <Button x:Name="buttonExplainWindow" Content="Explanation" HorizontalAlignment="Left" Margin="271,538,0,0" VerticalAlignment="Top" Width="97" Height="32" Click="buttonExplainWindow_Click"/>
         <Button x:Name="buttonRestart" Content="Restart" HorizontalAlignment="Left" Margin="271,582,0,0" VerticalAlignment="Top" Width="97" Height="32" Click="buttonRestart_Click"/>
         <TextBlock x:Name="textBlockUniqueID" HorizontalAlignment="Right" Margin="0,591,30,0" TextWrapping="Wrap" Text="N/A" VerticalAlignment="Top"/>
-        <Button x:Name="buttonQuiz" Content="Open IP Quiz" HorizontalAlignment="Left" Height="32" Margin="406,582,0,0" VerticalAlignment="Top" Width="98" Click="buttonQuiz_Click"/>
+
+        <Button x:Name="buttonMainMenu" Content="Back to main menu" HorizontalAlignment="Left" Height="32" Margin="447,582,0,0" VerticalAlignment="Top" Width="133" Click="buttonMainMenu_Click"/>
+
         <Label x:Name="labelGoal" Content="Goal:" HorizontalAlignment="Left" Margin="609,585,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBoxGoal" HorizontalAlignment="Left" Margin="651,589,0,0" TextWrapping="Wrap" Text="30/30" VerticalAlignment="Top" Width="49" TextChanged="textBoxGoal_TextChanged" GotKeyboardFocus="textBoxGoal_GotKeyboardFocus"/>
+        <TextBox x:Name="textBoxGoal" HorizontalAlignment="Left" Margin="651,589,0,0" TextWrapping="Wrap" Text="30/30" VerticalAlignment="Top" Width="49" TextChanged="textBoxGoal_TextChanged" IsReadOnly="True"/>
     </Grid>
 </Window>

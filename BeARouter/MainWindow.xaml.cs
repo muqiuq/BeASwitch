@@ -1,4 +1,5 @@
-﻿using BeAToolsLibrary;
+﻿using BeARouter.AppStart;
+using BeAToolsLibrary;
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -16,7 +17,7 @@ namespace BeARouter
     {
         GameEngine gameEngine;
 
-        public MainWindow()
+        public MainWindow(bool examMode, int numOfCorrectAttempts, int totalNumberOfAttempts)
         {
             InitializeComponent();
 
@@ -24,6 +25,14 @@ namespace BeARouter
 
             pointsGrid.Visibility = Visibility.Hidden;
 
+            gameEngine.Goal = new Goal(totalNumberOfAttempts, numOfCorrectAttempts);
+
+            if(!examMode)
+            {
+                textBoxGoal.Visibility = Visibility.Hidden;
+                labelGoal.Visibility = Visibility.Hidden;
+            }
+            
             textBoxGoal.Text = gameEngine.Goal.ToString();
 
             for (int a = 0; a < gameEngine.Ports.Count; a++)
@@ -40,7 +49,7 @@ namespace BeARouter
             textBlockUniqueID.Text = UniqueID.ToString();
 
             this.Title += $" {Assembly.GetEntryAssembly().GetName().Version}";
-
+            this.examMode = examMode;
         }
 
         private void ListProcesses()
@@ -131,23 +140,30 @@ namespace BeARouter
             if(gameEngine.State == GameState.NEW)
             {
                 pointsGrid.Visibility = Visibility.Visible;
-                textBoxGoal.IsReadOnly = true;
             }
 
             if(gameEngine.State == GameState.USERINPUT)
             {
                 gameEngine.CheckSolution();
-                if(gameEngine.IsGoalReached())
+                if(gameEngine.IsGoalReached() && examMode)
                 {
                     if(!gameEngine.CheckIfCertificateAlreadyShowedAndMark())
                     {
-                        var successCertWin = new SuccessCertificateWindow(gameEngine.Goal, "BeARouterV1");
-                        successCertWin.Show();
+                        var successCertWin = new SuccessCertificateWindow(gameEngine.GetUpdatedGoal(), "BeARouterV1");
+                        successCertWin.ShowDialog();
+                        restartGame();
+                        return;
                     }
                 }
             }
             else if(gameEngine.State == GameState.SOLUTIONSHOW || gameEngine.State == GameState.NEW)
             {
+                if(!gameEngine.CanGoalBeReached() && examMode)
+                {
+                    MessageBox.Show("You have made too many mistakes and can no longer achieve your set goal. The game will now restart. ", "Goal can't be reached", MessageBoxButton.OK, MessageBoxImage.Error);
+                    restartGame();
+                    return;
+                }
                 gameEngine.ClearBoard();
                 if (gameEngine.CurrentPacket != null) gameEngine.CurrentPacket.RemoveFromGrid(mainGrid);
 
@@ -182,7 +198,7 @@ namespace BeARouter
         {
             if(doAQuizWindow == null || doAQuizWindow.IsVisible == false)
             {
-                doAQuizWindow = new DoAQuizWindow();
+                //doAQuizWindow = new DoAQuizWindow();
 
                 doAQuizWindow.Show();
             }          
@@ -191,7 +207,8 @@ namespace BeARouter
 
 
         private int EnableWriteOnFormMouseClickCounter = 0;
-       
+        private readonly bool examMode;
+
         private void textBoxIpRoute_KeyDown(object sender, KeyEventArgs e)
         {
             if (gameEngine.State == GameState.NEW && EnableWriteOnFormMouseClickCounter < 11)
@@ -221,12 +238,16 @@ namespace BeARouter
             var messageBox = MessageBox.Show("Are you sure you want to restart the game and loose your progress?", "Restart game", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
             if(messageBox == MessageBoxResult.Yes)
             {
-                if (gameEngine.CurrentPacket != null) gameEngine.CurrentPacket.RemoveFromGrid(mainGrid);
-                gameEngine.RestartGame();
-                updateRoutesAndAddresses();
-                UpdateAll();
-                textBoxGoal.IsReadOnly = false;
+                restartGame();
             }
+        }
+
+        private void restartGame()
+        {
+            if (gameEngine.CurrentPacket != null) gameEngine.CurrentPacket.RemoveFromGrid(mainGrid);
+            gameEngine.RestartGame();
+            updateRoutesAndAddresses();
+            UpdateAll();
         }
 
         private void textBoxGoal_TextChanged(object sender, TextChangedEventArgs e)
@@ -252,14 +273,11 @@ namespace BeARouter
             successCertWin.Show();
         }
 
-        bool messageBoxShown = false;
-        private void textBoxGoal_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        private void buttonMainMenu_Click(object sender, RoutedEventArgs e)
         {
-            if (textBoxGoal.IsReadOnly && !messageBoxShown)
-            {
-                messageBoxShown = true;
-                MessageBox.Show("To change the goal, you have to restart the game.", "Change goal", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            var welcomeWindow = new WelcomeWindow();
+            welcomeWindow.Show();
+            Close();
         }
     }
 }

@@ -4,24 +4,24 @@ using System.Text;
 
 namespace BeARouter.DoAQuiz.QuestionTypes
 {
-    public class AbbreviatingIPv6Question : IQuestion
+    public class ExpandIPv6Question : IQuestion
     {
         private IPv6Address ipAddress;
         private string expandedIPv6;
 
-        public AbbreviatingIPv6Question()
+        public ExpandIPv6Question()
         {
             ipAddress = Helper.GetRandomIPv6Subnet(numberOfZeroBytes: 7).GetAddress();
             expandedIPv6 = ipAddress.Expand();
         }
 
-        public string Name => "Abbreviating IPv6";
+        public string Name => "Expand IPv6";
 
-        public string Question => $"Abbreviate the following IPv6 address: {expandedIPv6}";
+        public string Question => $"Expand the following IPv6 address: {ipAddress}";
 
-        public string Response => ipAddress.ToString();
+        public string Response => expandedIPv6;
 
-        public string ResponseTemplate => expandedIPv6;
+        public string ResponseTemplate => ipAddress.ToString();
 
         public string ResponseHint => "";
 
@@ -33,7 +33,7 @@ namespace BeARouter.DoAQuiz.QuestionTypes
 
         public bool Evaluate(string response)
         {
-            return response == ipAddress.ToString();
+            return response == expandedIPv6;
         }
     }
 }

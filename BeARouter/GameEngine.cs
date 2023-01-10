@@ -315,6 +315,11 @@ namespace BeARouter
             return Goal.IsGoalReached(NumberOfCorrectAttempts, NumberOfAttempts);
         }
 
+        internal bool CanGoalBeReached()
+        {
+            return Goal.CanGoalBeReached(NumberOfCorrectAttempts, NumberOfAttempts);
+        }
+
         internal bool CheckIfCertificateAlreadyShowedAndMark()
         {
             if(alreadyShowedCertificate == false)
@@ -323,6 +328,11 @@ namespace BeARouter
                 return false;
             }
             return true;
+        }
+
+        internal Goal GetUpdatedGoal()
+        {
+            return new Goal(NumberOfAttempts, NumberOfCorrectAttempts);
         }
     }
 }

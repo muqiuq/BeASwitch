@@ -41,5 +41,10 @@ namespace BeAToolsLibrary
         {
             return numberOfCorrectAttempts >= NumberOfCorrectAttempts && numberOfTotalAttempts == NumberOfTotalAttempts;
         }
+
+        public bool CanGoalBeReached(int numberOfCorrectAttempts, int numberOfTotalAttempts)
+        {
+            return (numberOfTotalAttempts - numberOfCorrectAttempts) <= (NumberOfTotalAttempts - NumberOfCorrectAttempts);
+        }
     }
 }
