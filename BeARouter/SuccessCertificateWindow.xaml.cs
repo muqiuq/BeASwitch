@@ -31,6 +31,8 @@ namespace BeARouter
         private string certificateFileSavePath;
         private string certificateSavePath;
 
+        private bool savedCertificate = false;
+
         public SuccessCertificateWindow(Goal goal, string type)
         {
             InitializeComponent();
@@ -56,6 +58,7 @@ namespace BeARouter
                 certificateFileSavePath = System.IO.Path.Combine(certificateSavePath, $"{cleanedType}-{DateTime.Now.ToString("yyyyMMdd-mmhhss")}.txt");
                 System.IO.File.WriteAllText(certificateFileSavePath, textBoxCert.Text);
                 labelPath.Content = $"Saved in {certificateFileSavePath}";
+                savedCertificate = true;
             }
             catch(Exception ex)
             {
@@ -118,7 +121,7 @@ namespace BeARouter
 
         private void labelPath_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if(certificateFileSavePath != null && certificateSavePath != null)
+            if(certificateFileSavePath != null && certificateSavePath != null && savedCertificate)
             {
                 try
                 {
@@ -141,6 +144,7 @@ namespace BeARouter
                         certificateFileSavePath = dialog.FileName;
                         certificateSavePath = System.IO.Path.GetDirectoryName(dialog.FileName);
                         labelPath.Content = $"Saved in {certificateFileSavePath}";
+                        savedCertificate = true;
                     }
                     catch (Exception ex)
                     {

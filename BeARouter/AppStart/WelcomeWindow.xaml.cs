@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -43,6 +44,8 @@ namespace BeARouter.AppStart
             selectAppPage = new SelectAppPage(next1Delegate);
 
             mainFrame.Content = selectAppPage;
+
+            this.Title += $" {Assembly.GetEntryAssembly().GetName().Version}";
         }
 
         public void Next1(AppTypes selectedApp)
