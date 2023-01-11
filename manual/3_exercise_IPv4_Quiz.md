@@ -5,7 +5,7 @@ To configure IP protocols correctly on routers, you need to master the most impo
  - IPv4: Calculate network address of a subnet
  - IPv4: Calculate number of possible host address of a subnet
  - IPv4: Subnet mask conversion from prefix (ex: "/24") to decimal (ex: 255.255.255.0) (and vice versa)
- - Split a given subnet into further subnets. 
+ - IPV4: Split a given subnet into further subnets. 
  - IPv6: Calcualte EUI64 address for existing ::/64 prefix
  - IPv6: Expand and abbreviate address
  - IPv6: Know most used IPv6 prefixes
