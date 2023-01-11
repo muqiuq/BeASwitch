@@ -12,5 +12,7 @@
         <Label x:Name="labelTitle" Content="Welcome! Please select the desired application:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="20"/>
         <Button x:Name="buttonBeARouter" Content="BeARouter" HorizontalAlignment="Left" Margin="44,68,0,0" VerticalAlignment="Top" Height="85" Width="146" FontSize="18" Click="buttonBeARouter_Click"/>
         <Button x:Name="buttonIPQuiz" Content="IPQuiz" HorizontalAlignment="Left" Margin="254,68,0,0" VerticalAlignment="Top" Height="85" Width="146" FontSize="20" Click="buttonIPQuiz_Click"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="44,178,0,0" TextWrapping="Wrap" Text="You want to understand routing? How about being a router for once and trying to do its job?" VerticalAlignment="Top" Height="110" Width="146" FontSize="14"/>
+        <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="254,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="139" Width="146" FontSize="14"><Run Text="Need to practice all common IPv4 and IPv6 calculations? IP Quiz helps you with unlimited"/><Run Text=" set of"/><Run Text=" randomly generated questions"/><Run Language="en-gb" Text="."/></TextBlock>
     </Grid>
 </Page>
