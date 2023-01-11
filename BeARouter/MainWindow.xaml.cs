@@ -169,7 +169,7 @@ namespace BeARouter
 
                 var ipv4Package = gameEngine.NextPacket();
 
-                ipv4Package.AttachToGrid(mainGrid, 460, 275);
+                ipv4Package.AttachToGrid(mainGrid, 460, 293);
 
                 var route = gameEngine.RoutingTable.GetRouteFor(ipv4Package.DestIP);
 
