@@ -20,6 +20,12 @@ namespace BeARouter
                    EqualityComparer<System.Net.IPAddress>.Default.Equals(ipAddress, address.ipAddress);
         }
 
+        public string GetAlternativeAbbreviation()
+        {
+            var ipAddressStr = ipAddress.ToString();
+            return ipAddressStr.Replace(":0:", "::");
+        }
+        
         public static bool operator ==(IPv6Address left, IPv6Address right)
         {
             if (left is null && right is null) return true;

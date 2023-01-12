@@ -8,11 +8,13 @@ namespace BeARouter.DoAQuiz.QuestionTypes
     {
         private IPv6Address ipAddress;
         private string expandedIPv6;
+        private string alternativeIPv6;
 
         public AbbreviatingIPv6Question()
         {
             ipAddress = Helper.GetRandomIPv6Subnet(numberOfZeroBytes: 7).GetAddress();
             expandedIPv6 = ipAddress.Expand();
+            alternativeIPv6 = ipAddress.GetAlternativeAbbreviation();
         }
 
         public string Name => "Abbreviating IPv6";
@@ -33,7 +35,7 @@ namespace BeARouter.DoAQuiz.QuestionTypes
 
         public bool Evaluate(string response)
         {
-            return response == ipAddress.ToString();
+            return response == ipAddress.ToString() || response == alternativeIPv6;
         }
     }
 }
