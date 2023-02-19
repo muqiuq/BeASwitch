@@ -1,5 +1,6 @@
-﻿using BeARouter.AppStart;
-using BeAToolsLibrary;
+﻿using BeAToolsLibrary;
+using BeAUILibrary;
+using BeAUILibrary.AppStart;
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -13,27 +14,17 @@ namespace BeARouter
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IWelcomeUserConfig
     {
         GameEngine gameEngine;
 
-        public MainWindow(bool examMode, int numOfCorrectAttempts, int totalNumberOfAttempts)
+        public MainWindow()
         {
             InitializeComponent();
 
             gameEngine = new GameEngine(Dispatcher);
 
             pointsGrid.Visibility = Visibility.Hidden;
-
-            gameEngine.Goal = new Goal(totalNumberOfAttempts, numOfCorrectAttempts);
-
-            if(!examMode)
-            {
-                textBoxGoal.Visibility = Visibility.Hidden;
-                labelGoal.Visibility = Visibility.Hidden;
-            }
-            
-            textBoxGoal.Text = gameEngine.Goal.ToString();
 
             for (int a = 0; a < gameEngine.Ports.Count; a++)
             {
@@ -49,7 +40,7 @@ namespace BeARouter
             textBlockUniqueID.Text = UniqueID.ToString();
 
             this.Title += $" {Assembly.GetEntryAssembly().GetName().Version}";
-            this.examMode = examMode;
+            
         }
 
         private void ListProcesses()
@@ -207,7 +198,7 @@ namespace BeARouter
 
 
         private int EnableWriteOnFormMouseClickCounter = 0;
-        private readonly bool examMode;
+        private bool examMode;
 
         private void textBoxIpRoute_KeyDown(object sender, KeyEventArgs e)
         {
@@ -275,9 +266,24 @@ namespace BeARouter
 
         private void buttonMainMenu_Click(object sender, RoutedEventArgs e)
         {
-            var welcomeWindow = new WelcomeWindow();
+            var welcomeWindow = new WelcomeWindow(Global.AppTypesToApplication);
             welcomeWindow.Show();
             Close();
+        }
+
+
+
+        public void SetUserWelcomeConfig(InstanceSettings settings)
+        {
+            gameEngine.Goal = new Goal(settings.TotalNumberOfAttempts, settings.NumOfCorrectAttempts);
+
+            if (!examMode)
+            {
+                textBoxGoal.Visibility = Visibility.Hidden;
+                labelGoal.Visibility = Visibility.Hidden;
+            }
+            this.examMode = settings.ExamMode;
+            textBoxGoal.Text = gameEngine.Goal.ToString();
         }
     }
 }

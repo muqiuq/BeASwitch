@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BeAUILibrary.AppStart;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,17 @@ namespace BeASwitch
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            var welcomeWindow = new WelcomeWindow(new Dictionary<AppTypes, IWelcomeUserConfig>()
+            {
+                { AppTypes.BeASwitch, new MainWindow() }
+            });
+            welcomeWindow.Show();
+
+
+        }
     }
 }

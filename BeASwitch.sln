@@ -16,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuccessCertificateVerficiat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeAToolsLibrary", "BeAToolsLibrary\BeAToolsLibrary.csproj", "{16BAE5D8-D82E-4AD1-9FB3-DB1776F863C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuccessCertificateSubmissionClient", "SuccessCertificateSubmissionClient\SuccessCertificateSubmissionClient.csproj", "{809C204F-5CDB-4814-9BC3-D937E57BF002}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuccessCertificateSubmissionClient", "SuccessCertificateSubmissionClient\SuccessCertificateSubmissionClient.csproj", "{809C204F-5CDB-4814-9BC3-D937E57BF002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeAUILibrary", "BeAUILibrary\BeAUILibrary.csproj", "{43CD4667-9254-4A46-9D19-346AA1C05A17}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{809C204F-5CDB-4814-9BC3-D937E57BF002}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{809C204F-5CDB-4814-9BC3-D937E57BF002}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{809C204F-5CDB-4814-9BC3-D937E57BF002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43CD4667-9254-4A46-9D19-346AA1C05A17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43CD4667-9254-4A46-9D19-346AA1C05A17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43CD4667-9254-4A46-9D19-346AA1C05A17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43CD4667-9254-4A46-9D19-346AA1C05A17}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

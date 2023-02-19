@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BeARouter.AppStart
+namespace BeAUILibrary.AppStart
 {
     public enum AppTypes
     {
         BeARouter,
-        IPQuiz
+        IPQuiz,
+        BeASwitch
     }
 }

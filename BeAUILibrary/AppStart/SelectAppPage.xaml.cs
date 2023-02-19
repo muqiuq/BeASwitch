@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BeARouter.AppStart
+namespace BeAUILibrary.AppStart
 {
     /// <summary>
     /// Interaction logic for SelectAppPage.xaml
@@ -33,13 +33,13 @@ namespace BeARouter.AppStart
         private void buttonBeARouter_Click(object sender, RoutedEventArgs e)
         {
             SelectedApp = AppTypes.BeARouter;
-            next1Delegate(SelectedApp);
+            next1Delegate(SelectedApp, new InstanceSettings());
         }
 
         private void buttonIPQuiz_Click(object sender, RoutedEventArgs e)
         {
             SelectedApp = AppTypes.IPQuiz;
-            next1Delegate(SelectedApp);
+            next1Delegate(SelectedApp, new InstanceSettings());
         }
     }
 }

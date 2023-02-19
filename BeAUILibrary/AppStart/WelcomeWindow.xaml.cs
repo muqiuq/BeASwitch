@@ -1,4 +1,4 @@
-﻿using BeARouter.AppStart;
+﻿using BeAUILibrary.AppStart;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,28 +13,31 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using static BeARouter.AppStart.WelcomeWindow;
+using static BeAUILibrary.AppStart.WelcomeWindow;
 
-namespace BeARouter.AppStart
+namespace BeAUILibrary.AppStart
 {
     /// <summary>
     /// Interaction logic for WelcomeWindow.xaml
     /// </summary>
     public partial class WelcomeWindow : Window
     {
-        public delegate void Next1Delegate(AppTypes selectedApp);
+        public delegate void Next1Delegate(AppTypes selectedApp, InstanceSettings settings);
         public Next1Delegate next1Delegate;
 
         public delegate void Next2Delegate(bool examMode, int numOfCorrectAttempts, int totalNumberOfAttempts);
         public Next2Delegate next2Delegate;
 
         private SelectAppPage selectAppPage;
+        private BeASwitchOptionsPage beASwitchOptionsPage;
         private AppTypes SelectedApp;
         private SelectModePage selectModePage;
 
-        Window SelectedWindow;
+        IWelcomeUserConfig SelectedWindow;
+        private InstanceSettings instanceSettings;
+        private readonly Dictionary<AppTypes, IWelcomeUserConfig> appTypeToWindow;
 
-        public WelcomeWindow()
+        public WelcomeWindow(Dictionary<AppTypes, IWelcomeUserConfig> appTypeToWindow)
         {
             InitializeComponent();
 
@@ -43,31 +46,46 @@ namespace BeARouter.AppStart
 
             selectAppPage = new SelectAppPage(next1Delegate);
 
-            mainFrame.Content = selectAppPage;
+            beASwitchOptionsPage = new BeASwitchOptionsPage(next1Delegate);
+
+            if (appTypeToWindow.ContainsKey(AppTypes.BeASwitch))
+            {
+                mainFrame.Content = beASwitchOptionsPage;
+            }
+            else
+            {
+                mainFrame.Content = selectAppPage;
+            }
 
             this.Title += $" {Assembly.GetEntryAssembly().GetName().Version}";
+            this.appTypeToWindow = appTypeToWindow;
         }
 
-        public void Next1(AppTypes selectedApp)
+        public void Next1(AppTypes selectedApp, InstanceSettings settings)
         {
             SelectedApp = selectedApp;
 
             selectModePage = new SelectModePage(next2Delegate);
 
             mainFrame.Content = selectModePage;
+
+            this.instanceSettings = settings;
         }
 
         public void Next2(bool examMode, int numOfCorrectAttempts, int totalNumberOfAttempts)
         {
-            if (SelectedApp == AppTypes.BeARouter)
+            SelectedWindow = appTypeToWindow[SelectedApp];
+
+            instanceSettings.ExamMode = examMode;
+            instanceSettings.NumOfCorrectAttempts = numOfCorrectAttempts;
+            instanceSettings.TotalNumberOfAttempts = totalNumberOfAttempts;
+
+            SelectedWindow.SetUserWelcomeConfig(instanceSettings);
+            
+            if(SelectedWindow is Window)
             {
-                SelectedWindow = new MainWindow(examMode, numOfCorrectAttempts, totalNumberOfAttempts);
+                ((Window)SelectedWindow).Show();
             }
-            else if (SelectedApp == AppTypes.IPQuiz)
-            {
-                SelectedWindow = new DoAQuizWindow(examMode, numOfCorrectAttempts, totalNumberOfAttempts);
-            }
-            SelectedWindow.Show();
             Close();
         }
 

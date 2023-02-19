@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BeASwitch
+namespace BeAUILibrary
 {
     public class InstanceSettings
     {
 
+        public bool ExamMode;
+        public int NumOfCorrectAttempts;
+        public int TotalNumberOfAttempts;
         public bool UseVLAN = false;
 
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BeAUILibrary;
+using BeAUILibrary.AppStart;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -20,19 +22,27 @@ namespace BeASwitch
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IWelcomeUserConfig
     {
         SwitchEngine switchEngine;
         GameEngine gameEngine;
+        InstanceSettings settings;
 
         bool currentFrameChecked = false;
 
-        public MainWindow(InstanceSettings settings)
+        public MainWindow()
         {
             InitializeComponent();
 
             switchEngine = new SwitchEngine(6);
-            if(settings.UseVLAN)
+
+            this.Title += $" {Assembly.GetEntryAssembly().GetName().Version}";
+        }
+
+        public void SetUserWelcomeConfig(InstanceSettings settings)
+        {
+            this.settings = settings;
+            if (settings.UseVLAN)
             {
                 GameEngine.RandomizeSwitchPortsVlan(switchEngine);
             }
@@ -44,8 +54,6 @@ namespace BeASwitch
             switchEngine[3].AttachToGrid(mainGrid, 600, 10, settings.UseVLAN);
             switchEngine[4].AttachToGrid(mainGrid, 600, 180, settings.UseVLAN);
             switchEngine[5].AttachToGrid(mainGrid, 600, 350, settings.UseVLAN);
-
-            this.Title += $" {Assembly.GetEntryAssembly().GetName().Version}";
         }
 
         private void Ellipse1_MouseMove(object sender, MouseEventArgs e)
@@ -191,5 +199,7 @@ namespace BeASwitch
             switchEngine.ClearMacAddressTables();
             textBoxMacTables.Text = "MAC address tables are empty.";
         }
+
+
     }
 }

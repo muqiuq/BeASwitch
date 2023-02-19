@@ -1,6 +1,8 @@
 ﻿using BeARouter.DoAQuiz;
 using BeARouter.DoAQuiz.Frames;
 using BeAToolsLibrary;
+using BeAUILibrary;
+using BeAUILibrary.AppStart;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,7 +20,7 @@ namespace BeARouter
     /// <summary>
     /// Interaction logic for DoAQuiz.xaml
     /// </summary>
-    public partial class DoAQuizWindow : Window
+    public partial class DoAQuizWindow : Window, IWelcomeUserConfig
     {
         IQuestion activeQuestion;
         private IQuestionPage activeQuestionPage;
@@ -40,30 +42,22 @@ namespace BeARouter
 
         int totalCorrect = 0;
         int totalQuestions = 0;
-        private readonly bool examMode;
+        private bool examMode;
 
-        public DoAQuizWindow(bool examMode, int numOfCorrectAttempts, int totalNumberOfAttempts)
+        public DoAQuizWindow()
         {
             InitializeComponent();
-
-            quizOptions.Goal = new Goal(totalNumberOfAttempts, numOfCorrectAttempts);
-
+            
             questionRandomizer = new QuestionRandomizer(quizOptions);
 
             UpdateWindow = new UpdateWindowDelegate(UpdateAll);
             ActionNext = new ActionNextDelegate(Next);
 
-            if(!examMode)
-            {
-                labelGoal.Visibility = Visibility.Hidden;
-            }
-
             buttonNext_Click(null, null);
-            
+
             updateGoal();
 
             this.DataContext = this;
-            this.examMode = examMode;
         }
 
         public void UpdateAll()
@@ -215,6 +209,17 @@ namespace BeARouter
                 RestartGame();
                 UpdateAll();
             }
+        }
+
+        public void SetUserWelcomeConfig(InstanceSettings settings)
+        {
+            quizOptions.Goal = new Goal(settings.TotalNumberOfAttempts, settings.NumOfCorrectAttempts);
+            this.examMode = settings.ExamMode;
+            if (!examMode)
+            {
+                labelGoal.Visibility = Visibility.Hidden;
+            }
+            updateGoal();
         }
     }
 }

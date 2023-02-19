@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BeARouter.AppStart
+namespace BeAUILibrary.AppStart
 {
     /// <summary>
     /// Interaction logic for SelectModePage.xaml
