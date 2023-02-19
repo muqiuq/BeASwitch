@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeAUILibrary.AppStart"
         mc:Ignorable="d"
-        Title="BeARouter + IP Quiz" Height="400" Width="455">
+        Title="BeARouter + IP Quiz" Height="400" Width="455" Closed="Window_Closed">
     <Grid>
         <Frame x:Name="mainFrame" Content="Frame" NavigationUIVisibility="Hidden" Navigated="mainFrame_Navigated"/>
     </Grid>

@@ -37,6 +37,8 @@ namespace BeAUILibrary.AppStart
         private InstanceSettings instanceSettings;
         private readonly Dictionary<AppTypes, IWelcomeUserConfig> appTypeToWindow;
 
+        bool finalApplicationStarted = false;
+
         public WelcomeWindow(Dictionary<AppTypes, IWelcomeUserConfig> appTypeToWindow)
         {
             InitializeComponent();
@@ -87,6 +89,7 @@ namespace BeAUILibrary.AppStart
             if(SelectedWindow is Window)
             {
                 ((Window)SelectedWindow).Show();
+                finalApplicationStarted = true;
             }
             Close();
         }
@@ -94,6 +97,14 @@ namespace BeAUILibrary.AppStart
         private void mainFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
             mainFrame.NavigationService.RemoveBackEntry();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if(!finalApplicationStarted)
+            {
+                Application.Current.Shutdown();
+            }
         }
     }
 }
