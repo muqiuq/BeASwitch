@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BeAToolsLibrary\BeAToolsLibrary.csproj" />
     <ProjectReference Include="..\BeAUILibrary\BeAUILibrary.csproj" />
   </ItemGroup>
 

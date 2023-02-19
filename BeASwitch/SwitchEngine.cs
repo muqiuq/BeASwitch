@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BeASwitch
@@ -34,6 +35,32 @@ namespace BeASwitch
         {
             macTablePerVlan.Clear();
             }
+
+        public bool IsMacTableEntryRequiredForFrame(EthernetFrame ethernetFrame)
+        {
+            int vlanToUse = 0;
+            if (!ethernetFrame.vlanTag.HasValue)
+            {
+                if (ethernetFrame.AttachedCurrentlyToSwitchPort.Untagged.Count == 0)
+                {
+                    return false;
+                }
+                vlanToUse = ethernetFrame.AttachedCurrentlyToSwitchPort.Untagged[0];
+            }
+            else
+            {
+                if (!ethernetFrame.AttachedCurrentlyToSwitchPort.Tagged.Contains(ethernetFrame.vlanTag.Value))
+                {
+                    return false;
+                }
+                vlanToUse = ethernetFrame.vlanTag.Value;
+            }
+            if (!macTablePerVlan.ContainsKey(vlanToUse))
+            {
+                return true;
+            }
+            return !macTablePerVlan[vlanToUse].Contains(ethernetFrame.SourceHost.MAC);
+        }
 
         public SwitchAction ProcessEthernetFrame(EthernetFrame ethernetFrame)
         {
@@ -168,6 +195,16 @@ namespace BeASwitch
         IEnumerator IEnumerable.GetEnumerator()
         {
             return Ports.GetEnumerator();
+        }
+
+        internal void MarkAllExceptInboundPort(EthernetFrame currentEthernetFrame)
+        {
+            if (currentEthernetFrame == null || currentEthernetFrame.AttachedCurrentlyToSwitchPort == null) return;
+            Ports.Where(p => p != currentEthernetFrame.AttachedCurrentlyToSwitchPort).ToList().ForEach(p =>
+            {
+                p.MarkCheckBox();
+            }
+            );
         }
     }
 }

@@ -18,7 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace BeARouter
+namespace BeAUILibrary
 {
     /// <summary>
     /// Interaction logic for SuccessCertificateWindow.xaml

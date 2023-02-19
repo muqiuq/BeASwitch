@@ -50,6 +50,7 @@ namespace BeAUILibrary.AppStart
 
             if (appTypeToWindow.ContainsKey(AppTypes.BeASwitch))
             {
+                this.Title = "BeASwitch";
                 mainFrame.Content = beASwitchOptionsPage;
             }
             else
@@ -57,6 +58,7 @@ namespace BeAUILibrary.AppStart
                 mainFrame.Content = selectAppPage;
             }
 
+            
             this.Title += $" {Assembly.GetEntryAssembly().GetName().Version}";
             this.appTypeToWindow = appTypeToWindow;
         }

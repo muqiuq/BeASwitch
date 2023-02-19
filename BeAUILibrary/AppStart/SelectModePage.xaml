@@ -24,10 +24,10 @@
         <TextBlock x:Name="textBlockPraticeMode" HorizontalAlignment="Left" Margin="10,91,0,0" TextWrapping="Wrap" Text="practice as long as you want. " VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlockExamMode" HorizontalAlignment="Left" Margin="10,169,0,0" TextWrapping="Wrap" Text="Now it's time to get serious: only if you achieve the defined goal will you receive the certificate of success, that you can then send to your course instructor. " VerticalAlignment="Top"/>
 
-        <TextBox x:Name="textBoxCorrectAttempts" HorizontalAlignment="Left" Margin="291,210,0,0" TextWrapping="Wrap" Text="37" VerticalAlignment="Top" Width="35" TextChanged="textBoxCorrectAttempts_TextChanged" FontSize="14" KeyDown="textBoxCorrectAttempts_KeyDown"/>
+        <TextBox x:Name="textBoxCorrectAttempts" HorizontalAlignment="Left" Margin="291,210,0,0" TextWrapping="Wrap" Text="27" VerticalAlignment="Top" Width="35" TextChanged="textBoxCorrectAttempts_TextChanged" FontSize="14" KeyDown="textBoxCorrectAttempts_KeyDown"/>
         <Label x:Name="labelMinimumCorrect" Content="Minimum number of correct solved challenges:" HorizontalAlignment="Left" Margin="10,206,0,0" VerticalAlignment="Top"/>
         <Label x:Name="labelTotalAttempts" Content="Number of challenges to be solved:" HorizontalAlignment="Left" Margin="10,237,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBoxTotalAttempts" HorizontalAlignment="Left" Margin="291,241,0,0" TextWrapping="Wrap" Text="40" VerticalAlignment="Top" Width="35" TextChanged="textBoxTotalAttempts_TextChanged" FontSize="14" KeyDown="textBoxTotalAttempts_KeyDown"/>
+        <TextBox x:Name="textBoxTotalAttempts" HorizontalAlignment="Left" Margin="291,241,0,0" TextWrapping="Wrap" Text="30" VerticalAlignment="Top" Width="35" TextChanged="textBoxTotalAttempts_TextChanged" FontSize="14" KeyDown="textBoxTotalAttempts_KeyDown"/>
         <Button x:Name="buttonStart" Content="Start" HorizontalAlignment="Left" Margin="350,276,0,0" VerticalAlignment="Top" Width="81" Height="31" Click="buttonStart_Click" IsEnabled="False"/>
         <Label x:Name="labelEvalInfo" Content="" HorizontalAlignment="Left" Margin="10,281,0,0" VerticalAlignment="Top"/>
     </Grid>

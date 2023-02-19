@@ -10,7 +10,7 @@
 
     <Grid>
         <Label x:Name="label" Content="Welcome to BeASwitch" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="24"/>
-        <Label x:Name="label1" Content="Choose to use VLAN simulation by marking the checkbox below" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1" Content="Enable VLAN in the simulation by marking the checkbox below" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="checkBoxVLAN" Content="use VLAN" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top"/>
         <Button x:Name="buttonNext" Content="Next" HorizontalAlignment="Left" Margin="10,163,0,0" VerticalAlignment="Top" Height="30" Width="81" Click="buttonNext_Click"/>
     </Grid>

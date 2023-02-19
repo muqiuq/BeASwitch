@@ -160,5 +160,9 @@ namespace BeASwitch
             return String.Join(",", buf);
         }
 
+        internal void MarkCheckBox()
+        {
+            CheckBoxSend.IsChecked = true;
+        }
     }
 }

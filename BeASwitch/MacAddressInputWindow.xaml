@@ -1,0 +1,22 @@
+﻿<Window x:Class="BeASwitch.MacAddressInputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BeASwitch"
+        mc:Ignorable="d"
+        Title="MAC / Port Entry" Height="220" Width="348" ResizeMode="NoResize" Loaded="Window_Loaded" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <RadioButton x:Name="radioButtonEntryRequired" Content="MAC table entry required" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Checked="radioButtonChanged"/>
+        <RadioButton x:Name="radioButtonEntryNotRequired" Content="MAC table not entry required" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Checked="radioButtonChanged"/>
+        <Label x:Name="labelNewEntry" Content="New entry:" HorizontalAlignment="Center" Margin="0,54,0,0" VerticalAlignment="Top" Width="328"/>
+        <Label x:Name="labelMac" Content="MAC:" HorizontalAlignment="Left" Margin="15,80,0,0" VerticalAlignment="Top" Height="27"/>
+        <Label x:Name="labelPort" Content="Port:" HorizontalAlignment="Left" Margin="15,110,0,0" VerticalAlignment="Top"/>
+        <ComboBox x:Name="comboBoxMac" HorizontalAlignment="Left" Margin="76,83,0,0" VerticalAlignment="Top" Width="120" IsEditable="True"/>
+        <ComboBox x:Name="comboBoxPort" HorizontalAlignment="Left" Margin="76,112,0,0" VerticalAlignment="Top" Width="120" IsEditable="True"/>
+        <Button x:Name="buttonOK" Content="OK" HorizontalAlignment="Center" Margin="0,153,0,0" VerticalAlignment="Top" Width="328" Height="26" Click="buttonOK_Click"/>
+        <Label x:Name="labelMacCorrect" Content="Correct" HorizontalAlignment="Left" Margin="217,81,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelPortCorrect" Content="Correct" HorizontalAlignment="Left" Margin="217,110,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelNeedsEntryCorrect" Content="Correct" HorizontalAlignment="Left" Margin="217,17,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>

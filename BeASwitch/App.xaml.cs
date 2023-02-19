@@ -17,14 +17,13 @@ namespace BeASwitch
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
+            var mainWindow = new MainWindow();
             var welcomeWindow = new WelcomeWindow(new Dictionary<AppTypes, IWelcomeUserConfig>()
             {
-                { AppTypes.BeASwitch, new MainWindow() }
+                { AppTypes.BeASwitch, mainWindow}
             });
+            this.MainWindow = mainWindow;
             welcomeWindow.Show();
-
-
         }
     }
 }

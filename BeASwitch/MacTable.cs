@@ -31,5 +31,10 @@ namespace BeASwitch
             return output;
         }
 
+        public bool Contains(string MAC)
+        {
+            return macAddressToSwichPort.ContainsKey(MAC);
+        }
+
     }
 }

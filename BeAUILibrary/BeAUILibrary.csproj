@@ -6,4 +6,15 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BeAToolsLibrary\BeAToolsLibrary.csproj" />
+    <ProjectReference Include="..\SuccessCertificateSubmissionClient\SuccessCertificateSubmissionClient.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="SuccessCertificateWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
