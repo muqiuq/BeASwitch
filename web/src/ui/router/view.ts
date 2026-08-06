@@ -95,7 +95,16 @@ export function routerView(onExit: () => void): HTMLElement {
   }
 
   function packetPanel(): HTMLElement {
-    const panel = el('div', { class: 'panel' }, el('h2', { class: 'panel-title', text: t('router.packet') }));
+    const panel = el(
+      'div',
+      { class: 'panel' },
+      el(
+        'div',
+        { class: 'panel-header' },
+        el('h2', { class: 'panel-title', text: t('router.packet') }),
+        actions(),
+      ),
+    );
     const packet = snapshot.packet;
 
     if (!packet) {
@@ -155,7 +164,10 @@ export function routerView(onExit: () => void): HTMLElement {
               ? t('router.onLink')
               : t('router.viaGateway', { gateway: route.gateway ?? '—' }),
           }),
-          el('td', { class: 'mono', text: `eth${route.port}` }),
+          el('td', {
+            class: `mono ${route.port === null ? 'muted' : ''}`,
+            text: route.port === null ? '—' : `eth${route.port}`,
+          }),
         ),
       );
     }
@@ -164,65 +176,62 @@ export function routerView(onExit: () => void): HTMLElement {
     return panel;
   }
 
-  function controlPanel(): HTMLElement {
-    const panel = el('div', { class: 'panel' });
+  function controlPanel(): HTMLElement | null {
+    if (snapshot.state !== 'showingSolution' || !snapshot.result) return null;
 
-    if (snapshot.state === 'showingSolution' && snapshot.result) {
-      const result = snapshot.result;
-      const expected =
-        result.expectedPort === null
-          ? t('router.expectedDrop')
-          : t('router.expectedInterface', {
-              name: snapshot.interfaces[result.expectedPort]?.name ?? `eth${result.expectedPort}`,
-            });
+    const result = snapshot.result;
+    const expected =
+      result.expectedPort === null
+        ? t('router.expectedDrop')
+        : t('router.expectedInterface', {
+            name: snapshot.interfaces[result.expectedPort]?.name ?? `eth${result.expectedPort}`,
+          });
 
-      const box = el(
-        'div',
-        { class: `result ${result.correct ? 'is-correct' : 'is-wrong'}`, role: 'status' },
-        el('strong', { text: result.correct ? t('router.resultCorrect') : t('router.resultWrong') }),
-        el('p', { text: expected }),
-      );
-      queueMicrotask(() => void (result.correct ? pulse(box) : shake(box)));
-      panel.append(box);
+    const box = el(
+      'div',
+      { class: `result ${result.correct ? 'is-correct' : 'is-wrong'}`, role: 'status' },
+      el('strong', { text: result.correct ? t('router.resultCorrect') : t('router.resultWrong') }),
+      el('p', { text: expected }),
+    );
+    queueMicrotask(() => void (result.correct ? pulse(box) : shake(box)));
+    return el('div', { class: 'panel' }, box);
+  }
+
+  function primaryAction(): { label: string; handler: () => void } {
+    switch (snapshot.state) {
+      case 'awaitingAnswer':
+        return { label: t('router.send'), handler: check };
+      case 'showingSolution':
+        return { label: t('common.next'), handler: start };
+      default:
+        return { label: t('common.start'), handler: start };
     }
-
-    panel.append(actions());
-    return panel;
   }
 
   function actions(): HTMLElement {
-    const row = el('div', { class: 'actions' });
+    const row = el('div', { class: 'panel-actions' });
+    const action = primaryAction();
+    row.append(primary(action.label, action.handler, 'btn-sm'));
 
-    if (snapshot.state === 'awaitingStart') {
-      row.append(primary(t('common.start'), start));
-    } else if (snapshot.state === 'awaitingAnswer') {
-      row.append(primary(t('router.send'), check));
-    } else {
-      row.append(primary(t('common.next'), start));
-      const explainBtn = el('button', {
-        type: 'button',
-        class: 'btn btn-ghost',
-        text: t('router.explain'),
-      });
-      explainBtn.addEventListener('click', () => {
+    if (snapshot.state === 'showingSolution') {
+      row.append(ghost(t('router.explain'), () => {
         showExplain = !showExplain;
         render();
-      });
-      row.append(explainBtn);
+      }));
     }
 
-    const restartBtn = el('button', {
-      type: 'button',
-      class: 'btn btn-ghost',
-      text: t('common.restart'),
-    });
-    restartBtn.addEventListener('click', restart);
-    row.append(restartBtn);
+    row.append(ghost(t('common.restart'), restart));
     return row;
   }
 
-  function primary(label: string, handler: () => void): HTMLButtonElement {
-    const button = el('button', { type: 'button', class: 'btn btn-primary', text: label });
+  function ghost(label: string, handler: () => void): HTMLButtonElement {
+    const button = el('button', { type: 'button', class: 'btn btn-ghost btn-sm', text: label });
+    button.addEventListener('click', handler);
+    return button;
+  }
+
+  function primary(label: string, handler: () => void, extra = ''): HTMLButtonElement {
+    const button = el('button', { type: 'button', class: `btn btn-primary ${extra}`, text: label });
     button.addEventListener('click', handler);
     return button;
   }

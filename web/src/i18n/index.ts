@@ -1,14 +1,39 @@
 import de from './de.json';
 import en from './en.json';
+import es419 from './es-419.json';
+import ptBR from './pt-BR.json';
 
-export const LOCALES = ['de', 'en'] as const;
+export const LOCALES = ['de', 'en', 'pt-BR', 'es-419'] as const;
 export type Locale = (typeof LOCALES)[number];
+
+/** Short labels for the picker; the tags themselves are BCP 47. */
+export const LOCALE_LABELS: Record<Locale, string> = {
+  de: 'DE',
+  en: 'EN',
+  'pt-BR': 'BR',
+  'es-419': 'ES',
+};
 
 type Catalog = Record<string, string>;
 
-const catalogs: Record<Locale, Catalog> = { de, en };
+const catalogs: Record<Locale, Catalog> = {
+  de,
+  en,
+  'pt-BR': ptBR,
+  'es-419': es419,
+};
 
 const STORAGE_KEY = 'bea.locale';
+
+/** Maps a browser language such as `pt-PT` or `es-MX` onto a catalog. */
+function matchLocale(language: string): Locale | null {
+  const lower = language.toLowerCase();
+  if (lower.startsWith('de')) return 'de';
+  if (lower.startsWith('pt')) return 'pt-BR';
+  if (lower.startsWith('es')) return 'es-419';
+  if (lower.startsWith('en')) return 'en';
+  return null;
+}
 
 // Guarded because storage access throws in some privacy modes, and because the
 // geometry tests import this module outside a browser.
@@ -18,7 +43,11 @@ function detectLocale(): Locale {
     if (stored && (LOCALES as readonly string[]).includes(stored)) {
       return stored as Locale;
     }
-    return navigator.language.toLowerCase().startsWith('de') ? 'de' : 'en';
+    for (const language of navigator.languages ?? [navigator.language]) {
+      const match = matchLocale(language);
+      if (match) return match;
+    }
+    return 'en';
   } catch {
     return 'en';
   }

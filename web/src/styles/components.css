@@ -36,6 +36,9 @@
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: var(--space-4);
   margin-bottom: var(--space-6);
+  /* Without this a grid row stretches every card to the tallest one, so
+     expanding one card's options would resize its neighbours. */
+  align-items: start;
 }
 
 .switch-layout,
@@ -304,6 +307,8 @@
   color: var(--text-muted);
   font-size: 0.92rem;
   flex: 1;
+  /* Keeps the Start buttons roughly level now that cards size themselves. */
+  min-height: 4.2em;
 }
 
 .card-progress {
@@ -318,6 +323,31 @@
   letter-spacing: 0.08em;
   color: var(--text-muted);
   margin-bottom: var(--space-3);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-3);
+}
+
+.panel-actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.panel-header .panel-title {
+  margin-bottom: 0;
+}
+
+.btn-sm {
+  padding: var(--space-1) var(--space-3);
+  font-size: 0.85rem;
 }
 
 .topology-panel {

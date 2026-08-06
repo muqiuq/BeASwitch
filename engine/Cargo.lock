@@ -51,7 +51,7 @@ dependencies = [
 
 [[package]]
 name = "net-core"
-version = "0.1.0"
+version = "0.2.0"
 
 [[package]]
 name = "once_cell"
@@ -76,7 +76,7 @@ dependencies = [
 
 [[package]]
 name = "quiz-engine"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "net-core",
 ]
@@ -92,7 +92,7 @@ dependencies = [
 
 [[package]]
 name = "router-engine"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "net-core",
 ]
@@ -152,7 +152,7 @@ checksum = "0c790de23124f9ab44544d7ac05d60440adc586479ce501c1d6d7da3cd8c9cf5"
 
 [[package]]
 name = "switch-engine"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "net-core",
 ]
@@ -187,7 +187,7 @@ checksum = "e6e4313cd5fcd3dad5cafa179702e2b244f760991f45397d14d4ebf38247da75"
 
 [[package]]
 name = "wasm-api"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "net-core",
  "quiz-engine",

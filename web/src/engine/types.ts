@@ -130,7 +130,8 @@ export interface RouteRow {
   target: string;
   network: string;
   mask: number;
-  port: number;
+  /** Only set for directly attached routes; otherwise it would be the answer. */
+  port: number | null;
   gateway: string | null;
   src: string | null;
   onLink: boolean;

@@ -24,7 +24,9 @@ struct RouteDto {
     target: String,
     network: String,
     mask: u8,
-    port: usize,
+    /// Only for directly attached routes. For a gateway route this is the
+    /// answer, so it stays in wasm until the round has been scored.
+    port: Option<usize>,
     gateway: Option<String>,
     src: Option<String>,
     on_link: bool,
@@ -156,7 +158,7 @@ impl RouterGame {
                     target: route.subnet.to_string(),
                     network: route.subnet.network_address().to_string(),
                     mask: route.subnet.mask,
-                    port: route.port,
+                    port: route.on_link().then_some(route.port),
                     gateway: route.gateway.map(|g| g.to_string()),
                     src: route.src.map(|s| s.to_string()),
                     on_link: route.on_link(),

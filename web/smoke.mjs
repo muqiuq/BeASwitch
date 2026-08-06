@@ -51,6 +51,14 @@ ok('router: routes present', r.routes.length >= 5, `${r.routes.length} routes`);
 ok('router: default route', r.routes.some((x) => x.isDefault));
 ok('router: packet dealt', !!r.packet, JSON.stringify(r.packet));
 
+// A gateway route's interface is the answer, so it must not be readable.
+const leaked = r.routes.filter((x) => !x.onLink && x.port !== null);
+ok('router: gateway routes hide their interface', leaked.length === 0, JSON.stringify(leaked));
+ok(
+  'router: connected routes show their interface',
+  r.routes.filter((x) => x.onLink).every((x) => typeof x.port === 'number'),
+);
+
 r = rt.submit(new Uint32Array([0]));
 ok('router: result present', !!r.result, `expectedPort=${r.result?.expectedPort}`);
 ok('router: explanation covers table', r.result.explanation.length === r.routes.length);

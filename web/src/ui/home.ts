@@ -1,4 +1,4 @@
-import { LOCALES, locale, setLocale, t } from '../i18n/index.js';
+import { LOCALES, LOCALE_LABELS, locale, setLocale, t } from '../i18n/index.js';
 import { el, mount } from './shared/dom.js';
 import { fadeIn } from './shared/animate.js';
 import { quizArt, routerArt, switchArt } from './art.js';
@@ -76,7 +76,8 @@ export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement 
       const button = el('button', {
         type: 'button',
         class: `lang-button ${locale() === code ? 'is-active' : ''}`,
-        text: code.toUpperCase(),
+        text: LOCALE_LABELS[code],
+        lang: code,
         'aria-pressed': String(locale() === code),
       });
       button.addEventListener('click', () => setLocale(code));
