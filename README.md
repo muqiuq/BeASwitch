@@ -10,6 +10,10 @@ Feel free to use this application for your class or self-studying.
 
 Feedback is welcome!  
 
+## Browser version
+
+A port of all three exercises to a single static web app lives can be reached over https://be-a.network .
+
 ## BeASwitch
 
 ![BeASwitch](media/beaswitchv16_small.PNG)

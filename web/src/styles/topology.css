@@ -1,0 +1,214 @@
+/* Styling for the animated SVG topologies of BeASwitch and BeARouter. */
+
+.topology {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+/* ------------------------------------------------------------------ cables */
+
+.cable {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  opacity: 0.55;
+  transition: opacity 200ms ease, stroke-width 200ms ease;
+}
+
+.cable-host {
+  stroke-dasharray: 4 6;
+  opacity: 0.4;
+}
+
+.cable.is-active {
+  opacity: 1;
+  stroke-width: 4;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+/* ----------------------------------------------------------------- chassis */
+
+.chassis-body {
+  fill: var(--bg-raised);
+  stroke: var(--line-strong);
+  stroke-width: 2;
+}
+
+.chassis-label,
+.router-label {
+  fill: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  letter-spacing: 0.18em;
+}
+
+.router-circle {
+  fill: var(--bg-raised);
+  stroke: var(--line-strong);
+  stroke-width: 2;
+}
+
+/* ------------------------------------------------------------------- ports */
+
+/* Scale animations must pivot on the element, not on the canvas centre. */
+.port,
+.interface {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.port-body,
+.interface-body {
+  fill: var(--surface);
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+  transition: stroke 200ms ease, fill 200ms ease;
+}
+
+.port-label,
+.interface-name {
+  fill: var(--text);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.port-role {
+  fill: var(--text-muted);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.interface-addr {
+  fill: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.vlan-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.vlan-badge.is-tagged {
+  font-style: italic;
+}
+
+.port.is-expected .port-body,
+.interface.is-expected .interface-body {
+  stroke: var(--success);
+  stroke-width: 3;
+}
+
+.port.is-mistake .port-body,
+.interface.is-mistake .interface-body {
+  stroke: var(--danger);
+  stroke-width: 3;
+}
+
+.interface.is-interactive {
+  cursor: pointer;
+}
+
+.interface.is-interactive:hover .interface-body {
+  stroke: var(--accent);
+}
+
+.interface.is-selected .interface-body {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+/* ------------------------------------------------------------------- hosts */
+
+.host-body {
+  fill: var(--bg-raised);
+  stroke-width: 2.5;
+}
+
+.host-label {
+  fill: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Unknown until the station has sent a frame. */
+.host.is-unknown .host-body {
+  fill: var(--bg-sunken);
+  stroke-dasharray: 3 3;
+  opacity: 0.7;
+}
+
+.host.is-unknown .host-label {
+  fill: var(--text-muted);
+  font-weight: 500;
+}
+
+.host.is-known .host-label {
+  animation: host-reveal 420ms ease-out;
+}
+
+@keyframes host-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+.host.is-sending .host-body {
+  filter: drop-shadow(0 0 8px var(--accent));
+}
+
+/* --------------------------------------------------------- moving payloads */
+
+.frame-token,
+.packet-token {
+  pointer-events: none;
+}
+
+.frame-body,
+.packet-body {
+  fill: var(--accent);
+  stroke: var(--accent-strong);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+}
+
+.frame-text,
+.packet-text {
+  fill: var(--text-inverse);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.frame-tag,
+.packet-sub {
+  fill: var(--text-inverse);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  opacity: 0.85;
+}
+
+.packet-token.is-parked .packet-body {
+  fill: var(--warning);
+}
+
+/* A frame the switch drops, and a packet with no matching route. */
+.frame-token.is-discarded,
+.packet-token.is-dropped {
+  opacity: 0.55;
+}
+
+.frame-token.is-discarded .frame-body,
+.packet-token.is-dropped .packet-body {
+  fill: var(--text-muted);
+  stroke: var(--text-muted);
+}

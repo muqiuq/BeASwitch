@@ -1,0 +1,352 @@
+import { RouterGame, defaultOptions } from '../../engine/index.js';
+import { t } from '../../i18n/index.js';
+import { el, mount } from '../shared/dom.js';
+import { animate, motionDisabled, pulse, shake, travel, wait } from '../shared/animate.js';
+import { scoreBar } from '../shared/scoreBar.js';
+import { summaryView } from '../shared/summary.js';
+import { loadSettings, recordPassedExam, saveProgress } from '../shared/storage.js';
+import { explainPanel } from './explain.js';
+import { computeGeometry, renderTopology } from './topology.js';
+import type { Geometry, TopologyRefs } from './topology.js';
+
+export function routerView(onExit: () => void): HTMLElement {
+  const settings = loadSettings().router;
+  const root = el('section', { class: 'exercise exercise-router' });
+
+  let game = new RouterGame(
+    defaultOptions({
+      examMode: settings.examMode,
+      goalTotal: settings.examMode ? settings.goalTotal : 0,
+      goalCorrect: settings.examMode ? settings.goalCorrect : 0,
+    }),
+  );
+
+  let snapshot = game.snapshot();
+  let selected = new Set<number>();
+  let showExplain = false;
+  let geometry: Geometry = computeGeometry(snapshot);
+  let refs: TopologyRefs | null = null;
+
+  function render(): void {
+    if (snapshot.state === 'finished') {
+      mount(
+        root,
+        summaryView({
+          score: snapshot.score,
+          goal: snapshot.goal,
+          status: snapshot.result?.goalStatus ?? null,
+          onRetry: restart,
+          onExit,
+        }),
+      );
+      return;
+    }
+
+    geometry = computeGeometry(snapshot);
+    refs = renderTopology(
+      snapshot,
+      geometry,
+      selected,
+      toggleInterface,
+      snapshot.state === 'awaitingAnswer',
+    );
+
+    mount(
+      root,
+      header(),
+      scoreBar(snapshot.score, snapshot.goal),
+      el(
+        'div',
+        { class: 'router-layout' },
+        el('div', { class: 'topology-panel' }, refs.root, banner()),
+        el(
+          'div',
+          { class: 'router-side' },
+          packetPanel(),
+          routingTablePanel(),
+          controlPanel(),
+        ),
+      ),
+      showExplain ? explainPanel(snapshot, () => {
+        showExplain = false;
+        render();
+      }) : null,
+    );
+
+    applyVerdictStyling();
+  }
+
+  function header(): HTMLElement {
+    const back = el('button', { type: 'button', class: 'btn btn-ghost', text: t('app.backToMenu') });
+    back.addEventListener('click', onExit);
+    return el(
+      'header',
+      { class: 'exercise-header' },
+      el('h1', { class: 'exercise-title', text: t('router.title') }),
+      back,
+    );
+  }
+
+  function banner(): HTMLElement {
+    if (!snapshot.packet) {
+      return el('p', { class: 'banner', text: t('router.intro') });
+    }
+    return el('p', { class: 'banner', text: t('router.selectInterface') });
+  }
+
+  function packetPanel(): HTMLElement {
+    const panel = el('div', { class: 'panel' }, el('h2', { class: 'panel-title', text: t('router.packet') }));
+    const packet = snapshot.packet;
+
+    if (!packet) {
+      panel.append(el('p', { class: 'muted', text: t('router.intro') }));
+      return panel;
+    }
+
+    panel.append(
+      el(
+        'dl',
+        { class: 'kv' },
+        ...field(t('router.destIp'), packet.destIp, true),
+        ...field(t('router.sourceIp'), packet.sourceIp),
+        ...field(t('router.destMac'), packet.destMac),
+        ...field(t('router.sourceMac'), packet.sourceMac),
+      ),
+    );
+    return panel;
+  }
+
+  function field(label: string, value: string, emphasis = false): [HTMLElement, HTMLElement] {
+    return [
+      el('dt', { text: label }),
+      el('dd', { class: `mono ${emphasis ? 'is-emphasis' : ''}`, text: value }),
+    ];
+  }
+
+  function routingTablePanel(): HTMLElement {
+    const panel = el(
+      'div',
+      { class: 'panel' },
+      el('h2', { class: 'panel-title', text: t('router.routingTable') }),
+    );
+
+    const body = el('tbody');
+    const chosen = snapshot.result?.chosenRouteIndex ?? null;
+    const matches = new Map(
+      (snapshot.result?.explanation ?? []).map((row) => [row.routeIndex, row]),
+    );
+
+    for (const route of snapshot.routes) {
+      const match = matches.get(route.index);
+      const classes = [
+        route.isDefault ? 'is-default' : '',
+        match ? (match.matches ? 'is-match' : 'is-nomatch') : '',
+        route.index === chosen ? 'is-winner' : '',
+      ].join(' ');
+
+      body.append(
+        el(
+          'tr',
+          { class: classes, 'data-route': route.index },
+          el('td', { class: 'mono', text: route.target }),
+          el('td', {
+            class: 'mono',
+            text: route.onLink
+              ? t('router.onLink')
+              : t('router.viaGateway', { gateway: route.gateway ?? '—' }),
+          }),
+          el('td', { class: 'mono', text: `eth${route.port}` }),
+        ),
+      );
+    }
+
+    panel.append(el('table', { class: 'route-table' }, body));
+    return panel;
+  }
+
+  function controlPanel(): HTMLElement {
+    const panel = el('div', { class: 'panel' });
+
+    if (snapshot.state === 'showingSolution' && snapshot.result) {
+      const result = snapshot.result;
+      const expected =
+        result.expectedPort === null
+          ? t('router.expectedDrop')
+          : t('router.expectedInterface', {
+              name: snapshot.interfaces[result.expectedPort]?.name ?? `eth${result.expectedPort}`,
+            });
+
+      const box = el(
+        'div',
+        { class: `result ${result.correct ? 'is-correct' : 'is-wrong'}`, role: 'status' },
+        el('strong', { text: result.correct ? t('router.resultCorrect') : t('router.resultWrong') }),
+        el('p', { text: expected }),
+      );
+      queueMicrotask(() => void (result.correct ? pulse(box) : shake(box)));
+      panel.append(box);
+    }
+
+    panel.append(actions());
+    return panel;
+  }
+
+  function actions(): HTMLElement {
+    const row = el('div', { class: 'actions' });
+
+    if (snapshot.state === 'awaitingStart') {
+      row.append(primary(t('common.start'), start));
+    } else if (snapshot.state === 'awaitingAnswer') {
+      row.append(primary(t('router.send'), check));
+    } else {
+      row.append(primary(t('common.next'), start));
+      const explainBtn = el('button', {
+        type: 'button',
+        class: 'btn btn-ghost',
+        text: t('router.explain'),
+      });
+      explainBtn.addEventListener('click', () => {
+        showExplain = !showExplain;
+        render();
+      });
+      row.append(explainBtn);
+    }
+
+    const restartBtn = el('button', {
+      type: 'button',
+      class: 'btn btn-ghost',
+      text: t('common.restart'),
+    });
+    restartBtn.addEventListener('click', restart);
+    row.append(restartBtn);
+    return row;
+  }
+
+  function primary(label: string, handler: () => void): HTMLButtonElement {
+    const button = el('button', { type: 'button', class: 'btn btn-primary', text: label });
+    button.addEventListener('click', handler);
+    return button;
+  }
+
+  function toggleInterface(port: number): void {
+    if (snapshot.state !== 'awaitingAnswer') return;
+    if (selected.has(port)) {
+      selected.delete(port);
+    } else {
+      selected.add(port);
+    }
+    render();
+  }
+
+  function start(): void {
+    snapshot = game.nextPacket();
+    selected = new Set();
+    showExplain = false;
+    render();
+    void animateArrival();
+  }
+
+  function check(): void {
+    snapshot = game.submit([...selected]);
+    saveProgress({
+      exercise: 'router',
+      correct: snapshot.score.correct,
+      total: snapshot.score.total,
+      score: snapshot.score.score,
+      updatedAt: Date.now(),
+    });
+    if (snapshot.result?.goalStatus === 'reached' && snapshot.goal) {
+      recordPassedExam({
+        exercise: 'router',
+        correct: snapshot.score.correct,
+        total: snapshot.score.total,
+        score: snapshot.score.score,
+        goalCorrect: snapshot.goal.correctAttempts,
+        goalTotal: snapshot.goal.totalAttempts,
+        completedAt: Date.now(),
+      });
+    }
+    render();
+    void animateDeparture();
+  }
+
+  function restart(): void {
+    game.dispose();
+    const current = loadSettings().router;
+    game = new RouterGame(
+      defaultOptions({
+        examMode: current.examMode,
+        goalTotal: current.examMode ? current.goalTotal : 0,
+        goalCorrect: current.examMode ? current.goalCorrect : 0,
+      }),
+    );
+    snapshot = game.snapshot();
+    selected = new Set();
+    showExplain = false;
+    render();
+  }
+
+  /** The packet arrives from outside and parks on the router. */
+  async function animateArrival(): Promise<void> {
+    const token = refs?.packetToken;
+    if (!token || motionDisabled()) return;
+
+    const from = geometry.entryPoint;
+    token.style.transform = `translate(${from.x}px, ${from.y}px)`;
+
+    await Promise.all([
+      animate(token, [{ opacity: 0 }, { opacity: 1 }], { duration: 260, easing: 'ease-out' }),
+      travel(token, from, geometry.centre, 640),
+    ]);
+  }
+
+  /**
+   * Walks the routing table row by row, then sends the packet out of the
+   * winning interface so the decision is visible step by step.
+   */
+  async function animateDeparture(): Promise<void> {
+    const result = snapshot.result;
+    const token = refs?.packetToken;
+    if (!result || !token || !refs) return;
+
+    for (const row of result.explanation) {
+      const tr = root.querySelector(`tr[data-route="${row.routeIndex}"]`);
+      if (!tr) continue;
+      tr.classList.add('is-evaluating');
+      await wait(180);
+      tr.classList.remove('is-evaluating');
+    }
+
+    if (result.expectedPort === null) {
+      await shake(token);
+      return;
+    }
+
+    const winner = root.querySelector(`tr[data-route="${result.chosenRouteIndex}"]`);
+    if (winner) await pulse(winner);
+
+    refs.cables.get(result.expectedPort)?.classList.add('is-active');
+    await travel(token, geometry.centre, geometry.interfaceAnchor(result.expectedPort), 520);
+    await travel(
+      token,
+      geometry.interfaceAnchor(result.expectedPort),
+      geometry.exitAnchor(result.expectedPort),
+      380,
+    );
+    refs.cables.get(result.expectedPort)?.classList.remove('is-active');
+  }
+
+  function applyVerdictStyling(): void {
+    if (!refs || !snapshot.result) return;
+    const { expectedPort, selectedPorts } = snapshot.result;
+    for (const [port, group] of refs.interfaceGroups) {
+      group.classList.toggle('is-expected', port === expectedPort);
+      group.classList.toggle(
+        'is-mistake',
+        selectedPorts.includes(port) && port !== expectedPort,
+      );
+    }
+  }
+
+  render();
+  return root;
+}

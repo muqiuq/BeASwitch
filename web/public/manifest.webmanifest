@@ -1,0 +1,19 @@
+{
+  "name": "be-a.network",
+  "short_name": "be-a.network",
+  "description": "Be a switch. Be a router. Learn networking by making the decisions yourself.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b1220",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

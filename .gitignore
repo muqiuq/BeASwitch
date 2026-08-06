@@ -362,3 +362,16 @@ MigrationBackup/
 FodyWeavers.xsd
 
 /BeAToolsLibrary/Certificates/SuccessCertificatesDefaults.cs
+
+# macOS
+.DS_Store
+.AppleDouble
+._*
+
+# Editors
+.idea/
+*.swp
+*.swo
+*~
+
+# The web app and the Rust engine keep their own .gitignore files.

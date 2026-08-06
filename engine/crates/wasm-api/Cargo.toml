@@ -1,0 +1,31 @@
+[package]
+name = "wasm-api"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+# wasm-pack ships an older wasm-opt than the features rustc now emits by default.
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = [
+    "-Oz",
+    "--enable-bulk-memory",
+    "--enable-mutable-globals",
+    "--enable-nontrapping-float-to-int",
+    "--enable-sign-ext",
+    "--enable-reference-types",
+    "--enable-multivalue",
+]
+
+[dependencies]
+net-core.workspace = true
+switch-engine.workspace = true
+router-engine.workspace = true
+quiz-engine.workspace = true
+wasm-bindgen = "0.2"
+serde = { version = "1", features = ["derive"] }
+serde-wasm-bindgen = "0.6"

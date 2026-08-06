@@ -1,0 +1,5 @@
+# Cargo build output.
+/target
+
+# wasm-pack copies its output straight into web/src/wasm/, which web/.gitignore
+# excludes; nothing else is generated here.

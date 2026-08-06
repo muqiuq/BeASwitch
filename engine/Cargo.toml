@@ -1,0 +1,30 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/net-core",
+    "crates/switch-engine",
+    "crates/router-engine",
+    "crates/quiz-engine",
+    "crates/wasm-api",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+license = "CC-BY-NC-SA-4.0 OR GPL-3.0-or-later"
+publish = false
+
+[workspace.dependencies]
+net-core = { path = "crates/net-core" }
+switch-engine = { path = "crates/switch-engine" }
+router-engine = { path = "crates/router-engine" }
+quiz-engine = { path = "crates/quiz-engine" }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
+overflow-checks = false

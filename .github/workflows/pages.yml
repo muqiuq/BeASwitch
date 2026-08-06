@@ -1,0 +1,89 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'engine/**'
+      - 'web/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deployments race, but let a running one finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      # Rust ships with the runner image; only the wasm target is missing.
+      - name: Add the wasm target
+        run: rustup target add wasm32-unknown-unknown
+
+      - name: Cache cargo registry and build output
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            ~/.cargo/bin/wasm-pack
+            engine/target
+          key: cargo-${{ runner.os }}-${{ hashFiles('engine/Cargo.lock') }}
+          restore-keys: cargo-${{ runner.os }}-
+
+      - name: Install wasm-pack
+        run: command -v wasm-pack || cargo install wasm-pack --locked
+
+      - name: Test the engine
+        run: cargo test --manifest-path engine/Cargo.toml
+
+      - name: Install web dependencies
+        run: npm ci
+        working-directory: web
+
+      - name: Build the WebAssembly engine
+        run: npm run build:wasm
+        working-directory: web
+
+      - name: Check the engine through its wasm boundary
+        run: npm run test:engine
+        working-directory: web
+
+      - name: Test and build the web app
+        run: npm test && npm run build
+        working-directory: web
+
+      # Set the CUSTOM_DOMAIN repository variable to be-a.network once its DNS
+      # points at GitHub Pages. Without it the project URL is used.
+      - name: Apply custom domain
+        if: vars.CUSTOM_DOMAIN != ''
+        run: echo "${{ vars.CUSTOM_DOMAIN }}" > web/dist/CNAME
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
