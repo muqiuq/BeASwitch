@@ -74,7 +74,7 @@ Information for teachers at other schools who wish to use automatic submission:
 
 ## About me
 
-I'm a teacher at [Technische Berufsschule Zürich - TBZ](https://tbz.ch/) and I like to develop learning tools for my students. Feel free to contact me: info@uisa.ch
+Learn more about me: https://uisa.ch
 
 <a href="https://www.buymeacoffee.com/muqiuq" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 30px !important;width: 108px !important;" width="200"></a>
 
