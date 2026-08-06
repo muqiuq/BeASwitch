@@ -1,5 +1,11 @@
 # Network Learning Toolkit - BeASwitch, BeARouter and IPQuiz
 
+> [!TIP]
+> ## Play it now in your browser &rarr; **[be-a.network](https://be-a.network)**
+>
+> All three exercises run entirely in the browser. **No download, no installation,
+> no account.** Works offline once loaded, and installs as an app on desktop and mobile.
+
 Understanding the basic concepts of an Ethernet switch can be challenging in the beginning. All the new technical terms, IEEE industry standards names and CLI configuration can easily overwhelm a young networker. 
 
 This application is a draft for a concept where the user learns how a switch works by making the switching and routing decisions himself. 
@@ -12,7 +18,19 @@ Feedback is welcome!
 
 ## Browser version
 
-A port of all three exercises to a single static web app lives can be reached over https://be-a.network .
+<div align="center">
+
+### [be-a.network](https://be-a.network)
+
+**BeASwitch &middot; BeARouter &middot; IPQuiz &mdash; all three, in your browser**
+
+</div>
+
+The simulation logic is rewritten in Rust and compiled to WebAssembly; the interface
+is TypeScript with animated SVG topologies, available in German and English.
+The Windows applications below remain available and are unchanged.
+
+See [web/README.md](web/README.md) if you want to build or host it yourself.
 
 ## BeASwitch
 
