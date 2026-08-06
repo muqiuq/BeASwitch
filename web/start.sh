@@ -8,7 +8,7 @@
 # Stop with Ctrl-C.
 set -eu
 
-IMAGE="docker.io/library/node:20-alpine"
+IMAGE="docker.io/library/node:24-alpine"
 VOLUME="bea-web-node-modules"
 CONTAINER="bea-web-server"
 DIR="$(cd "$(dirname "$0")" && pwd)"

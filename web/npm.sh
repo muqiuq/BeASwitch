@@ -9,7 +9,7 @@
 # macOS and gets its ownership squashed by virtiofs.
 set -eu
 
-IMAGE="docker.io/library/node:20-alpine"
+IMAGE="docker.io/library/node:24-alpine"
 VOLUME="bea-web-node-modules"
 DIR="$(cd "$(dirname "$0")" && pwd)"
 

@@ -64,13 +64,14 @@ function createNode(tag: string, ns: string | null): Shim {
 }
 
 beforeAll(() => {
+  // Node 24 exposes `navigator` as a getter-only global, so it is left alone;
+  // detectLocale() already falls back to English when it is unavailable.
   (globalThis as Record<string, unknown>).document = {
     createElement: (tag: string) => createNode(tag, null),
     createElementNS: (ns: string, tag: string) => createNode(tag, ns),
     createTextNode: (text: string) => ({ __text: text }),
     documentElement: { lang: 'en' },
   };
-  (globalThis as Record<string, unknown>).navigator = { language: 'en' };
 });
 
 interface Extent {

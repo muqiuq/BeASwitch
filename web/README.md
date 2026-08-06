@@ -14,7 +14,7 @@ The WPF projects are untouched and remain the reference implementation.
 | --- | --- | --- |
 | Rust + `wasm-pack` | builds the engine | already installed |
 | `wasm32-unknown-unknown` target | **not yet installed** | `rustup target add wasm32-unknown-unknown` |
-| Node 20 | builds the UI | or use `./npm.sh`, which runs npm in a container |
+| Node 24 | builds the UI | or use `./npm.sh`, which runs npm in a container |
 
 ## Build
 
@@ -43,7 +43,7 @@ cd web
 
 `start.sh` installs dependencies on first run, warns if the engine has not been
 built yet, and stops with Ctrl-C. It mounts the repo into
-`docker.io/library/node:20-alpine` and keeps `node_modules` in a named volume,
+`docker.io/library/node:24-alpine` and keeps `node_modules` in a named volume,
 because bind-mounted `node_modules` is slow on macOS and loses its ownership
 through virtiofs. `npm.sh` wraps arbitrary npm commands the same way.
 
