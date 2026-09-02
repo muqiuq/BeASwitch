@@ -289,6 +289,51 @@ Every parameter is normalised or dropped on the way in, exactly as the stored
 settings blob is, so a truncated or hand-mangled link degrades to defaults
 rather than throwing.
 
+### Quiz theory (`ui/quiz/theory.ts`)
+
+Under an IPv4 question, in **practice mode only**, a collapsed box offers the
+method behind it — condensed from the course notes on address calculation and
+subnetting. Exam mode never shows it, and the IPv6 kinds have no notes, so the
+gate is `!examMode && question.category === 'ipv4'`.
+
+Seven question kinds map onto four topics, because one calculation answers
+several of them: `networkAddress` / `broadcast` both come out of the block
+size, `splitSubnet*` share the subnetting method, and `cidrToDotted` /
+`dottedToCidr` share the mask conversion. `numberOfHosts` has its own topic —
+it is answered by counting host bits, not by locating the network.
+
+Each topic states its method as numbered steps and then **carries those exact
+steps out** on a concrete address: `worked()` renders one list item per step,
+in the same order, with every intermediate calculation on its own line — the
+division that finds the multiple, the next block, the subtraction. A step that
+assumes knowledge the reader may not have also carries a `thought`, which
+spells the reasoning out in plain words underneath the numbers: *why* 5 rounds
+up to 8, and not merely that it does.
+
+That is also why the subnetting example divides by **5**, not by 3 or 4:
+rounding up only teaches anything when the number is not already a power of
+two, and 5 has to skip 6 and 7 to reach 8. The calculations themselves are pure
+arithmetic and need no translation, which is what lets the mask topic afford
+both directions (prefix → mask and mask → prefix, one per question kind).
+
+Every topic ends in a binary block, because that is where the rule becomes
+visible: the host bits are what separates a network address from a broadcast
+address, the borrowed bits counting `00, 01, 10, 11` are why there are four
+subnets, and a run of ones is all a mask is. In three of the four a `|` marks
+the prefix boundary, in the same column on every row of the block, so only the
+part that actually differs differs. Each block is followed by a caption that
+says what to compare.
+
+Prose examples are tables rather than `<pre>`, since the numbers are identical
+in every language while the labels are not. The binary blocks are the exception
+— alignment is their whole point — so `codeBlock()` pads its columns at render
+time from the translated labels it was handed, rather than trusting four
+catalogs to agree on a width. The bit strings themselves are constants, not
+computed: rule 1 in §3 keeps address arithmetic out of TypeScript.
+
+The open state lives in the view closure, so the box stays open across
+questions until it is closed again.
+
 ### SVG topologies and animation
 
 Both exercise views draw an inline SVG and animate it with the Web Animations

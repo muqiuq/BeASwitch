@@ -60,6 +60,9 @@ describe.each(Object.keys(translations))('%s catalog', (name) => {
       'prefix.multicast',
       'prefix.loopback',
       'prefix.sixToFour',
+      'theory.prefix',
+      'theory.broadcast',
+      'theory.hosts',
     ]);
 
     const identical = Object.keys(reference).filter(

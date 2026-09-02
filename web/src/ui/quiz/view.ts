@@ -8,9 +8,10 @@ import { scoreBar } from '../shared/scoreBar.js';
 import { summaryView } from '../shared/summary.js';
 import { recordPassedExam, saveProgress } from '../shared/storage.js';
 import { activeSettings } from '../shared/config.js';
+import { theoryPanel, theoryTopic } from './theory.js';
 
 export function quizView(onExit: (() => void) | null): HTMLElement {
-  const settings = activeSettings().quiz;
+  let settings = activeSettings().quiz;
   const root = el('section', { class: 'exercise exercise-quiz' });
 
   let session = new QuizSession(
@@ -26,6 +27,9 @@ export function quizView(onExit: (() => void) | null): HTMLElement {
   let snapshot: QuizSnapshot = session.nextQuestion();
   let response = snapshot.question?.responseTemplate ?? '';
   let choice = '';
+  // Kept across questions: once opened, the theory stays open until it is
+  // closed again, rather than folding away with every new question.
+  let theoryOpen = false;
 
   function render(): void {
     if (snapshot.state === 'finished') {
@@ -46,10 +50,26 @@ export function quizView(onExit: (() => void) | null): HTMLElement {
       root,
       header(),
       scoreBar(snapshot.score, snapshot.goal),
-      el('div', { class: 'quiz-layout' }, questionCard()),
+      el('div', { class: 'quiz-layout' }, questionCard(), theorySection()),
     );
 
     focusInput();
+  }
+
+  /**
+   * Practice only, and IPv4 only: an exam is not the place to read up the
+   * method, and the IPv6 questions are not covered by these notes.
+   */
+  function theorySection(): HTMLElement | null {
+    const question = snapshot.question;
+    if (!question || settings.examMode || question.category !== 'ipv4') return null;
+
+    const topic = theoryTopic(question.kind);
+    return topic
+      ? theoryPanel(topic, theoryOpen, (open) => {
+          theoryOpen = open;
+        })
+      : null;
   }
 
   function header(): HTMLElement {
@@ -259,14 +279,14 @@ export function quizView(onExit: (() => void) | null): HTMLElement {
 
   function restart(): void {
     session.dispose();
-    const current = activeSettings().quiz;
+    settings = activeSettings().quiz;
     session = new QuizSession(
       defaultOptions({
-        examMode: current.examMode,
-        goalTotal: current.examMode ? current.goalTotal : 0,
-        goalCorrect: current.examMode ? current.goalCorrect : 0,
-        ipv4: current.ipv4,
-        ipv6: current.ipv6,
+        examMode: settings.examMode,
+        goalTotal: settings.examMode ? settings.goalTotal : 0,
+        goalCorrect: settings.examMode ? settings.goalCorrect : 0,
+        ipv4: settings.ipv4,
+        ipv6: settings.ipv6,
       }),
     );
     snapshot = session.nextQuestion();
