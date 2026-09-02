@@ -199,6 +199,9 @@
   "extras.link.open": "Ausprobieren",
   "extras.link.reset": "Zurücksetzen",
 
+  "extras.colours.title": "Farbmodi",
+  "extras.colours.description": "Färbe das ganze Toolkit neu. Deine eigene Wahl – kein konfigurierter Link nimmt sie mit, und auf die Übungen hat sie keinen Einfluss.",
+
   "footer.github": "Quellcode auf GitHub",
   "footer.createdBy": "Erstellt von Philipp Albrecht"
 }

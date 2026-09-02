@@ -10,6 +10,7 @@ import { t } from '../../i18n/index.js';
 import { el, mount } from '../shared/dom.js';
 import { fadeIn } from '../shared/animate.js';
 import { linkBuilder } from './linkBuilder.js';
+import { colourModes } from './colourModes.js';
 
 interface ExtraFeature {
   id: string;
@@ -25,6 +26,12 @@ const FEATURES: ExtraFeature[] = [
     title: () => t('extras.link.title'),
     description: () => t('extras.link.description'),
     render: linkBuilder,
+  },
+  {
+    id: 'colours',
+    title: () => t('extras.colours.title'),
+    description: () => t('extras.colours.description'),
+    render: colourModes,
   },
 ];
 

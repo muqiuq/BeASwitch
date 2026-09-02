@@ -20,7 +20,6 @@
   flex: 1 1 24rem;
 }
 
-
 .home-title {
   font-size: clamp(1.8rem, 4vw, 2.6rem);
   letter-spacing: -0.02em;
@@ -1235,4 +1234,60 @@ a.btn {
     border-bottom: 1px solid var(--line);
     padding: var(--space-3);
   }
+}
+
+/* ------------------------------------------------------------ colour modes */
+
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-3);
+}
+
+/* Each card wears its own palette, so it is a sample of the mode it offers. */
+.theme-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.theme-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-card.is-active {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 2px var(--accent-soft), var(--shadow-sm);
+}
+
+.theme-preview {
+  display: flex;
+  gap: 3px;
+  height: 2.2em;
+}
+
+.theme-swatch {
+  flex: 1;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+}
+
+.theme-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.theme-card.is-active .theme-name::after {
+  content: ' ✓';
+  color: var(--accent);
 }

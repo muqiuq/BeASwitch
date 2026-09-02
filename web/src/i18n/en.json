@@ -199,6 +199,9 @@
   "extras.link.open": "Try it",
   "extras.link.reset": "Reset",
 
+  "extras.colours.title": "Colour modes",
+  "extras.colours.description": "Repaint the whole toolkit. Your own choice — no configured link carries it, and it has no effect on the exercises.",
+
   "footer.github": "Source on GitHub",
   "footer.createdBy": "Created by Philipp Albrecht"
 }

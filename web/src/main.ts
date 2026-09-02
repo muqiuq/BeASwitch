@@ -12,6 +12,7 @@ import { switchView } from './ui/switch/view.js';
 import { quizView } from './ui/quiz/view.js';
 import { activeSettings, singleExercise, urlConfig, visibleExercises } from './ui/shared/config.js';
 import { applyTextScale } from './ui/shared/textSize.js';
+import { applyTheme } from './ui/shared/theme.js';
 import type { ExerciseId } from './ui/shared/storage.js';
 
 const app = document.querySelector<HTMLElement>('#app');
@@ -81,8 +82,9 @@ async function main(): Promise<void> {
   const forcedLocale = urlConfig()?.locale;
   if (forcedLocale) setLocale(forcedLocale, false);
 
-  // Sits on <html>, so it holds for every view until the learner changes it.
+  // Both sit on <html>, so they hold for every view until they are changed.
   applyTextScale(activeSettings().textScale);
+  applyTheme(activeSettings().theme);
 
   try {
     await loadEngine();

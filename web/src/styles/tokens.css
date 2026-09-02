@@ -1,4 +1,5 @@
-:root {
+:root,
+[data-theme='system'] {
   color-scheme: dark light;
 
   --bg: #0b1220;
@@ -48,7 +49,8 @@
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
+  :root,
+  [data-theme='system'] {
     --bg: #f4f7fc;
     --bg-raised: #ffffff;
     --bg-sunken: #e6ecf6;
@@ -78,4 +80,415 @@
     --shadow: 0 12px 32px rgba(20, 40, 70, 0.12);
     --shadow-sm: 0 4px 14px rgba(20, 40, 70, 0.08);
   }
+}
+
+/* ------------------------------------------------------------ colour modes */
+
+/*
+ * Selected in the extra features window and written onto <html> as
+ * `data-theme`. Each block only restates what it changes; anything left out
+ * is inherited from the default palette above.
+ *
+ * The selector is the bare attribute rather than `:root[data-theme=…]` on
+ * purpose: it lets a preview swatch re-colour its own subtree. That gives it
+ * the same specificity as `:root`, so these blocks must stay *after* the
+ * light-scheme block above, which is what makes them win.
+ */
+
+[data-theme='sunset'] {
+  color-scheme: dark;
+
+  --bg: #1b1029;
+  --bg-raised: #241536;
+  --bg-sunken: #140b1f;
+  --surface: #2b1940;
+  --line: #4a2c5e;
+  --line-strong: #6b3f80;
+
+  --text: #ffe9dd;
+  --text-muted: #c9a3b8;
+  --text-inverse: #2a1020;
+
+  --accent: #ff8a4c;
+  --accent-strong: #ff6b2c;
+  --accent-soft: rgba(255, 138, 76, 0.18);
+
+  --success: #5fd6a8;
+  --success-soft: rgba(95, 214, 168, 0.18);
+  --danger: #ff5470;
+  --danger-soft: rgba(255, 84, 112, 0.18);
+  --warning: #ffd166;
+
+  --vlan-1: #ff8a4c;
+  --vlan-2: #5fd6a8;
+  --vlan-3: #ffd166;
+  --vlan-4: #b980f0;
+  --vlan-5: #4cc9f0;
+}
+
+/* Saturated to the point of crunch, which is the joke. */
+[data-theme='deepFried'] {
+  color-scheme: light;
+
+  --bg: #ffcc00;
+  --bg-raised: #ffe600;
+  --bg-sunken: #ff9d00;
+  --surface: #fff200;
+  --line: #ff5500;
+  --line-strong: #cc2200;
+
+  --text: #3d1400;
+  --text-muted: #7a2e00;
+  --text-inverse: #fff200;
+
+  --accent: #ff1a00;
+  --accent-strong: #cc0000;
+  --accent-soft: rgba(255, 26, 0, 0.22);
+
+  --success: #007a1f;
+  --success-soft: rgba(0, 122, 31, 0.22);
+  --danger: #b30000;
+  --danger-soft: rgba(179, 0, 0, 0.22);
+  --warning: #ff7700;
+
+  --vlan-1: #b30000;
+  --vlan-2: #007a1f;
+  --vlan-3: #7a3c00;
+  --vlan-4: #6a00b3;
+  --vlan-5: #005f9e;
+
+  --shadow: 0 12px 32px rgba(120, 40, 0, 0.4);
+  --shadow-sm: 0 4px 14px rgba(120, 40, 0, 0.3);
+}
+
+/* Dimmed and low in contrast, for a room that is not awake yet. */
+[data-theme='justWokeUp'] {
+  color-scheme: dark;
+
+  --bg: #14161a;
+  --bg-raised: #191c21;
+  --bg-sunken: #0f1114;
+  --surface: #1d2126;
+  --line: #2a2f36;
+  --line-strong: #3a4048;
+
+  --text: #aab0b8;
+  --text-muted: #767c85;
+  --text-inverse: #14161a;
+
+  --accent: #8298ad;
+  --accent-strong: #9aaec1;
+  --accent-soft: rgba(130, 152, 173, 0.16);
+
+  --success: #74a68d;
+  --success-soft: rgba(116, 166, 141, 0.16);
+  --danger: #b8807f;
+  --danger-soft: rgba(184, 128, 127, 0.16);
+  --warning: #b5a37a;
+
+  --vlan-1: #8298ad;
+  --vlan-2: #74a68d;
+  --vlan-3: #b5a37a;
+  --vlan-4: #9a8bb0;
+  --vlan-5: #b08a97;
+}
+
+[data-theme='terminal'] {
+  color-scheme: dark;
+
+  --bg: #000000;
+  --bg-raised: #0a120a;
+  --bg-sunken: #000000;
+  --surface: #0d160d;
+  --line: #1f3b1f;
+  --line-strong: #2f5f2f;
+
+  --text: #33ff66;
+  --text-muted: #1f9c46;
+  --text-inverse: #001200;
+
+  --accent: #33ff66;
+  --accent-strong: #7dffa5;
+  --accent-soft: rgba(51, 255, 102, 0.16);
+
+  --success: #33ff66;
+  --success-soft: rgba(51, 255, 102, 0.16);
+  --danger: #ff3355;
+  --danger-soft: rgba(255, 51, 85, 0.18);
+  --warning: #ffcc33;
+
+  --vlan-1: #33ff66;
+  --vlan-2: #33ffcc;
+  --vlan-3: #ccff33;
+  --vlan-4: #ff9933;
+  --vlan-5: #33ccff;
+}
+
+[data-theme='blueprint'] {
+  color-scheme: dark;
+
+  --bg: #0b2f5c;
+  --bg-raised: #103a6e;
+  --bg-sunken: #082446;
+  --surface: #12417a;
+  --line: #2f6bb0;
+  --line-strong: #4f8fd8;
+
+  --text: #eaf4ff;
+  --text-muted: #a9c8ea;
+  --text-inverse: #072040;
+
+  --accent: #7fe3ff;
+  --accent-strong: #4fd4ff;
+  --accent-soft: rgba(127, 227, 255, 0.18);
+
+  --success: #86f0c0;
+  --success-soft: rgba(134, 240, 192, 0.18);
+  --danger: #ff9aa8;
+  --danger-soft: rgba(255, 154, 168, 0.2);
+  --warning: #ffe08a;
+
+  --vlan-1: #7fe3ff;
+  --vlan-2: #86f0c0;
+  --vlan-3: #ffe08a;
+  --vlan-4: #cbb2ff;
+  --vlan-5: #ff9aa8;
+}
+
+[data-theme='highlighter'] {
+  color-scheme: light;
+
+  --bg: #fbfbf2;
+  --bg-raised: #ffffff;
+  --bg-sunken: #f0f0e0;
+  --surface: #ffffff;
+  --line: #d8d8c0;
+  --line-strong: #b0b094;
+
+  --text: #14140f;
+  --text-muted: #56564a;
+  --text-inverse: #ffffff;
+
+  --accent: #d4006b;
+  --accent-strong: #a80055;
+  --accent-soft: rgba(212, 0, 107, 0.14);
+
+  --success: #00874a;
+  --success-soft: rgba(0, 135, 74, 0.16);
+  --danger: #d42b16;
+  --danger-soft: rgba(212, 43, 22, 0.16);
+  --warning: #c99700;
+
+  --vlan-1: #d4006b;
+  --vlan-2: #00874a;
+  --vlan-3: #c99700;
+  --vlan-4: #6a2fb8;
+  --vlan-5: #0077c2;
+
+  --shadow: 0 12px 32px rgba(40, 40, 20, 0.16);
+  --shadow-sm: 0 4px 14px rgba(40, 40, 20, 0.1);
+}
+
+[data-theme='cottonCandy'] {
+  color-scheme: light;
+
+  --bg: #fdf2f8;
+  --bg-raised: #ffffff;
+  --bg-sunken: #f8e2f0;
+  --surface: #ffffff;
+  --line: #f0cbe2;
+  --line-strong: #d9a3c8;
+
+  --text: #4a2540;
+  --text-muted: #86617c;
+  --text-inverse: #ffffff;
+
+  --accent: #c9457f;
+  --accent-strong: #a83367;
+  --accent-soft: rgba(201, 69, 127, 0.14);
+
+  --success: #2f9179;
+  --success-soft: rgba(47, 145, 121, 0.16);
+  --danger: #d24459;
+  --danger-soft: rgba(210, 68, 89, 0.16);
+  --warning: #cf8a1f;
+
+  --vlan-1: #c9457f;
+  --vlan-2: #2f9179;
+  --vlan-3: #cf8a1f;
+  --vlan-4: #7b5cc4;
+  --vlan-5: #3d8fc4;
+
+  --shadow: 0 12px 32px rgba(90, 40, 70, 0.14);
+  --shadow-sm: 0 4px 14px rgba(90, 40, 70, 0.09);
+}
+
+/* Greyscale on paper. The VLAN tokens are five stepped greys: they are drawn
+   as strokes and small labels, so each one has to stay dark enough to read
+   against the topology panel. */
+[data-theme='monochrome'] {
+  color-scheme: light;
+
+  --bg: #f2f2f2;
+  --bg-raised: #ffffff;
+  --bg-sunken: #e6e6e6;
+  --surface: #ffffff;
+  --line: #cfcfcf;
+  --line-strong: #9c9c9c;
+
+  --text: #101010;
+  --text-muted: #5a5a5a;
+  --text-inverse: #ffffff;
+
+  --accent: #1c1c1c;
+  --accent-strong: #000000;
+  --accent-soft: rgba(0, 0, 0, 0.09);
+
+  --success: #6e6e6e;
+  --success-soft: rgba(0, 0, 0, 0.06);
+  --danger: #000000;
+  --danger-soft: rgba(0, 0, 0, 0.17);
+  --warning: #8a8a8a;
+
+  --vlan-1: #000000;
+  --vlan-2: #2e2e2e;
+  --vlan-3: #565656;
+  --vlan-4: #7d7d7d;
+  --vlan-5: #9e9e9e;
+
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme='sepia'] {
+  color-scheme: light;
+
+  --bg: #ece0c8;
+  --bg-raised: #f6eeda;
+  --bg-sunken: #ddceae;
+  --surface: #f8f1e1;
+  --line: #c9b48c;
+  --line-strong: #a3865a;
+
+  --text: #3b2a17;
+  --text-muted: #6d5637;
+  --text-inverse: #f8f1e1;
+
+  --accent: #8b5e34;
+  --accent-strong: #66421f;
+  --accent-soft: rgba(139, 94, 52, 0.16);
+
+  --success: #5a7333;
+  --success-soft: rgba(90, 115, 51, 0.18);
+  --danger: #97382b;
+  --danger-soft: rgba(151, 56, 43, 0.18);
+  --warning: #a8770f;
+
+  --vlan-1: #8b5e34;
+  --vlan-2: #5a7333;
+  --vlan-3: #a8770f;
+  --vlan-4: #7a5183;
+  --vlan-5: #97382b;
+
+  --shadow: 0 12px 32px rgba(80, 55, 25, 0.2);
+  --shadow-sm: 0 4px 14px rgba(80, 55, 25, 0.13);
+}
+
+/* Flag green with the yellow of the rhombus, and the flag's blue kept for a
+   VLAN so the verdict colours stay the only green and red on screen. */
+[data-theme='brazil'] {
+  color-scheme: dark;
+
+  --bg: #04301d;
+  --bg-raised: #073d26;
+  --bg-sunken: #022415;
+  --surface: #0a4a2e;
+  --line: #146b41;
+  --line-strong: #1f9159;
+
+  --text: #f2fff7;
+  --text-muted: #a6d8bd;
+  --text-inverse: #04301d;
+
+  --accent: #ffdf00;
+  --accent-strong: #ffc800;
+  --accent-soft: rgba(255, 223, 0, 0.18);
+
+  --success: #5cf2a0;
+  --success-soft: rgba(92, 242, 160, 0.2);
+  --danger: #ff6b6b;
+  --danger-soft: rgba(255, 107, 107, 0.22);
+  --warning: #ffdf00;
+
+  --vlan-1: #ffdf00;
+  --vlan-2: #5cf2a0;
+  --vlan-3: #4aa3ff;
+  --vlan-4: #ff9de2;
+  --vlan-5: #ffa14a;
+}
+
+/* White ground, one red, everything else set in grey. */
+[data-theme='switzerland'] {
+  color-scheme: light;
+
+  --bg: #f4f4f4;
+  --bg-raised: #ffffff;
+  --bg-sunken: #e7e7e7;
+  --surface: #ffffff;
+  --line: #d6d6d6;
+  --line-strong: #a2a2a2;
+
+  --text: #171717;
+  --text-muted: #575757;
+  --text-inverse: #ffffff;
+
+  --accent: #da291c;
+  --accent-strong: #a81d13;
+  --accent-soft: rgba(218, 41, 28, 0.12);
+
+  --success: #14795a;
+  --success-soft: rgba(20, 121, 90, 0.15);
+  --danger: #c21807;
+  --danger-soft: rgba(194, 24, 7, 0.15);
+  --warning: #9d7008;
+
+  --vlan-1: #da291c;
+  --vlan-2: #14795a;
+  --vlan-3: #9d7008;
+  --vlan-4: #5b3f9e;
+  --vlan-5: #1f6fb8;
+
+  --shadow: 0 12px 32px rgba(30, 30, 30, 0.14);
+  --shadow-sm: 0 4px 14px rgba(30, 30, 30, 0.09);
+}
+
+[data-theme='radioactive'] {
+  color-scheme: dark;
+
+  --bg: #0d0f05;
+  --bg-raised: #16190a;
+  --bg-sunken: #080a03;
+  --surface: #1c2010;
+  --line: #3a4318;
+  --line-strong: #5c6b26;
+
+  --text: #eaffb0;
+  --text-muted: #a3b86a;
+  --text-inverse: #0d0f05;
+
+  --accent: #ccff00;
+  --accent-strong: #a8d600;
+  --accent-soft: rgba(204, 255, 0, 0.16);
+
+  --success: #9fff3d;
+  --success-soft: rgba(159, 255, 61, 0.16);
+  --danger: #ff4d1a;
+  --danger-soft: rgba(255, 77, 26, 0.2);
+  --warning: #ffb400;
+
+  --vlan-1: #ccff00;
+  --vlan-2: #9fff3d;
+  --vlan-3: #ffb400;
+  --vlan-4: #ff4d1a;
+  --vlan-5: #4ddbff;
 }

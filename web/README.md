@@ -11,11 +11,18 @@ The WPF projects are untouched and remain the reference implementation.
 For a full technical overview — domain rules, the wasm boundary, animation
 constraints and known pitfalls — see [ARCHITECTURE.md](ARCHITECTURE.md).
 
-## Configured links
+## Extra features
 
-The footer has an **Extra features** button. It opens a window whose first tool
-builds a link that starts the site already set up — for a class, an exam or a
-worksheet:
+The footer has an **Extra features** button. Two tools live behind it: a link
+builder and a colour mode picker (`System` plus Sunset, Deep fried, Just woke
+up, Terminal, Blueprint, Highlighter, Cotton candy, Colors are evil, Lost in the
+Past, Brazil, Switzerland and Radioactive). Neither is needed to use the
+exercises.
+
+### Configured links
+
+The link builder produces a link that starts the site already set up — for a
+class, an exam or a worksheet:
 
 ```
 https://be-a.network/?tools=switch,quiz&lock=1&switch=exam:16/20,novlan&quiz=practice,ipv6
@@ -93,7 +100,7 @@ web/src/
   engine/          typed wrapper around the wasm module
   i18n/            de + en catalogs
   ui/switch|router|quiz/
-  ui/extras/       the extra features window and the link builder
+  ui/extras/       the extra features window: link builder, colour modes
   styles/
 ```
 

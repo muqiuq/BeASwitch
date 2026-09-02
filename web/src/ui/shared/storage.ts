@@ -1,6 +1,7 @@
 /** Versioned localStorage wrapper for settings, progress and exam results. */
 
 import { normaliseScale } from './textSize.js';
+import { normaliseTheme, type ThemeId } from './theme.js';
 
 const SETTINGS_KEY = 'bea.settings.v2';
 const PROGRESS_KEY = 'bea.progress.v1';
@@ -28,6 +29,8 @@ export interface Settings {
   reducedMotion: boolean;
   /** Root font size in percent; the steps live in `textSize.ts`. */
   textScale: number;
+  /** Colour mode; `system` follows `prefers-color-scheme`. */
+  theme: ThemeId;
 }
 
 const DEFAULT_EXERCISE: ExerciseSettings = {
@@ -45,6 +48,7 @@ export const DEFAULT_SETTINGS: Settings = {
   quiz: { ...DEFAULT_EXERCISE },
   reducedMotion: false,
   textScale: 100,
+  theme: 'system',
 };
 
 export interface ProgressEntry {
@@ -122,6 +126,7 @@ export function loadSettings(): Settings {
     quiz: normaliseExercise(raw.quiz),
     reducedMotion: bool(raw.reducedMotion, false),
     textScale: normaliseScale(raw.textScale),
+    theme: normaliseTheme(raw.theme),
   };
 }
 

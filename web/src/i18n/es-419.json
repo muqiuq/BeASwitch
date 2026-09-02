@@ -199,6 +199,9 @@
   "extras.link.open": "Probar",
   "extras.link.reset": "Restablecer",
 
+  "extras.colours.title": "Modos de color",
+  "extras.colours.description": "Repinta todo el kit. Es tu elección — ningún enlace configurado la lleva, y no cambia nada de los ejercicios.",
+
   "footer.github": "Código fuente en GitHub",
   "footer.createdBy": "Creado por Philipp Albrecht"
 }

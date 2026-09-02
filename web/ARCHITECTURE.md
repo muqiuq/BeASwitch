@@ -56,8 +56,10 @@ web/
       switch/  topology.ts, view.ts
       router/  topology.ts, view.ts, explain.ts
       quiz/    view.ts
-      extras/  view.ts (the extra features window), linkBuilder.ts
+      extras/  view.ts (the extra features window), linkBuilder.ts,
+               colourModes.ts
       shared/  dom.ts, animate.ts, storage.ts, config.ts, controls.ts,
+               displayControls.ts, icons.ts, textSize.ts, theme.ts,
                scoreBar.ts, summary.ts
     styles/    tokens.css, base.css, components.css, topology.css
   test/        i18n, topology, canvas, animate, config
@@ -213,6 +215,18 @@ Two non-obvious details, both load-bearing:
   `bea.progress.v1`, `bea.exams.v1` (passed exams, newest first, capped at 50),
   `bea.locale`. Settings are normalised field by field, so an unknown or stale
   blob degrades to defaults rather than throwing.
+- **Colour modes** (`shared/theme.ts`, `extras/colourModes.ts`): `system` plus
+  twelve named palettes, written onto `<html>` as `data-theme`. The names stay
+  English in every locale and live in `THEME_LABELS` rather than the catalogs,
+  for the same reason as `LOCALE_LABELS`: they are names, not interface copy. The palettes are
+  pure token overrides at the end of `tokens.css`; anything a mode leaves out
+  is inherited from the default. Two details there are load-bearing: the
+  selector is the bare `[data-theme='…']` rather than `:root[data-theme='…']`,
+  so a preview card can repaint its own subtree and show the real palette — and
+  because that ties with `:root` on specificity, the mode blocks must stay
+  *after* the `prefers-color-scheme: light` block, which is what makes them
+  win. The default palette answers to `[data-theme='system']` as well, so the
+  System card previews the true default rather than whatever is active.
 - **Header controls** (`shared/displayControls.ts`): motion and text size ride
   in every header, next to *Back to menu*, because both are about the room the
   app is being shown in. The language picker stays on the menu. The group
