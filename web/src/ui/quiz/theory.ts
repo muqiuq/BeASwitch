@@ -307,7 +307,13 @@ function splitBody(question: QuizQuestion): HTMLElement[] {
         toBits(net, newPrefix),
       ]),
     ]),
-    caption(t('theory.split.binaryNote', { bits, rounded, step })),
+    // A new prefix on an octet edge makes the block the whole octet, so the
+    // step of 256 belongs to no octet: it is the one to the left that counts.
+    caption(
+      step === 256
+        ? t('theory.split.binaryNoteEdge', { bits, rounded, position: index })
+        : t('theory.split.binaryNote', { bits, rounded, step }),
+    ),
     note(
       t('theory.split.note', {
         old: subnet.prefix,
@@ -331,14 +337,15 @@ function maskBody(question: QuizQuestion): HTMLElement[] {
   const full = Math.floor(prefix / 8);
   const rest = prefix % 8;
   const restValue = rest === 0 ? 0 : 256 - 2 ** (8 - rest);
-  const boundary = mask[Math.min(3, full)] ?? 0;
+  // Absent for /32, where every octet is 255 and none of them is interesting.
+  const boundary = mask[full];
 
   const forward: WorkedStep[] = [
     {
       label: t('theory.mask.workedFull'),
       calc: [
         `${prefix} = ${[...Array<string>(full).fill('8'), ...(rest ? [String(rest)] : [])].join(' + ') || '0'}`,
-        `→ ${[...Array<string>(full).fill('255'), ...(rest ? ['?'] : [])].join('.') || '0'}`,
+        `→ ${[...Array<string>(full).fill('255'), ...(rest ? ['?'] : [])].join('.') || '0.0.0.0'}`,
       ],
     },
     ...(rest > 0
@@ -355,11 +362,20 @@ function maskBody(question: QuizQuestion): HTMLElement[] {
 
   const backward: WorkedStep[] = [
     { label: t('theory.mask.workedFull'), calc: [`${full} × 255 → ${full} × 8 = ${full * 8}`] },
+    ...(boundary === undefined
+      ? []
+      : [
+          {
+            label: t('theory.address.kvOctet'),
+            calc: [`${boundary} = ${toBinary(boundary, 8)}`, `→ ${rest}`],
+          },
+        ]),
     {
-      label: t('theory.address.kvOctet'),
-      calc: [`${boundary} = ${boundary.toString(2).padStart(8, '0')}`, `→ ${rest}`],
+      label: t('theory.prefix'),
+      calc: [
+        boundary === undefined ? `${full * 8} = /${prefix}` : `${full * 8} + ${rest} = /${prefix}`,
+      ],
     },
-    { label: t('theory.prefix'), calc: [`${full * 8} + ${rest} = /${prefix}`] },
   ];
 
   return [
