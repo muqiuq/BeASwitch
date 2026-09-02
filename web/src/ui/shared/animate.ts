@@ -5,11 +5,11 @@
  * motion is off the animation is skipped and the element jumps to its end state.
  */
 
-import { loadSettings } from './storage.js';
+import { activeSettings } from './config.js';
 
 export function motionDisabled(): boolean {
   return (
-    loadSettings().reducedMotion ||
+    activeSettings().reducedMotion ||
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
 }

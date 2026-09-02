@@ -5,10 +5,11 @@ import { el, mount } from '../shared/dom.js';
 import { fadeIn, pulse, shake } from '../shared/animate.js';
 import { scoreBar } from '../shared/scoreBar.js';
 import { summaryView } from '../shared/summary.js';
-import { loadSettings, recordPassedExam, saveProgress } from '../shared/storage.js';
+import { recordPassedExam, saveProgress } from '../shared/storage.js';
+import { activeSettings } from '../shared/config.js';
 
-export function quizView(onExit: () => void): HTMLElement {
-  const settings = loadSettings().quiz;
+export function quizView(onExit: (() => void) | null): HTMLElement {
+  const settings = activeSettings().quiz;
   const root = el('section', { class: 'exercise exercise-quiz' });
 
   let session = new QuizSession(
@@ -51,14 +52,20 @@ export function quizView(onExit: () => void): HTMLElement {
   }
 
   function header(): HTMLElement {
-    const back = el('button', { type: 'button', class: 'btn btn-ghost', text: t('app.backToMenu') });
-    back.addEventListener('click', onExit);
     return el(
       'header',
       { class: 'exercise-header' },
       el('h1', { class: 'exercise-title', text: t('quiz.title') }),
-      back,
+      backButton(),
     );
+  }
+
+  /** Absent when a link limits the app to this exercise. */
+  function backButton(): HTMLElement | null {
+    if (!onExit) return null;
+    const back = el('button', { type: 'button', class: 'btn btn-ghost', text: t('app.backToMenu') });
+    back.addEventListener('click', onExit);
+    return back;
   }
 
   function questionCard(): HTMLElement {
@@ -251,7 +258,7 @@ export function quizView(onExit: () => void): HTMLElement {
 
   function restart(): void {
     session.dispose();
-    const current = loadSettings().quiz;
+    const current = activeSettings().quiz;
     session = new QuizSession(
       defaultOptions({
         examMode: current.examMode,

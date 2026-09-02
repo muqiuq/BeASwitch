@@ -60,11 +60,13 @@ export function locale(): Locale {
   return current;
 }
 
-export function setLocale(next: Locale): void {
+/** `persist: false` is for a language forced by a shared link, which must not
+ *  overwrite the learner's own choice. */
+export function setLocale(next: Locale, persist = true): void {
   if (next === current) return;
   current = next;
   try {
-    localStorage.setItem(STORAGE_KEY, next);
+    if (persist) localStorage.setItem(STORAGE_KEY, next);
   } catch {
     // The choice simply does not persist.
   }

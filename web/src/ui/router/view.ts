@@ -4,13 +4,14 @@ import { el, mount } from '../shared/dom.js';
 import { animate, motionDisabled, pulse, shake, travel, wait } from '../shared/animate.js';
 import { scoreBar } from '../shared/scoreBar.js';
 import { summaryView } from '../shared/summary.js';
-import { loadSettings, recordPassedExam, saveProgress } from '../shared/storage.js';
+import { recordPassedExam, saveProgress } from '../shared/storage.js';
+import { activeSettings } from '../shared/config.js';
 import { explainPanel } from './explain.js';
 import { computeGeometry, renderTopology } from './topology.js';
 import type { Geometry, TopologyRefs } from './topology.js';
 
-export function routerView(onExit: () => void): HTMLElement {
-  const settings = loadSettings().router;
+export function routerView(onExit: (() => void) | null): HTMLElement {
+  const settings = activeSettings().router;
   const root = el('section', { class: 'exercise exercise-router' });
 
   let game = new RouterGame(
@@ -77,14 +78,20 @@ export function routerView(onExit: () => void): HTMLElement {
   }
 
   function header(): HTMLElement {
-    const back = el('button', { type: 'button', class: 'btn btn-ghost', text: t('app.backToMenu') });
-    back.addEventListener('click', onExit);
     return el(
       'header',
       { class: 'exercise-header' },
       el('h1', { class: 'exercise-title', text: t('router.title') }),
-      back,
+      backButton(),
     );
+  }
+
+  /** Absent when a link limits the app to this exercise. */
+  function backButton(): HTMLElement | null {
+    if (!onExit) return null;
+    const back = el('button', { type: 'button', class: 'btn btn-ghost', text: t('app.backToMenu') });
+    back.addEventListener('click', onExit);
+    return back;
   }
 
   function banner(): HTMLElement {
@@ -280,7 +287,7 @@ export function routerView(onExit: () => void): HTMLElement {
 
   function restart(): void {
     game.dispose();
-    const current = loadSettings().router;
+    const current = activeSettings().router;
     game = new RouterGame(
       defaultOptions({
         examMode: current.examMode,

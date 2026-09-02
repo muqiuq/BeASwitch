@@ -89,7 +89,7 @@ function bool(value: unknown, fallback: boolean): boolean {
   return typeof value === 'boolean' ? value : fallback;
 }
 
-function normaliseExercise(raw: unknown): ExerciseSettings {
+export function normaliseExercise(raw: unknown): ExerciseSettings {
   const source = (raw ?? {}) as Partial<ExerciseSettings>;
   const goalTotal = clamp(source.goalTotal, 1, 200, DEFAULT_EXERCISE.goalTotal);
   const settings: ExerciseSettings = {

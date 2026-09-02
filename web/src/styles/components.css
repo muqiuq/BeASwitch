@@ -183,6 +183,18 @@
   padding: 1px var(--space-2);
 }
 
+/* The mode a configured link fixed, shown where the options would be. */
+.card-locked {
+  display: flex;
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+.card-locked .card-options-state {
+  margin-left: 0;
+}
+
 .card-options-body {
   margin-top: var(--space-3);
   animation: slide-up 180ms ease-out;
@@ -289,6 +301,14 @@
   opacity: 0.8;
 }
 
+.footer-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
 .home-controls {
   display: flex;
   align-items: center;
@@ -373,6 +393,12 @@
 
 .btn:active {
   transform: translateY(1px);
+}
+
+/* The "try it" link in the link builder is a button that has to be an anchor. */
+a.btn {
+  display: inline-block;
+  text-decoration: none;
 }
 
 .btn-primary {
@@ -492,6 +518,22 @@
   display: block;
   color: var(--text-muted);
   font-size: 0.78rem;
+}
+
+.check.is-disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.labelled-row {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.input-select {
+  width: auto;
+  min-width: 12rem;
 }
 
 .entry-inputs {
@@ -903,4 +945,172 @@
   white-space: pre-wrap;
   font-size: 0.8rem;
   color: var(--text-muted);
+}
+
+/* --------------------------------------------------------- extra features */
+
+.extras {
+  width: min(1180px, 96vw);
+  height: min(920px, 92vh);
+  max-width: 96vw;
+  max-height: 92vh;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--bg-raised);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.extras::backdrop {
+  background: rgba(3, 8, 18, 0.62);
+}
+
+.extras-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.extras-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-bottom: 1px solid var(--line);
+}
+
+.extras-title {
+  font-size: 1.3rem;
+}
+
+.extras-subtitle {
+  margin-top: var(--space-1);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.extras-body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  flex: 1;
+  min-height: 0;
+}
+
+.extras-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border-right: 1px solid var(--line);
+  background: var(--bg-sunken);
+  overflow-y: auto;
+}
+
+.extras-nav-item {
+  text-align: left;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+}
+
+.extras-nav-item:hover {
+  color: var(--text);
+  background: var(--surface);
+}
+
+.extras-nav-item.is-active {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.extras-content {
+  padding: var(--space-5);
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.extras-feature-title {
+  font-size: 1.05rem;
+}
+
+.extras-feature-description {
+  margin: var(--space-2) 0 var(--space-5);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  max-width: 64ch;
+}
+
+/* ------------------------------------------------------------ link builder */
+
+.link-builder {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.builder-exercises {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  align-items: start;
+  gap: var(--space-3);
+}
+
+.builder-output {
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-4);
+  margin-top: var(--space-2);
+}
+
+.builder-output-title {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.url-output {
+  resize: vertical;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+.builder-status {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  align-self: center;
+}
+
+@media (max-width: 720px) {
+  .extras {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;
+    border: none;
+  }
+
+  .extras-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .extras-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    padding: var(--space-3);
+  }
 }

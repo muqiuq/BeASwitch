@@ -1,13 +1,14 @@
 import { LOCALES, LOCALE_LABELS, locale, setLocale, t } from '../i18n/index.js';
 import { el, mount } from './shared/dom.js';
 import { fadeIn } from './shared/animate.js';
+import { checkbox, numberInput, radio } from './shared/controls.js';
 import { quizArt, routerArt, switchArt } from './art.js';
+import { openExtras } from './extras/view.js';
+import { activeSettings, optionsLocked, persistSettings, visibleExercises } from './shared/config.js';
 import {
   clearExamHistory,
   loadExamHistory,
   loadProgress,
-  loadSettings,
-  saveSettings,
   type ExamRecord,
   type ExerciseId,
   type ExerciseSettings,
@@ -19,7 +20,13 @@ const AUTHOR_URL = 'https://uisa.ch';
 
 export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement {
   const root = el('section', { class: 'home' });
-  let settings = loadSettings();
+  let settings = activeSettings();
+  const locked = optionsLocked();
+  const art: Record<ExerciseId, () => SVGSVGElement> = {
+    switch: switchArt,
+    router: routerArt,
+    quiz: quizArt,
+  };
   // Kept across re-renders so changing an option does not collapse the panel.
   const expanded = new Set<ExerciseId>();
 
@@ -28,13 +35,14 @@ export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement 
     if (next.goalCorrect > next.goalTotal) next.goalCorrect = next.goalTotal;
     if (!next.ipv4 && !next.ipv6) next.ipv4 = true;
     settings = { ...settings, [exercise]: next };
-    saveSettings(settings);
+    persistSettings(settings, 'exercises');
     render();
   }
 
+  /** Only the motion toggle, which stays available even under a locked link. */
   function updateGlobal(patch: Partial<Settings>): void {
     settings = { ...settings, ...patch };
-    saveSettings(settings);
+    persistSettings(settings, 'motion');
     render();
   }
 
@@ -46,9 +54,7 @@ export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement 
       el(
         'div',
         { class: 'card-grid' },
-        exerciseCard('switch', switchArt()),
-        exerciseCard('router', routerArt()),
-        exerciseCard('quiz', quizArt()),
+        ...visibleExercises().map((id) => exerciseCard(id, art[id]())),
       ),
       examHistoryPanel(),
       footer(),
@@ -122,8 +128,24 @@ export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement 
 
     const start = el('button', { type: 'button', class: 'btn btn-primary', text: t('home.start') });
     start.addEventListener('click', () => onLaunch(id));
-    card.append(start, optionsSection(id));
+    card.append(start, locked ? lockedOptions(id) : optionsSection(id));
     return card;
+  }
+
+  /** What the options say, without the controls to change them. */
+  function lockedOptions(id: ExerciseId): HTMLElement {
+    return el(
+      'p',
+      { class: 'card-locked' },
+      el('span', { class: 'card-options-state', text: modeLabel(id) }),
+    );
+  }
+
+  function modeLabel(id: ExerciseId): string {
+    const config = settings[id];
+    return config.examMode
+      ? `${t('home.mode.exam')} ${config.goalCorrect}/${config.goalTotal}`
+      : t('home.mode.practice');
   }
 
   function optionsSection(id: ExerciseId): HTMLElement {
@@ -133,10 +155,7 @@ export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement 
       'summary',
       { class: 'card-options-summary' },
       el('span', { text: t('home.options') }),
-      el('span', {
-        class: 'card-options-state',
-        text: config.examMode ? `${t('home.mode.exam')} ${config.goalCorrect}/${config.goalTotal}` : t('home.mode.practice'),
-      }),
+      el('span', { class: 'card-options-state', text: modeLabel(id) }),
     );
     details.append(summary);
 
@@ -278,7 +297,7 @@ export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement 
       text: 'uisa.ch',
     });
 
-    return el(
+    const footerNode = el(
       'footer',
       { class: 'site-footer' },
       el('span', { text: 'be-a.network' }),
@@ -289,59 +308,22 @@ export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement 
       el('span', { class: 'footer-sep', 'aria-hidden': 'true', text: '·' }),
       el('span', {}, `${t('footer.createdBy')} `, author),
     );
-  }
 
-  function radio(
-    name: string,
-    label: string,
-    hint: string,
-    checked: boolean,
-    onSelect: () => void,
-  ): HTMLElement {
-    const input = el('input', { type: 'radio', name, checked });
-    input.addEventListener('change', onSelect);
-    return el(
-      'label',
-      { class: 'radio' },
-      input,
-      el('span', {}, el('span', { text: label }), hint ? el('small', { text: hint }) : null),
-    );
-  }
-
-  function checkbox(
-    label: string,
-    hint: string,
-    checked: boolean,
-    onChange: (value: boolean) => void,
-  ): HTMLElement {
-    const input = el('input', { type: 'checkbox', checked });
-    input.addEventListener('change', () => onChange(input.checked));
-    return el(
-      'label',
-      { class: 'check' },
-      input,
-      el('span', {}, el('span', { text: label }), hint ? el('small', { text: hint }) : null),
-    );
-  }
-
-  function numberInput(
-    value: number,
-    min: number,
-    max: number,
-    onChange: (value: number) => void,
-  ): HTMLInputElement {
-    const input = el('input', {
-      type: 'number',
-      class: 'input input-number',
-      value: String(value),
-      min: String(min),
-      max: String(max),
-    });
-    input.addEventListener('change', () => {
-      const parsed = Number(input.value);
-      onChange(Number.isFinite(parsed) ? parsed : min);
-    });
-    return input;
+    // Hidden under a configured link: the window only builds such links, and
+    // offering it there would just invite learners to undo the configuration.
+    if (!locked) {
+      const extras = el('button', {
+        type: 'button',
+        class: 'footer-link footer-button',
+        text: t('extras.title'),
+      });
+      extras.addEventListener('click', openExtras);
+      footerNode.append(
+        el('span', { class: 'footer-sep', 'aria-hidden': 'true', text: '·' }),
+        extras,
+      );
+    }
+    return footerNode;
   }
 
   render();

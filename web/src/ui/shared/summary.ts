@@ -7,7 +7,8 @@ export interface SummaryOptions {
   goal: GoalInfo | null;
   status: GoalStatus | null;
   onRetry: () => void;
-  onExit: () => void;
+  /** `null` when a link limits the app to one exercise: there is no menu. */
+  onExit: (() => void) | null;
 }
 
 /** Replaces the certificate window of the desktop app. */
@@ -49,7 +50,7 @@ export function summaryView(options: SummaryOptions): HTMLElement {
         'div',
         { class: 'summary-actions' },
         button(t('summary.tryAgain'), 'primary', options.onRetry),
-        button(t('summary.backToMenu'), 'ghost', options.onExit),
+        options.onExit ? button(t('summary.backToMenu'), 'ghost', options.onExit) : null,
       ),
     ),
   );

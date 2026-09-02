@@ -8,6 +8,27 @@ no network calls at runtime, installable as a PWA.
 
 The WPF projects are untouched and remain the reference implementation.
 
+For a full technical overview — domain rules, the wasm boundary, animation
+constraints and known pitfalls — see [ARCHITECTURE.md](ARCHITECTURE.md).
+
+## Configured links
+
+The footer has an **Extra features** button. It opens a window whose first tool
+builds a link that starts the site already set up — for a class, an exam or a
+worksheet:
+
+```
+https://be-a.network/?tools=switch,quiz&lock=1&switch=exam:16/20,novlan&quiz=practice,ipv6
+https://be-a.network/?only=router&lang=de&router=exam:8/10
+```
+
+Pick which exercises are offered, whether the menu is skipped altogether, and
+whether the options can still be changed, then copy the link. The parameters
+stay readable so a link can also be written by hand; they are documented in
+[ARCHITECTURE.md](ARCHITECTURE.md#configured-links-sharedconfigts). Hiding the
+options is a guard rail for the classroom, not a lock — the link itself is
+plainly editable.
+
 ## Prerequisites
 
 | Tool | Why | Notes |
@@ -51,7 +72,7 @@ through virtiofs. `npm.sh` wraps arbitrary npm commands the same way.
 
 ```sh
 cd engine && cargo test  # 147 tests: forwarding, routing, subnetting, quiz generators
-cd web && ./npm.sh test  # translation catalog parity
+cd web && ./npm.sh test  # 59 tests: catalog parity, SVG geometry, configured links
 cd web && ./npm.sh run test:engine  # drives the built wasm through a round of each exercise
 ```
 
@@ -72,6 +93,7 @@ web/src/
   engine/          typed wrapper around the wasm module
   i18n/            de + en catalogs
   ui/switch|router|quiz/
+  ui/extras/       the extra features window and the link builder
   styles/
 ```
 

@@ -5,7 +5,8 @@ import { el, mount } from '../shared/dom.js';
 import { animate, highlightRow, motionDisabled, pulse, shake, travel, wait } from '../shared/animate.js';
 import { scoreBar } from '../shared/scoreBar.js';
 import { summaryView } from '../shared/summary.js';
-import { loadSettings, recordPassedExam, saveProgress } from '../shared/storage.js';
+import { recordPassedExam, saveProgress } from '../shared/storage.js';
+import { activeSettings } from '../shared/config.js';
 import { computeGeometry, renderTopology, vlanColour } from './topology.js';
 import type { Geometry, TopologyRefs } from './topology.js';
 
@@ -14,8 +15,8 @@ interface PortSelection {
   tag: boolean;
 }
 
-export function switchView(onExit: () => void): HTMLElement {
-  const settings = loadSettings().switch;
+export function switchView(onExit: (() => void) | null): HTMLElement {
+  const settings = activeSettings().switch;
   const root = el('section', { class: 'exercise exercise-switch' });
 
   let game = new SwitchGame(
@@ -84,14 +85,20 @@ export function switchView(onExit: () => void): HTMLElement {
   }
 
   function header(): HTMLElement {
-    const back = el('button', { type: 'button', class: 'btn btn-ghost', text: t('app.backToMenu') });
-    back.addEventListener('click', onExit);
     return el(
       'header',
       { class: 'exercise-header' },
       el('h1', { class: 'exercise-title', text: t('switch.title') }),
-      back,
+      backButton(),
     );
+  }
+
+  /** Absent when a link limits the app to this exercise. */
+  function backButton(): HTMLElement | null {
+    if (!onExit) return null;
+    const back = el('button', { type: 'button', class: 'btn btn-ghost', text: t('app.backToMenu') });
+    back.addEventListener('click', onExit);
+    return back;
   }
 
   function banner(): HTMLElement {
@@ -455,7 +462,7 @@ export function switchView(onExit: () => void): HTMLElement {
 
   function restart(): void {
     game.dispose();
-    const current = loadSettings().switch;
+    const current = activeSettings().switch;
     game = new SwitchGame(
       defaultOptions({
         examMode: current.examMode,
