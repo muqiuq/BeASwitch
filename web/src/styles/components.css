@@ -376,6 +376,68 @@
   border-radius: var(--radius-lg);
   padding: var(--space-3);
   overflow: hidden;
+  transition: border-color 200ms ease;
+}
+
+/* The verdict marks the canvas with its border alone: a tinted background
+   fights with the VLAN and interface colours inside it. */
+.topology-panel.is-correct {
+  border-color: var(--success);
+}
+
+.topology-panel.is-wrong {
+  border-color: var(--danger);
+}
+
+.router-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* Always rendered, always the same height: an answer must not move the canvas. */
+.verdict {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: 52px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+  overflow: hidden;
+}
+
+.verdict.is-correct {
+  background: var(--success-soft);
+  border-color: var(--success);
+}
+
+.verdict.is-wrong {
+  background: var(--danger-soft);
+  border-color: var(--danger);
+}
+
+.verdict-label {
+  white-space: nowrap;
+}
+
+.verdict.is-correct .verdict-label {
+  color: var(--success);
+}
+
+.verdict.is-wrong .verdict-label {
+  color: var(--danger);
+}
+
+.verdict-detail {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.92rem;
+  color: var(--text-muted);
 }
 
 /* ----------------------------------------------------------------- buttons */

@@ -9,6 +9,7 @@ import { activeSettings } from '../shared/config.js';
 import { explainPanel } from './explain.js';
 import { computeGeometry, renderTopology } from './topology.js';
 import type { Geometry, TopologyRefs } from './topology.js';
+import type { RouterResult } from '../../engine/types.js';
 
 export function routerView(onExit: (() => void) | null): HTMLElement {
   const settings = activeSettings().router;
@@ -59,14 +60,13 @@ export function routerView(onExit: (() => void) | null): HTMLElement {
       el(
         'div',
         { class: 'router-layout' },
-        el('div', { class: 'topology-panel' }, refs.root, banner()),
         el(
           'div',
-          { class: 'router-side' },
-          packetPanel(),
-          routingTablePanel(),
-          controlPanel(),
+          { class: 'router-main' },
+          verdictStrip(),
+          el('div', { class: `topology-panel ${verdictClass()}` }, refs.root),
         ),
+        el('div', { class: 'router-side' }, packetPanel(), routingTablePanel()),
       ),
       showExplain ? explainPanel(snapshot, () => {
         showExplain = false;
@@ -94,11 +94,57 @@ export function routerView(onExit: (() => void) | null): HTMLElement {
     return back;
   }
 
-  function banner(): HTMLElement {
-    if (!snapshot.packet) {
-      return el('p', { class: 'banner', text: t('router.intro') });
+  /**
+   * Sits above the topology and keeps its height whether or not it has a
+   * verdict to show, so scoring an answer never moves the canvas. Before an
+   * answer it carries the instruction, which is why there is no separate
+   * banner under the topology any more.
+   */
+  function verdictStrip(): HTMLElement {
+    const result = scoredResult();
+    const strip = el('div', {
+      class: `verdict ${result ? (result.correct ? 'is-correct' : 'is-wrong') : 'is-idle'}`,
+      role: 'status',
+      'aria-live': 'polite',
+    });
+
+    if (!result) {
+      strip.append(
+        el('span', {
+          class: 'verdict-detail',
+          text: snapshot.packet ? t('router.selectInterface') : t('router.intro'),
+        }),
+      );
+      return strip;
     }
-    return el('p', { class: 'banner', text: t('router.selectInterface') });
+
+    const expected =
+      result.expectedPort === null
+        ? t('router.expectedDrop')
+        : t('router.expectedInterface', {
+            name: snapshot.interfaces[result.expectedPort]?.name ?? `eth${result.expectedPort}`,
+          });
+
+    strip.append(
+      el('strong', {
+        class: 'verdict-label',
+        text: result.correct ? t('router.resultCorrect') : t('router.resultWrong'),
+      }),
+      el('span', { class: 'verdict-detail', text: expected }),
+    );
+    queueMicrotask(() => void (result.correct ? pulse(strip) : shake(strip)));
+    return strip;
+  }
+
+  /** The whole topology box takes the verdict's colour. */
+  function verdictClass(): string {
+    const result = scoredResult();
+    if (!result) return '';
+    return result.correct ? 'is-correct' : 'is-wrong';
+  }
+
+  function scoredResult(): RouterResult | null {
+    return snapshot.state === 'showingSolution' ? snapshot.result : null;
   }
 
   function packetPanel(): HTMLElement {
@@ -181,27 +227,6 @@ export function routerView(onExit: (() => void) | null): HTMLElement {
 
     panel.append(el('table', { class: 'route-table' }, body));
     return panel;
-  }
-
-  function controlPanel(): HTMLElement | null {
-    if (snapshot.state !== 'showingSolution' || !snapshot.result) return null;
-
-    const result = snapshot.result;
-    const expected =
-      result.expectedPort === null
-        ? t('router.expectedDrop')
-        : t('router.expectedInterface', {
-            name: snapshot.interfaces[result.expectedPort]?.name ?? `eth${result.expectedPort}`,
-          });
-
-    const box = el(
-      'div',
-      { class: `result ${result.correct ? 'is-correct' : 'is-wrong'}`, role: 'status' },
-      el('strong', { text: result.correct ? t('router.resultCorrect') : t('router.resultWrong') }),
-      el('p', { text: expected }),
-    );
-    queueMicrotask(() => void (result.correct ? pulse(box) : shake(box)));
-    return el('div', { class: 'panel' }, box);
   }
 
   function primaryAction(): { label: string; handler: () => void } {
