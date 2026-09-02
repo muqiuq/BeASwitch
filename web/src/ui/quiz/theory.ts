@@ -19,6 +19,18 @@ import { t } from '../../i18n/index.js';
 import { el } from '../shared/dom.js';
 import type { QuizQuestion } from '../../engine/types.js';
 import {
+  abbreviate,
+  eui64Address,
+  eui64Id,
+  expand,
+  hex4,
+  parseGroups,
+  parseMac,
+  parseSubnet6,
+  toBinary,
+  zeroRun,
+} from './ipv6.js';
+import {
   applyPrefix,
   bitsForSplits,
   bitsLegend,
@@ -34,7 +46,15 @@ import {
   toNumber,
 } from './ipv4.js';
 
-export type TopicId = 'address' | 'hostCount' | 'split' | 'mask';
+export type TopicId =
+  | 'address'
+  | 'hostCount'
+  | 'split'
+  | 'mask'
+  | 'notation'
+  | 'eui64'
+  | 'ipv6Subnets'
+  | 'ipv6Prefix';
 
 const TOPIC_BY_KIND: Record<string, TopicId> = {
   networkAddress: 'address',
@@ -44,7 +64,24 @@ const TOPIC_BY_KIND: Record<string, TopicId> = {
   splitSubnetThird: 'split',
   cidrToDotted: 'mask',
   dottedToCidr: 'mask',
+  abbreviateIpv6: 'notation',
+  expandIpv6: 'notation',
+  eui64: 'eui64',
+  numberOfIpv6Subnets: 'ipv6Subnets',
+  ipv6Prefix: 'ipv6Prefix',
 };
+
+/** Mirrors `IPV6_PREFIXES` in the engine; the purposes are i18n keys. */
+const IPV6_PREFIXES: Array<[string, string]> = [
+  ['2000::/3', 'globalUnicast'],
+  ['fc00::/7', 'uniqueLocalUnicast'],
+  ['fe80::/10', 'linkScopedUnicast'],
+  ['ff00::/8', 'multicast'],
+  ['::1/128', 'loopback'],
+  ['2001:db8::/32', 'documentation'],
+  ['2002::/16', 'sixToFour'],
+  ['64:ff9b::/96', 'ipv4Ipv6Translation'],
+];
 
 /** `null` for a question type that has no theory of its own. */
 export function theoryTopic(kind: string): TopicId | null {
@@ -76,6 +113,10 @@ const BODIES: Record<TopicId, (question: QuizQuestion) => HTMLElement[]> = {
   hostCount: hostCountBody,
   split: splitBody,
   mask: maskBody,
+  notation: notationBody,
+  eui64: eui64Body,
+  ipv6Subnets: ipv6SubnetsBody,
+  ipv6Prefix: ipv6PrefixBody,
 };
 
 function addressBody(question: QuizQuestion): HTMLElement[] {
@@ -481,4 +522,156 @@ function caption(text: string): HTMLElement {
 
 function note(text: string): HTMLElement {
   return el('p', { class: 'theory-note' }, el('strong', { text: `${t('theory.note')}: ` }), text);
+}
+
+// ---------------------------------------------------------------- IPv6 ---
+
+function notationBody(question: QuizQuestion): HTMLElement[] {
+  const head = [el('p', { text: t('theory.notation.intro') }), steps('notation', 4)];
+  const groups = parseGroups(question.subject);
+  if (!groups) return [...head, note(t('theory.notation.note'))];
+
+  const run = zeroRun(groups);
+  // Every row is laid out in the same 4-character columns, so a group in one
+  // row sits above the same group in the next.
+  const columns = (cells: string[]): string => cells.map((cell) => cell.padStart(4)).join(':');
+  const marker = groups
+    .map((_, index) =>
+      run && index >= run.start && index < run.start + run.length ? '^^^^' : '    ',
+    )
+    .join(' ');
+
+  return [
+    ...head,
+    subheading(t('theory.example')),
+    codeBlock([
+      [t('theory.notation.rowFull'), columns(groups.map(hex4))],
+      [t('theory.notation.rowTrimmed'), columns(groups.map((group) => group.toString(16)))],
+      ...(run ? [[t('theory.notation.rowRun'), marker]] : []),
+      RULE,
+      [t('theory.notation.rowShort'), abbreviate(groups)],
+    ]),
+    caption(
+      run
+        ? t('theory.notation.captionRun', { length: run.length, position: run.start + 1 })
+        : t('theory.notation.captionNoRun'),
+    ),
+    subheading(t('theory.result')),
+    kv([
+      [t('theory.notation.rowFull'), expand(groups)],
+      [t('theory.notation.rowShort'), abbreviate(groups)],
+    ]),
+    note(t('theory.notation.note')),
+  ];
+}
+
+function eui64Body(question: QuizQuestion): HTMLElement[] {
+  const head = [el('p', { text: t('theory.eui64.intro') }), steps('eui64', 4)];
+  const mac = parseMac(question.subject);
+  const subnet = parseSubnet6(question.subject2);
+  if (!mac || !subnet) return [...head, note(t('theory.eui64.note'))];
+
+  const hex = (octet: number): string => octet.toString(16).padStart(2, '0');
+  const flipped = (mac[0] ?? 0) ^ 0x02;
+  const identifier = eui64Id(mac);
+  const address = eui64Address(subnet.groups, mac);
+
+  return [
+    ...head,
+    subheading(t('theory.example')),
+    kv([
+      [t('theory.eui64.rowMac'), question.subject],
+      [t('theory.prefix'), question.subject2],
+    ]),
+    worked([
+      {
+        label: t('theory.eui64.workedSplit'),
+        calc: [`${mac.slice(0, 3).map(hex).join(':')} | ${mac.slice(3).map(hex).join(':')}`],
+      },
+      {
+        label: t('theory.eui64.workedInsert'),
+        calc: [
+          `${mac.slice(0, 3).map(hex).join(':')} : ff:fe : ${mac.slice(3).map(hex).join(':')}`,
+        ],
+        thought: t('theory.eui64.thoughtInsert'),
+      },
+      {
+        label: t('theory.eui64.workedFlip'),
+        calc: [`${hex(mac[0] ?? 0)} → ${hex(flipped)}`],
+        thought: t('theory.eui64.thoughtFlip'),
+      },
+      {
+        label: t('theory.address.rowAddress'),
+        calc: [`${abbreviate(subnet.groups)}/64`, `+ ${identifier.map(hex4).join(':')}`, abbreviate(address)],
+      },
+    ]),
+    // The flip is one bit; showing the byte is the only way to see which.
+    subheading(t('theory.binaryTitle')),
+    codeBlock([
+      [t('theory.eui64.rowFirstByte'), hex(mac[0] ?? 0), toBinary(mac[0] ?? 0, 8)],
+      [t('theory.eui64.rowUlBit'), '', '      ^'],
+      [t('theory.eui64.rowFlipped'), hex(flipped), toBinary(flipped, 8)],
+    ]),
+    caption(t('theory.eui64.binaryNote')),
+    note(t('theory.eui64.note')),
+  ];
+}
+
+function ipv6SubnetsBody(question: QuizQuestion): HTMLElement[] {
+  const head = [el('p', { text: t('theory.ipv6Subnets.intro') }), steps('ipv6Subnets', 3)];
+  const subnet = parseSubnet6(question.subject);
+  const target = Number(question.subject2);
+  if (!subnet || !Number.isInteger(target) || target <= subnet.prefix) {
+    return [...head, note(t('theory.ipv6Subnets.note'))];
+  }
+
+  const difference = target - subnet.prefix;
+  const count = 2 ** difference;
+  // For the prefixes the engine generates (48–63 into 64) every varying bit
+  // sits in the fourth group, so the numbering is visible there.
+  const groupIndex = 3;
+  const base = subnet.groups[groupIndex] ?? 0;
+  const label = (index: number): string[] => {
+    const groups = [...subnet.groups];
+    groups[groupIndex] = base + index;
+    return [String(index + 1), `${abbreviate(groups)}/${target}`];
+  };
+
+  return [
+    ...head,
+    subheading(t('theory.example')),
+    kv([[t('theory.task'), `${question.subject} → /${target}`]]),
+    worked([
+      { label: t('theory.ipv6Subnets.workedDiff'), calc: [`${target} − ${subnet.prefix} = ${difference}`] },
+      {
+        label: t('theory.ipv6Subnets.workedBits'),
+        calc: [`${difference} bit`],
+        thought: t('theory.ipv6Subnets.thoughtBits', { difference }),
+      },
+      {
+        label: t('theory.ipv6Subnets.workedCount'),
+        calc: [`2^${difference} = ${count}`],
+      },
+    ]),
+    subheading(t('theory.result')),
+    table(
+      ['#', t('theory.subnet')],
+      count <= 4
+        ? Array.from({ length: count }, (_, index) => label(index))
+        : [label(0), label(1), label(2), ['…', '…'], label(count - 1)],
+    ),
+    note(t('theory.ipv6Subnets.note')),
+  ];
+}
+
+function ipv6PrefixBody(): HTMLElement[] {
+  return [
+    el('p', { text: t('theory.ipv6Prefix.intro') }),
+    subheading(t('theory.ipv6Prefix.tableTitle')),
+    table(
+      [t('theory.prefix'), t('theory.ipv6Prefix.colPurpose')],
+      IPV6_PREFIXES.map(([prefix, purpose]) => [prefix, t(`prefix.${purpose}`)]),
+    ),
+    note(t('theory.ipv6Prefix.note')),
+  ];
 }

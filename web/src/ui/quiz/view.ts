@@ -56,13 +56,10 @@ export function quizView(onExit: (() => void) | null): HTMLElement {
     focusInput();
   }
 
-  /**
-   * Practice only, and IPv4 only: an exam is not the place to read up the
-   * method, and the IPv6 questions are not covered by these notes.
-   */
+  /** Practice only: an exam is not the place to read up the method. */
   function theorySection(): HTMLElement | null {
     const question = snapshot.question;
-    if (!question || settings.examMode || question.category !== 'ipv4') return null;
+    if (!question || settings.examMode) return null;
 
     const topic = theoryTopic(question.kind);
     return topic

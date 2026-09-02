@@ -78,7 +78,7 @@ through virtiofs. `npm.sh` wraps arbitrary npm commands the same way.
 
 ```sh
 cd engine && cargo test  # 147 tests: forwarding, routing, subnetting, quiz generators
-cd web && ./npm.sh test  # 85 tests: catalog parity, SVG geometry, links, IPv4 maths
+cd web && ./npm.sh test  # 100 tests: catalog parity, SVG geometry, links, IP maths
 cd web && ./npm.sh run test:engine  # drives the built wasm through a round of each exercise
 ```
 

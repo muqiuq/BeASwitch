@@ -55,14 +55,14 @@ web/
       home.ts, art.ts
       switch/  topology.ts, view.ts
       router/  topology.ts, view.ts, explain.ts
-      quiz/    view.ts, theory.ts, ipv4.ts
+      quiz/    view.ts, theory.ts, ipv4.ts, ipv6.ts
       extras/  view.ts (the extra features window), linkBuilder.ts,
                colourModes.ts
       shared/  dom.ts, animate.ts, storage.ts, config.ts, controls.ts,
                displayControls.ts, icons.ts, textSize.ts, theme.ts,
                scoreBar.ts, summary.ts
     styles/    tokens.css, base.css, components.css, topology.css
-  test/        i18n, topology, canvas, animate, config, ipv4
+  test/        i18n, topology, canvas, animate, config, ipv4, ipv6
 .github/workflows/pages.yml   build + deploy to GitHub Pages
 ```
 
@@ -291,28 +291,34 @@ rather than throwing.
 
 ### Quiz theory (`ui/quiz/theory.ts`)
 
-Under an IPv4 question, in **practice mode only**, a collapsed box offers the
-method behind it — condensed from the course notes on address calculation and
-subnetting. Exam mode never shows it, and the IPv6 kinds have no notes, so the
-gate is `!examMode && question.category === 'ipv4'`.
+Under a question, in **practice mode only**, a collapsed box offers the method
+behind it — condensed from the course notes on address calculation and
+subnetting. Exam mode never shows it, so the gate is simply `!examMode`.
 
-Seven question kinds map onto four topics, because one calculation answers
-several of them: `networkAddress` / `broadcast` both come out of the block
-size, `splitSubnet*` share the subnetting method, and `cidrToDotted` /
-`dottedToCidr` share the mask conversion. `numberOfHosts` has its own topic —
-it is answered by counting host bits, not by locating the network.
+Twelve question kinds map onto eight topics, because one calculation answers
+several of them. IPv4: `networkAddress` / `broadcast` both come out of the
+block size, `splitSubnet*` share the subnetting method, `cidrToDotted` /
+`dottedToCidr` share the mask conversion, and `numberOfHosts` gets its own —
+it is answered by counting host bits, not by locating a network. IPv6:
+`abbreviateIpv6` / `expandIpv6` are one topic read in either direction, and
+`eui64`, `numberOfIpv6Subnets` and `ipv6Prefix` have one each. `ipv6Prefix` is
+the only topic without numbered steps or a worked example, because there is no
+method to it — it is a reference table.
 
 The worked example is **the learner's own question**, not a fixed one they
 would have to transfer. `ui/quiz/ipv4.ts` re-derives the working from the
 question's `subject`; a subject it cannot parse simply loses the example.
 
-This is the one place where address arithmetic lives in TypeScript, which §3
-rule 1 otherwise forbids. It is deliberate and narrow: nothing here generates a
-question or scores an answer — the engine still does both — and the panel only
-exists in practice mode, so it cannot put an answer in front of an exam. It
-does mean a practice question's answer is derivable from its own theory, which
-is the accepted trade for teaching with the learner's numbers. `ipv4.ts` is
-covered by its own suite, because these numbers are shown to a learner as fact.
+`ui/quiz/ipv4.ts` and `ipv6.ts` are the one place where address arithmetic
+lives in TypeScript, which §3 rule 1 otherwise forbids. It is deliberate and
+narrow: nothing there generates a question or scores an answer — the engine
+still does both — and the panel only exists in practice mode, so it cannot put
+an answer in front of an exam. It does mean a practice question's answer is
+derivable from its own theory, which is the accepted trade for teaching with
+the learner's numbers. Both files carry their own suites, because these numbers
+are shown to a learner as fact; `ipv6.ts::abbreviate` in particular has to
+match what `Ipv6Addr::to_string` produces, or the theory would disagree with
+the answer the engine accepts.
 
 Each topic states its method as numbered steps and then **carries those exact
 steps out** on that address: `worked()` renders one list item per step,
@@ -374,7 +380,7 @@ and every helper degrades to an instant no-op.
 | Suite | Count | What it protects |
 | --- | --- | --- |
 | `cargo test` | 147 | Forwarding truth table, longest-prefix-match, subnet maths, all 12 quiz generators |
-| `web/test/*` (vitest) | 85 | i18n parity, SVG geometry, canvas bounds, transform preservation, link parsing |
+| `web/test/*` (vitest) | 100 | i18n parity, SVG geometry, canvas bounds, transform preservation, link parsing |
 | `web/smoke.mjs` | — | Drives the real built wasm through a round of each exercise |
 
 Notable suites:
