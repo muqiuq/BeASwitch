@@ -66,7 +66,7 @@ export function quizView(onExit: (() => void) | null): HTMLElement {
 
     const topic = theoryTopic(question.kind);
     return topic
-      ? theoryPanel(topic, theoryOpen, (open) => {
+      ? theoryPanel(question, topic, theoryOpen, (open) => {
           theoryOpen = open;
         })
       : null;

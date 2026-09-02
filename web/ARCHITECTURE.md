@@ -55,14 +55,14 @@ web/
       home.ts, art.ts
       switch/  topology.ts, view.ts
       router/  topology.ts, view.ts, explain.ts
-      quiz/    view.ts
+      quiz/    view.ts, theory.ts, ipv4.ts
       extras/  view.ts (the extra features window), linkBuilder.ts,
                colourModes.ts
       shared/  dom.ts, animate.ts, storage.ts, config.ts, controls.ts,
                displayControls.ts, icons.ts, textSize.ts, theme.ts,
                scoreBar.ts, summary.ts
     styles/    tokens.css, base.css, components.css, topology.css
-  test/        i18n, topology, canvas, animate, config
+  test/        i18n, topology, canvas, animate, config, ipv4
 .github/workflows/pages.yml   build + deploy to GitHub Pages
 ```
 
@@ -302,19 +302,32 @@ size, `splitSubnet*` share the subnetting method, and `cidrToDotted` /
 `dottedToCidr` share the mask conversion. `numberOfHosts` has its own topic —
 it is answered by counting host bits, not by locating the network.
 
+The worked example is **the learner's own question**, not a fixed one they
+would have to transfer. `ui/quiz/ipv4.ts` re-derives the working from the
+question's `subject`; a subject it cannot parse simply loses the example.
+
+This is the one place where address arithmetic lives in TypeScript, which §3
+rule 1 otherwise forbids. It is deliberate and narrow: nothing here generates a
+question or scores an answer — the engine still does both — and the panel only
+exists in practice mode, so it cannot put an answer in front of an exam. It
+does mean a practice question's answer is derivable from its own theory, which
+is the accepted trade for teaching with the learner's numbers. `ipv4.ts` is
+covered by its own suite, because these numbers are shown to a learner as fact.
+
 Each topic states its method as numbered steps and then **carries those exact
-steps out** on a concrete address: `worked()` renders one list item per step,
+steps out** on that address: `worked()` renders one list item per step,
 in the same order, with every intermediate calculation on its own line — the
 division that finds the multiple, the next block, the subtraction. A step that
 assumes knowledge the reader may not have also carries a `thought`, which
 spells the reasoning out in plain words underneath the numbers: *why* 5 rounds
 up to 8, and not merely that it does.
 
-That is also why the subnetting example divides by **5**, not by 3 or 4:
-rounding up only teaches anything when the number is not already a power of
-two, and 5 has to skip 6 and 7 to reach 8. The calculations themselves are pure
-arithmetic and need no translation, which is what lets the mask topic afford
-both directions (prefix → mask and mask → prefix, one per question kind).
+The calculations themselves are pure arithmetic and need no translation; only
+the labels and the reasoning are in the catalogs, which is what makes a fully
+worked example affordable in four languages. Two cases are worth knowing:
+a prefix that lands on an octet edge makes the block size 256, where dividing
+is arithmetically right but says nothing, so those steps get their own wording;
+and the mask topic shows only the direction its question asks for.
 
 Every topic ends in a binary block, because that is where the rule becomes
 visible: the host bits are what separates a network address from a broadcast
@@ -361,7 +374,7 @@ and every helper degrades to an instant no-op.
 | Suite | Count | What it protects |
 | --- | --- | --- |
 | `cargo test` | 147 | Forwarding truth table, longest-prefix-match, subnet maths, all 12 quiz generators |
-| `web/test/*` (vitest) | 59 | i18n parity, SVG geometry, canvas bounds, transform preservation, link parsing |
+| `web/test/*` (vitest) | 85 | i18n parity, SVG geometry, canvas bounds, transform preservation, link parsing |
 | `web/smoke.mjs` | — | Drives the real built wasm through a round of each exercise |
 
 Notable suites:
