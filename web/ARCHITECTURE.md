@@ -213,6 +213,21 @@ Two non-obvious details, both load-bearing:
   `bea.progress.v1`, `bea.exams.v1` (passed exams, newest first, capped at 50),
   `bea.locale`. Settings are normalised field by field, so an unknown or stale
   blob degrades to defaults rather than throwing.
+- **Header controls** (`shared/displayControls.ts`): motion and text size ride
+  in every header, next to *Back to menu*, because both are about the room the
+  app is being shown in. The language picker stays on the menu. The group
+  re-renders only itself: motion is re-read by each animation and the text size
+  is carried by CSS, so no view needs to redraw.
+- **Text size** (`shared/textSize.ts`): the `Aa` button cycles 100 /
+  120 / 145 %, written as a percentage onto `<html>` so every `rem` in the
+  stylesheets follows it, including `.app`'s `max-width` — the two-column
+  layouts widen with the text instead of squeezing the tables. Percent rather
+  than pixels keeps a reader's own browser default as their 100 %. The SVG
+  topologies are drawn in their own user units and do not follow it.
+  `<html>` also carries a `text-<level>` class, for the rules a `rem` cannot
+  express: at `text-xlarge` the switch and router layouts collapse to one
+  column so the topology spans the full width, with `max-height: 80vh` on the
+  canvas so a 16:9 projector does not end up scrolling.
 - **PWA**: `public/sw.js` is served from the site root so its scope covers the
   whole app; registered as `new URL('sw.js', document.baseURI)`. Cache-first,
   with navigations falling back to the cached shell.

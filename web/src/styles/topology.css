@@ -7,6 +7,13 @@
   overflow: visible;
 }
 
+/* Full width across a 16:9 projector would make a canvas of this aspect ratio
+   taller than the screen. Capping the height lets the drawing letterbox itself
+   inside the panel — `preserveAspectRatio` centres it — instead of scrolling. */
+.text-xlarge .topology {
+  max-height: 80vh;
+}
+
 /* ------------------------------------------------------------------ cables */
 
 .cable {

@@ -1,5 +1,7 @@
 /** Versioned localStorage wrapper for settings, progress and exam results. */
 
+import { normaliseScale } from './textSize.js';
+
 const SETTINGS_KEY = 'bea.settings.v2';
 const PROGRESS_KEY = 'bea.progress.v1';
 const EXAMS_KEY = 'bea.exams.v1';
@@ -24,6 +26,8 @@ export interface Settings {
   router: ExerciseSettings;
   quiz: ExerciseSettings;
   reducedMotion: boolean;
+  /** Root font size in percent; the steps live in `textSize.ts`. */
+  textScale: number;
 }
 
 const DEFAULT_EXERCISE: ExerciseSettings = {
@@ -40,6 +44,7 @@ export const DEFAULT_SETTINGS: Settings = {
   router: { ...DEFAULT_EXERCISE },
   quiz: { ...DEFAULT_EXERCISE },
   reducedMotion: false,
+  textScale: 100,
 };
 
 export interface ProgressEntry {
@@ -116,6 +121,7 @@ export function loadSettings(): Settings {
     router: normaliseExercise(raw.router),
     quiz: normaliseExercise(raw.quiz),
     reducedMotion: bool(raw.reducedMotion, false),
+    textScale: normaliseScale(raw.textScale),
   };
 }
 

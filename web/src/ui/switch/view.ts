@@ -2,6 +2,7 @@ import { SwitchGame, defaultOptions } from '../../engine/index.js';
 import type { SwitchAnswer } from '../../engine/types.js';
 import { t } from '../../i18n/index.js';
 import { el, mount } from '../shared/dom.js';
+import { displayControls } from '../shared/displayControls.js';
 import { animate, highlightRow, motionDisabled, pulse, shake, travel, wait } from '../shared/animate.js';
 import { scoreBar } from '../shared/scoreBar.js';
 import { summaryView } from '../shared/summary.js';
@@ -89,7 +90,7 @@ export function switchView(onExit: (() => void) | null): HTMLElement {
       'header',
       { class: 'exercise-header' },
       el('h1', { class: 'exercise-title', text: t('switch.title') }),
-      backButton(),
+      el('div', { class: 'header-controls' }, displayControls(), backButton()),
     );
   }
 

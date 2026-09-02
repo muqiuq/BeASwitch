@@ -228,8 +228,9 @@ export function activeSettings(): Settings {
 /**
  * Saves an edit the learner made themselves. The link stops speaking for that
  * concern from here on, otherwise the edit would be undone by the next render.
+ * Omit the scope for a preference no link can set, such as the text size.
  */
-export function persistSettings(settings: Settings, scope: 'exercises' | 'motion'): void {
-  takenOver[scope] = true;
+export function persistSettings(settings: Settings, scope?: 'exercises' | 'motion'): void {
+  if (scope) takenOver[scope] = true;
   saveSettings(settings);
 }

@@ -2,6 +2,7 @@ import { LOCALES, LOCALE_LABELS, locale, setLocale, t } from '../i18n/index.js';
 import { el, mount } from './shared/dom.js';
 import { fadeIn } from './shared/animate.js';
 import { checkbox, numberInput, radio } from './shared/controls.js';
+import { displayControls } from './shared/displayControls.js';
 import { quizArt, routerArt, switchArt } from './art.js';
 import { openExtras } from './extras/view.js';
 import { activeSettings, optionsLocked, persistSettings, visibleExercises } from './shared/config.js';
@@ -12,7 +13,6 @@ import {
   type ExamRecord,
   type ExerciseId,
   type ExerciseSettings,
-  type Settings,
 } from './shared/storage.js';
 
 const GITHUB_URL = 'https://github.com/muqiuq/BeASwitch';
@@ -36,13 +36,6 @@ export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement 
     if (!next.ipv4 && !next.ipv6) next.ipv4 = true;
     settings = { ...settings, [exercise]: next };
     persistSettings(settings, 'exercises');
-    render();
-  }
-
-  /** Only the motion toggle, which stays available even under a locked link. */
-  function updateGlobal(patch: Partial<Settings>): void {
-    settings = { ...settings, ...patch };
-    persistSettings(settings, 'motion');
     render();
   }
 
@@ -72,7 +65,7 @@ export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement 
         el('h1', { class: 'home-title', text: t('app.brand') }),
         el('p', { class: 'home-subtitle', text: t('app.subtitle') }),
       ),
-      el('div', { class: 'home-controls' }, motionToggle(), languagePicker()),
+      el('div', { class: 'header-controls' }, displayControls(), languagePicker()),
     );
   }
 
@@ -90,21 +83,6 @@ export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement 
       group.append(button);
     }
     return group;
-  }
-
-  function motionToggle(): HTMLElement {
-    const active = !settings.reducedMotion;
-    const button = el('button', {
-      type: 'button',
-      class: `lang-button toggle-button ${active ? 'is-active' : ''}`,
-      text: t('home.motion'),
-      'aria-pressed': String(active),
-      title: t('home.reducedMotionHint'),
-    });
-    button.addEventListener('click', () =>
-      updateGlobal({ reducedMotion: !settings.reducedMotion }),
-    );
-    return el('div', { class: 'lang-switch' }, button);
   }
 
   function exerciseCard(id: ExerciseId, art: SVGSVGElement): HTMLElement {

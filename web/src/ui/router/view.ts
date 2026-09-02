@@ -1,6 +1,7 @@
 import { RouterGame, defaultOptions } from '../../engine/index.js';
 import { t } from '../../i18n/index.js';
 import { el, mount } from '../shared/dom.js';
+import { displayControls } from '../shared/displayControls.js';
 import { animate, motionDisabled, pulse, shake, travel, wait } from '../shared/animate.js';
 import { scoreBar } from '../shared/scoreBar.js';
 import { summaryView } from '../shared/summary.js';
@@ -82,7 +83,7 @@ export function routerView(onExit: (() => void) | null): HTMLElement {
       'header',
       { class: 'exercise-header' },
       el('h1', { class: 'exercise-title', text: t('router.title') }),
-      backButton(),
+      el('div', { class: 'header-controls' }, displayControls(), backButton()),
     );
   }
 

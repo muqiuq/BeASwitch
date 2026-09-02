@@ -10,7 +10,8 @@ import { homeView } from './ui/home.js';
 import { routerView } from './ui/router/view.js';
 import { switchView } from './ui/switch/view.js';
 import { quizView } from './ui/quiz/view.js';
-import { singleExercise, urlConfig, visibleExercises } from './ui/shared/config.js';
+import { activeSettings, singleExercise, urlConfig, visibleExercises } from './ui/shared/config.js';
+import { applyTextScale } from './ui/shared/textSize.js';
 import type { ExerciseId } from './ui/shared/storage.js';
 
 const app = document.querySelector<HTMLElement>('#app');
@@ -79,6 +80,9 @@ async function main(): Promise<void> {
   // A language forced by a link applies to this visit only.
   const forcedLocale = urlConfig()?.locale;
   if (forcedLocale) setLocale(forcedLocale, false);
+
+  // Sits on <html>, so it holds for every view until the learner changes it.
+  applyTextScale(activeSettings().textScale);
 
   try {
     await loadEngine();

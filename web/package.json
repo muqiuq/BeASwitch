@@ -1,6 +1,6 @@
 {
   "name": "bea-web",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "description": "Browser version of BeASwitch, BeARouter and the IPv4/IPv6 quiz",

@@ -1,13 +1,25 @@
 /* ------------------------------------------------------------------ layout */
 
+/* When the header runs out of room the controls take a line of their own
+   *above* the heading, which then keeps the full width instead of being
+   squeezed into a narrow column. `wrap-reverse` stacks later lines upwards;
+   it also flips the cross axis, which is why `flex-end` here means the top. */
 .home-header,
 .exercise-header {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  flex-wrap: wrap-reverse;
+  align-items: flex-end;
   gap: var(--space-4);
   margin-bottom: var(--space-6);
 }
+
+/* The heading block. The basis is in rem, so a larger text size wraps the
+   header sooner — exactly when the heading needs the room. */
+.home-header > :first-child,
+.exercise-header > :first-child {
+  flex: 1 1 24rem;
+}
+
 
 .home-title {
   font-size: clamp(1.8rem, 4vw, 2.6rem);
@@ -66,6 +78,14 @@
   .router-layout {
     grid-template-columns: 1fr;
   }
+}
+
+/* Projector mode: at the largest text size the topology gets the whole width
+   and the panels move underneath it, because the drawing is what the back row
+   is trying to read. */
+.text-xlarge .switch-layout,
+.text-xlarge .router-layout {
+  grid-template-columns: 1fr;
 }
 
 /* ------------------------------------------------------------------- cards */
@@ -309,14 +329,16 @@
   cursor: pointer;
 }
 
-.home-controls {
+/* The right-hand side of every header: display controls, then the language
+   picker on the menu or the way back out of an exercise. */
+.header-controls {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: var(--space-2);
-}
-
-.toggle-button {
-  letter-spacing: 0.04em;
+  /* Held to the right whether it shares the heading's line or has its own. */
+  margin-left: auto;
 }
 
 .card-title {
@@ -511,6 +533,44 @@ a.btn {
 .lang-button.is-active {
   background: var(--accent);
   color: var(--text-inverse);
+}
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* One line-height square: the icons grow with the text size they set, and the
+   icon buttons stay exactly as tall as the lettered ones beside them. */
+.icon {
+  width: 1.5em;
+  height: 1.5em;
+  display: block;
+}
+
+/* Three text sizes, three states: unlit, tinted, filled. The glyph grows a
+   little with each step too, inside a box that keeps its size. */
+.text-size .icon {
+  transition: transform 160ms ease;
+}
+
+.text-size-large {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.text-size-large .icon {
+  transform: scale(1.1);
+}
+
+.text-size-xlarge {
+  background: var(--accent);
+  color: var(--text-inverse);
+}
+
+.text-size-xlarge .icon {
+  transform: scale(1.2);
 }
 
 /* ------------------------------------------------------------------ inputs */
