@@ -29,6 +29,9 @@ export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement 
   };
   // Kept across re-renders so changing an option does not collapse the panel.
   const expanded = new Set<ExerciseId>();
+  // The fade belongs to arriving on the menu. Every option change rebuilds the
+  // whole tree, and fading all of it back in looked like a page reload.
+  let arriving = true;
 
   function update(exercise: ExerciseId, patch: Partial<ExerciseSettings>): void {
     const next = { ...settings[exercise], ...patch };
@@ -52,7 +55,11 @@ export function homeView(onLaunch: (exercise: ExerciseId) => void): HTMLElement 
       examHistoryPanel(),
       footer(),
     );
-    void fadeIn(root);
+
+    if (arriving) {
+      arriving = false;
+      void fadeIn(root);
+    }
   }
 
   function header(): HTMLElement {
