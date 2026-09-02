@@ -492,3 +492,72 @@
   --vlan-4: #ff4d1a;
   --vlan-5: #4ddbff;
 }
+
+/* Y2K club: hot magenta and cyan on near-black purple. The danger token is
+   kept a plain red so it does not read as another shade of the accent. */
+[data-theme='slay'] {
+  color-scheme: dark;
+
+  --bg: #12021f;
+  --bg-raised: #1c0630;
+  --bg-sunken: #0a0114;
+  --surface: #250a3d;
+  --line: #4a1170;
+  --line-strong: #6d1aa3;
+
+  --text: #ffe9fb;
+  --text-muted: #cd9be0;
+  --text-inverse: #12021f;
+
+  --accent: #ff2fd0;
+  --accent-strong: #ff00c8;
+  --accent-soft: rgba(255, 47, 208, 0.2);
+
+  --success: #3dffd6;
+  --success-soft: rgba(61, 255, 214, 0.18);
+  --danger: #ff4d4d;
+  --danger-soft: rgba(255, 77, 77, 0.22);
+  --warning: #ffe14d;
+
+  --vlan-1: #ff2fd0;
+  --vlan-2: #3dffd6;
+  --vlan-3: #ffe14d;
+  --vlan-4: #9d5cff;
+  --vlan-5: #4dc4ff;
+}
+
+/* Outside. The accent is darkened past what "grass green" would suggest, so it
+   still carries link and chip text on a near-white background. */
+[data-theme='touchGrass'] {
+  color-scheme: light;
+
+  --bg: #f2f5ec;
+  --bg-raised: #ffffff;
+  --bg-sunken: #e3ead7;
+  --surface: #ffffff;
+  --line: #cfdcbc;
+  --line-strong: #9db287;
+
+  --text: #1f2b18;
+  --text-muted: #55684a;
+  --text-inverse: #ffffff;
+
+  --accent: #4f7c2a;
+  --accent-strong: #3a6323;
+  --accent-soft: rgba(79, 124, 42, 0.14);
+
+  --success: #2f7d4f;
+  --success-soft: rgba(47, 125, 79, 0.16);
+  --danger: #b5442e;
+  --danger-soft: rgba(181, 68, 46, 0.16);
+  --warning: #a67c00;
+
+  --vlan-1: #4f7c2a;
+  --vlan-2: #2f7d4f;
+  --vlan-3: #a67c00;
+  --vlan-4: #6b5b95;
+  --vlan-5: #2f6f8f;
+
+  --shadow: 0 12px 32px rgba(40, 60, 30, 0.14);
+  --shadow-sm: 0 4px 14px rgba(40, 60, 30, 0.09);
+}

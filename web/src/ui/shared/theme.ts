@@ -3,7 +3,7 @@
  * decides which of them `<html>` is wearing.
  *
  * `system` is the default: it follows `prefers-color-scheme`, dark or light.
- * The other twelve are fixed palettes chosen in the extra features window.
+ * The other fourteen are fixed palettes chosen in the extra features window.
  * The choice is personal, so no configured link can set it.
  */
 
@@ -21,6 +21,8 @@ export const THEMES = [
   'brazil',
   'switzerland',
   'radioactive',
+  'slay',
+  'touchGrass',
 ] as const;
 
 export type ThemeId = (typeof THEMES)[number];
@@ -43,6 +45,8 @@ export const THEME_LABELS: Record<ThemeId, string> = {
   brazil: 'Brazil',
   switzerland: 'Switzerland',
   radioactive: 'Radioactive',
+  slay: 'Slay',
+  touchGrass: 'Touch grass',
 };
 
 export function normaliseTheme(value: unknown): ThemeId {

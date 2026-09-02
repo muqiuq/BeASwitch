@@ -14,10 +14,9 @@ constraints and known pitfalls — see [ARCHITECTURE.md](ARCHITECTURE.md).
 ## Extra features
 
 The footer has an **Extra features** button. Two tools live behind it: a link
-builder and a colour mode picker (`System` plus Sunset, Deep fried, Just woke
-up, Terminal, Blueprint, Highlighter, Cotton candy, Colors are evil, Lost in the
-Past, Brazil, Switzerland and Radioactive). Neither is needed to use the
-exercises.
+builder and a colour mode picker (`System` plus fourteen palettes, from
+Blueprint and Switzerland to Colors are evil and Touch grass). Neither is needed
+to use the exercises.
 
 ### Configured links
 

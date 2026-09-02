@@ -216,7 +216,7 @@ Two non-obvious details, both load-bearing:
   `bea.locale`. Settings are normalised field by field, so an unknown or stale
   blob degrades to defaults rather than throwing.
 - **Colour modes** (`shared/theme.ts`, `extras/colourModes.ts`): `system` plus
-  twelve named palettes, written onto `<html>` as `data-theme`. The names stay
+  fourteen named palettes, written onto `<html>` as `data-theme`. The names stay
   English in every locale and live in `THEME_LABELS` rather than the catalogs,
   for the same reason as `LOCALE_LABELS`: they are names, not interface copy. The palettes are
   pure token overrides at the end of `tokens.css`; anything a mode leaves out
